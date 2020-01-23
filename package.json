@@ -11,7 +11,7 @@
     "lint": "vue-cli-service lint",
     "lighthouse": "mkdir lighthouse && lighthouse https://pierre-m.github.io/snaly --quiet --view --output html --output-path ./lighthouse/report.html",
     "lighthouse:clean": "rm -rf lighthouse",
-    "deploy": "yarn build:prod && push-dir --dir=dist --branch=gh-pages --cleanup && yarn lighthouse && yarn lighthouse:clean"
+    "deploy": "yarn build:prod && push-dir --dir=dist --branch=gh-pages --cleanup && yarn lighthouse"
   },
   "dependencies": {
     "axios": "^0.19.2",
