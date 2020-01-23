@@ -1,20 +1,49 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+  <div>
+    Welcome on Snaly !<br />
+    <p>
+      <template v-if="weather"> {{ weather.main.temp }}° </template>
+    </p>
+    <p>
+      <template v-if="address">
+        {{ address.city }}, {{ address.country }}
+      </template>
+    </p>
+
+    <template v-if="wallpaper">
+      <img :src="wallpaper.urls.small" />
+    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
+import { BrowserGeolocationService } from "@/core/geolocation/BrowserGeolocationService";
+import { Coordinates } from "@/core/geolocation/GeolocationService";
+import { OpenWeatherApiService } from "@/core/weather-api/OpenWeatherApiService";
+import { AlgoliaGeocodingService } from "@/core/geolocation/AlgoliaGeocodingService";
+import { UnsplashService } from "@/core/wallpaper/UnsplashService";
 
-@Component({
-  components: {
-    HelloWorld
+@Component
+export default class App extends Vue {
+  location: Coordinates | null = null;
+  weather: any = null;
+  address: any | null = null;
+  wallpaper: any | null = null;
+
+  async created() {
+    this.location = await new BrowserGeolocationService().getCoordinates();
+    this.weather = await new OpenWeatherApiService().getByCoordinates(
+      this.location
+    );
+    this.address = await new AlgoliaGeocodingService().getAddress(
+      this.location
+    );
+    this.wallpaper = await new UnsplashService().getWallpaper(
+      this.weather.weather[0].main
+    );
   }
-})
-export default class App extends Vue {}
+}
 </script>
 
 <style lang="scss">
