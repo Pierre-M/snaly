@@ -1,19 +1,17 @@
 <template>
-  <div>
-    Welcome on Snaly !<br />
-    <p>
-      <template v-if="weather"> {{ weather.main.temp }}° </template>
-    </p>
-    <p>
-      <template v-if="address">
-        {{ address.city }}, {{ address.country }}
-      </template>
-    </p>
-
-    <template v-if="wallpaper">
-      <img :src="wallpaper.urls.small" />
-    </template>
-  </div>
+  <app-container>
+    <wallpaper-container>
+      Welcome on Snaly !<br />
+      <p>
+        <template v-if="weather"> {{ weather.main.temp }}° </template>
+      </p>
+      <p>
+        <template v-if="address">
+          {{ address.city }}, {{ address.country }}
+        </template>
+      </p>
+    </wallpaper-container>
+  </app-container>
 </template>
 
 <script lang="ts">
@@ -22,14 +20,16 @@ import { BrowserGeolocationService } from "@/core/geolocation/BrowserGeolocation
 import { Coordinates } from "@/core/geolocation/GeolocationService";
 import { OpenWeatherApiService } from "@/core/weather-api/OpenWeatherApiService";
 import { AlgoliaGeocodingService } from "@/core/geolocation/AlgoliaGeocodingService";
-import { UnsplashService } from "@/core/wallpaper/UnsplashService";
+import AppContainer from "@/ui/layout/AppContainer.vue";
+import WallpaperContainer from "@/ui/wallpaper/WallpaperContainer.vue";
 
-@Component
+@Component({
+  components: {WallpaperContainer, AppContainer }
+})
 export default class App extends Vue {
   location: Coordinates | null = null;
   weather: any = null;
   address: any | null = null;
-  wallpaper: any | null = null;
 
   async created() {
     this.location = await new BrowserGeolocationService().getCoordinates();
@@ -39,20 +39,6 @@ export default class App extends Vue {
     this.address = await new AlgoliaGeocodingService().getAddress(
       this.location
     );
-    this.wallpaper = await new UnsplashService().getWallpaper(
-      this.weather.weather[0].main
-    );
   }
 }
 </script>
-
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
