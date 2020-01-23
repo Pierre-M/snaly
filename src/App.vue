@@ -1,9 +1,8 @@
 <template>
   <app-container>
     <wallpaper-container>
-      Welcome on Snaly !<br />
       <p>
-        <template v-if="weather"> {{ weather.main.temp }}° </template>
+        <template v-if="weather"> {{ weather.temperatureInDegrees }}° </template>
       </p>
       <p>
         <template v-if="address">
@@ -24,7 +23,7 @@ import AppContainer from "@/ui/layout/AppContainer.vue";
 import WallpaperContainer from "@/ui/wallpaper/WallpaperContainer.vue";
 
 @Component({
-  components: {WallpaperContainer, AppContainer }
+  components: { WallpaperContainer, AppContainer }
 })
 export default class App extends Vue {
   location: Coordinates | null = null;

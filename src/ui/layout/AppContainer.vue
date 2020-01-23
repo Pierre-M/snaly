@@ -15,5 +15,6 @@ export default class AppContainer extends Vue {}
 @import "../../../node_modules/reset-css/reset.css";
 
 .app-container {
+  font-family: $snaly_font_family;
 }
 </style>
