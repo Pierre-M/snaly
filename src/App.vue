@@ -1,44 +1,28 @@
 <template>
     <app-container>
-        <wallpaper-container>
-            <p>
-                <template v-if="weather">
-                    {{ weather.temperatureInDegrees }}°
-                </template>
-            </p>
-            <p>
-                <template v-if="address">
-                    {{ address.city }}, {{ address.country }}
-                </template>
-            </p>
-        </wallpaper-container>
+        <weather-screen-layout>
+            <wallpaper-component slot="wallpaper" />
+            <current-weather-widget slot="weather-widget" />
+        </weather-screen-layout>
     </app-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { State } from "vuex-class";
-
-import { Coordinates } from "@/business/geolocation/GeolocationService";
-import { CurrentWeather } from "@/business/weather-api/WeatherService";
-
-import { AppState } from "@/store";
-
 import AppContainer from "@/ui/layout/AppContainer.vue";
-import WallpaperContainer from "@/ui/wallpaper/WallpaperContainer.vue";
+import WallpaperComponent from "@/ui/wallpaper/Wallpaper.vue";
+import CurrentWeatherWidget from "@/ui/current-weather-widget/CurrentWeatherWidget.vue";
+import WeatherScreenLayout from "@/ui/layout/WeatherScreenLayout.vue";
 
 @Component({
-    components: { WallpaperContainer, AppContainer },
+    components: {
+        WeatherScreenLayout,
+        CurrentWeatherWidget,
+        WallpaperComponent,
+        AppContainer,
+    },
 })
 export default class App extends Vue {
-    address: any | null = null;
-
-    @State((state: AppState) => state.coordinates)
-    coordinates!: Coordinates;
-
-    @State((state: AppState) => state.weather)
-    weather!: CurrentWeather;
-
     created() {
         this.$store.dispatch("init");
     }

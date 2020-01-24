@@ -11,7 +11,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class AppContainer extends Vue {}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../../../node_modules/reset-css/reset.css";
 
 .app-container {
