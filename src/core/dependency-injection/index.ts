@@ -6,6 +6,7 @@ import { AxiosHttpClient } from "@/core/http/AxiosHttpClient";
 import { OpenWeatherApiService } from "@/business/weather-api/OpenWeatherApiService";
 import { BrowserGeolocationService } from "@/business/geolocation/BrowserGeolocationService";
 import { UnsplashService } from "@/business/wallpaper/UnsplashService";
+import { BrowserScreenInspector } from "@/core/browser/BrowserScreenInspector";
 
 container.register(DIToken.HTTP_CLIENT, {
     useClass: AxiosHttpClient,
@@ -21,4 +22,8 @@ container.register(DIToken.GEOLOCATION_SERVICE, {
 
 container.register(DIToken.WALLPAPER_SERVICE, {
     useClass: UnsplashService,
+});
+
+container.register(DIToken.SCREEN_INSPECTOR, {
+    useClass: BrowserScreenInspector,
 });

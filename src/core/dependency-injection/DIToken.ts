@@ -5,4 +5,5 @@ export enum DIToken {
     WEATHER_SERVICE = "WeatherService",
     GEOLOCATION_SERVICE = "GeolocationService",
     WALLPAPER_SERVICE = "WallpaperService",
+    SCREEN_INSPECTOR = "ScreenInspector",
 }
