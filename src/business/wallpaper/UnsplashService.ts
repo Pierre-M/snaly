@@ -18,7 +18,7 @@ export class UnsplashService implements ContextualWallpaperService {
 
     async getWallpaper(query: string): Promise<Nullable<Wallpaper>> {
         const [res] = await this.httpClient.get<any>(
-            `https://api.unsplash.com/search/photos?page=1&query=${query}&per_page=${WALLPAPER_BUCKET_SIZE}&client_id=1e06a29c85e7f51d089e75a4f5aff4296c0687c55a7814ec64f722a13e310b92`
+            `https://api.unsplash.com/search/photos?page=1&query=${query}&orientation=landscape&per_page=${WALLPAPER_BUCKET_SIZE}&client_id=1e06a29c85e7f51d089e75a4f5aff4296c0687c55a7814ec64f722a13e310b92`
         );
 
         if (!res) {
@@ -29,7 +29,12 @@ export class UnsplashService implements ContextualWallpaperService {
             res.results[Math.floor(Math.random() * WALLPAPER_BUCKET_SIZE)];
 
         return {
-            src: match.urls.full,
+            src:
+                match.urls.raw +
+                `?fit=clamp&w=${Math.max(
+                    window.innerWidth,
+                    window.innerHeight
+                )}&h=${Math.max(window.innerWidth, window.innerHeight)}`,
             color: match.color,
         };
     }
