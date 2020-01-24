@@ -16,10 +16,11 @@ import { Component, Vue } from "vue-property-decorator";
 import { State } from "vuex-class";
 import { Nullable } from "@/types/app";
 import { Wallpaper } from "@/business/wallpaper/ContextualWallpaperService";
+import { AppState } from "@/store";
 
 @Component
 export default class WallpaperContainer extends Vue {
-    @State(state => state.wallpaper)
+    @State((state: AppState) => state.wallpaper)
     wallpaper!: Nullable<Wallpaper>;
 }
 </script>

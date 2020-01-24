@@ -18,6 +18,4 @@ export type HttpPostBody = Record<string, any>;
 export interface HttpClient {
     get<R>(url: string, params?: HttpGetParams): Promise<HttpResponse<R>>;
     post<R>(url: string, body?: HttpPostBody): Promise<HttpResponse<R>>;
-    put<R>(url: string, body?: HttpPostBody): Promise<HttpResponse<R>>;
-    delete<R>(url: string): Promise<HttpResponse<R>>;
 }

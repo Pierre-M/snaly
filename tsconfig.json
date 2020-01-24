@@ -14,8 +14,7 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "jest",
-      "vuex-property-decorator"
+      "jest"
     ],
     "paths": {
       "@/*": [

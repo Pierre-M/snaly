@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { ActionContext, Store } from "vuex";
 import {
     CurrentWeather,
     WeatherService,
@@ -30,7 +30,7 @@ const wallpaperService = container.resolve<ContextualWallpaperService>(
     DIToken.WALLPAPER_SERVICE
 );
 
-interface AppState {
+export interface AppState {
     coordinates: Nullable<Coordinates>;
     weather: Nullable<CurrentWeather>;
     wallpaper: Nullable<Wallpaper>;
@@ -45,29 +45,32 @@ const state: AppState = {
 export default new Vuex.Store({
     state,
     mutations: {
-        updateCoordinates(state, coordinates: Nullable<Coordinates>) {
+        updateCoordinates(state: AppState, coordinates: Nullable<Coordinates>) {
             state.coordinates = coordinates;
         },
-        updateCurrentWeather(state, currentWeather: Nullable<CurrentWeather>) {
+        updateCurrentWeather(
+            state: AppState,
+            currentWeather: Nullable<CurrentWeather>
+        ) {
             state.weather = currentWeather;
         },
-        updateWallpaper(state, wallpaper: Nullable<Wallpaper>) {
+        updateWallpaper(state: AppState, wallpaper: Nullable<Wallpaper>) {
             state.wallpaper = wallpaper;
         },
     },
     actions: {
-        async init(context) {
+        async init(context: ActionContext<AppState, AppState>) {
             await context.dispatch("getCoordinates");
             await context.dispatch("getWeather");
             await context.dispatch("getWallpaper");
         },
 
-        async getCoordinates(context) {
+        async getCoordinates(context: ActionContext<AppState, AppState>) {
             const coordinates = await geolocationService.getCoordinates();
             context.commit("updateCoordinates", coordinates);
         },
 
-        async getWeather(context) {
+        async getWeather(context: ActionContext<AppState, AppState>) {
             const coordinates: Nullable<Coordinates> =
                 context.state.coordinates;
 
@@ -80,7 +83,7 @@ export default new Vuex.Store({
             context.commit("updateCurrentWeather", weather);
         },
 
-        async getWallpaper(context) {
+        async getWallpaper(context: ActionContext<AppState, AppState>) {
             if (!context.state.weather) {
                 return;
             }
@@ -92,5 +95,4 @@ export default new Vuex.Store({
             context.commit("updateWallpaper", wallpaper);
         },
     },
-    modules: {},
 });
