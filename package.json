@@ -19,10 +19,12 @@
     "lighthouse": "^5.6.0",
     "register-service-worker": "^1.6.2",
     "reset-css": "^5.0.1",
+    "tsyringe": "4.0.1",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.3.0",
-    "vuex": "^3.1.2"
+    "vuex": "^3.1.2",
+    "vuex-class": "0.3.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
@@ -42,9 +44,10 @@
     "eslint-plugin-vue": "^5.0.0",
     "prettier": "^1.19.1",
     "push-dir": "^0.4.1",
+    "reflect-metadata": "0.1.13",
     "sass": "^1.23.7",
     "sass-loader": "^8.0.0",
-    "typescript": "~3.5.3",
+    "typescript": "3.7.5",
     "vue-template-compiler": "^2.6.10"
   }
 }
