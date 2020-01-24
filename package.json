@@ -9,9 +9,9 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
-    "lighthouse": "mkdir lighthouse && lighthouse https://pierre-m.github.io/snaly --quiet --view --output html --output-path ./lighthouse/report.html",
+    "lighthouse": "mkdirp lighthouse && lighthouse https://pierre-m.github.io/snaly --quiet --view --output html --output-path ./lighthouse/report.html",
     "lighthouse:clean": "rm -rf lighthouse",
-    "deploy": "yarn build:prod && push-dir --dir=dist --branch=gh-pages --cleanup && yarn lighthouse"
+    "deploy": "yarn build:prod && push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "axios": "^0.19.2",

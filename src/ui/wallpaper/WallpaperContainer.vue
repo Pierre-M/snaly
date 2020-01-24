@@ -3,7 +3,9 @@
         <div
             class="wallpaper-container__background"
             v-if="wallpaper"
-            :style="`background-image: url(${wallpaper.src})`"
+            :style="
+                `background-image: url(${wallpaper.src}); background-color: ${wallpaper.color}`
+            "
         ></div>
         <div>
             <slot />
@@ -37,6 +39,7 @@ export default class WallpaperContainer extends Vue {
         width: 100%;
         height: 100%;
         background-size: cover;
+        background-position: center;
         background-repeat: no-repeat;
 
         & + * {
