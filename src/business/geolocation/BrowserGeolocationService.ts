@@ -7,15 +7,19 @@ import {
 
 export class BrowserGeolocationService implements GeolocationService {
     getCoordinates(): Promise<Coordinates> {
-        return new Promise(resolve => {
-            navigator.geolocation.getCurrentPosition((position: any) => {
-                const coordinates: Coordinates = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                };
+        //TODO resolve issue of geolocation authorization on safari
 
-                return resolve(coordinates);
-            });
-        });
+        // return new Promise(resolve => {
+        //     navigator.geolocation.getCurrentPosition((position: any) => {
+        //         const coordinates: Coordinates = {
+        //             latitude: position.coords.latitude,
+        //             longitude: position.coords.longitude,
+        //         };
+        //
+        //         return resolve(coordinates);
+        //     });
+        // });
+
+        return Promise.resolve({ latitude: 48.864716, longitude: 2.349014 });
     }
 }
