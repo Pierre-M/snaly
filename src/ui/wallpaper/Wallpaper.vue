@@ -38,6 +38,7 @@ export default class WallpaperCompponent extends Vue {
             const container = this.$refs.backgroundContainer as HTMLDivElement;
             container.innerHTML = "";
             container.insertAdjacentElement("beforeend", img);
+            setTimeout(() => img.classList.add("loaded"), 100);
         });
 
         img.src = this.wallpaper.src;
@@ -45,7 +46,7 @@ export default class WallpaperCompponent extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../../../node_modules/reset-css/reset.css";
 
 @keyframes imgAnim {
@@ -73,10 +74,14 @@ export default class WallpaperCompponent extends Vue {
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        animation-name: imgAnim;
-        animation-duration: 1s;
-        animation-iteration-count: 1;
-        animation-timing-function: ease-out;
+        opacity: 0;
+        transition-property: opacity;
+        transition-duration: 1s;
+        transition-timing-function: ease-out;
+
+        &.loaded {
+            opacity: 1;
+        }
     }
 }
 </style>
