@@ -2,6 +2,7 @@
     <slide-y-down-transition>
         <div v-if="weather" class="current-weather-widget">
             <p class="current-weather-widget__temp">
+                <weather-icon-component />
                 {{ weather.temperatureInDegrees }} <sup>°C</sup>
             </p>
         </div>
@@ -14,9 +15,11 @@ import { State } from "vuex-class";
 import { SlideYDownTransition } from "vue2-transitions";
 import { CurrentWeather } from "@/business/weather-api/WeatherService";
 import { AppState } from "@/store";
+import WeatherIconComponent from "@/ui/weather-icons/WeatherIconComponent.vue";
 
 @Component({
     components: {
+        WeatherIconComponent,
         SlideYDownTransition,
     },
 })

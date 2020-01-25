@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex, { ActionContext, Store } from "vuex";
 import {
     CurrentWeather,
+    WeatherIcon,
     WeatherService,
 } from "@/business/weather-api/WeatherService";
 import { Nullable } from "@/types/app";
@@ -93,6 +94,15 @@ export default new Vuex.Store({
             );
 
             context.commit("updateWallpaper", wallpaper);
+        },
+    },
+    getters: {
+        weatherId(state: AppState): Nullable<WeatherIcon> {
+            if (!state.weather) {
+                return null;
+            }
+
+            return state.weather.icon;
         },
     },
 });

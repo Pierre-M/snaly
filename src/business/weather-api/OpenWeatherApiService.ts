@@ -29,6 +29,7 @@ export class OpenWeatherApiService implements WeatherService {
         return {
             temperatureInDegrees: res.main.temp,
             description: res.weather[0].description,
+            icon: res.weather[0].icon,
         };
     }
 }
