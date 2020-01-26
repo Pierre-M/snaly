@@ -1,8 +1,7 @@
 import Vue from "vue";
-import Vuex, { ActionContext, Store } from "vuex";
+import Vuex, { ActionContext } from "vuex";
 import {
     CurrentWeather,
-    WeatherIcon,
     WeatherService,
 } from "@/business/weather-api/WeatherService";
 import { Nullable } from "@/types/app";
@@ -12,11 +11,9 @@ import {
 } from "@/business/geolocation/GeolocationService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import {
-    ContextualWallpaperService,
-    Wallpaper,
-} from "@/business/wallpaper/ContextualWallpaperService";
-import { WeatherIconService } from "@/ui/business/WeatherIconService";
+import { WeatherIconService } from "@/ui/weather-icons/WeatherIconService";
+import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
+import { ContextualImage } from "@/core/image/ContextualImageService";
 
 Vue.use(Vuex);
 
@@ -28,7 +25,7 @@ const weatherService = container.resolve<WeatherService>(
     DIToken.WEATHER_SERVICE
 );
 
-const wallpaperService = container.resolve<ContextualWallpaperService>(
+const wallpaperService = container.resolve<WallpaperService>(
     DIToken.WALLPAPER_SERVICE
 );
 
@@ -37,7 +34,7 @@ const weatherIconService = new WeatherIconService();
 export interface AppState {
     coordinates: Nullable<Coordinates>;
     weather: Nullable<CurrentWeather>;
-    wallpaper: Nullable<Wallpaper>;
+    wallpaper: Nullable<ContextualImage>;
 }
 
 const state: AppState = {
@@ -58,7 +55,7 @@ export default new Vuex.Store({
         ) {
             state.weather = currentWeather;
         },
-        updateWallpaper(state: AppState, wallpaper: Nullable<Wallpaper>) {
+        updateWallpaper(state: AppState, wallpaper: Nullable<ContextualImage>) {
             state.wallpaper = wallpaper;
         },
     },
@@ -92,7 +89,7 @@ export default new Vuex.Store({
                 return;
             }
 
-            const wallpaper = await wallpaperService.getWallpaper(
+            const wallpaper = await wallpaperService.get(
                 context.state.weather.description
             );
 

@@ -4,10 +4,9 @@ import "@/core/dependency-injection";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { AxiosHttpClient } from "@/core/http/AxiosHttpClient";
-import { UnsplashService } from "@/business/wallpaper/UnsplashService";
 import { OpenWeatherApiService } from "@/business/weather-api/OpenWeatherApiService";
-import { AlgoliaGeocodingService } from "@/business/geolocation/AlgoliaGeocodingService";
 import { BrowserGeolocationService } from "@/business/geolocation/BrowserGeolocationService";
+import { UnsplashImageService } from "@/core/image/UnsplashImageService";
 
 describe("Dependency injection container", () => {
     it("should resolve dependency for all entries in DITokens", () => {
@@ -28,10 +27,10 @@ describe("Dependency injection container", () => {
         );
     });
 
-    it("should return an UnsplashService for ContextualWallpaperService interface", () => {
-        expect(container.resolve(DIToken.WALLPAPER_SERVICE)).toBeInstanceOf(
-            UnsplashService
-        );
+    it("should return an UnsplashService for ContextualImageService interface", () => {
+        expect(
+            container.resolve(DIToken.CONTEXTUAL_IMAGE_SERVICE)
+        ).toBeInstanceOf(UnsplashImageService);
     });
 
     it("should return an OpenWeatherApiService for WeatherService interface", () => {

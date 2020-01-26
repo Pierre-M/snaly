@@ -15,15 +15,15 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import { State } from "vuex-class";
 import { FadeTransition } from "vue2-transitions";
 import { Nullable } from "@/types/app";
-import { Wallpaper } from "@/business/wallpaper/ContextualWallpaperService";
 import { AppState } from "@/store";
+import { ContextualImage } from "@/core/image/ContextualImageService";
 
 @Component({
     components: { FadeTransition },
 })
 export default class WallpaperCompponent extends Vue {
     @State((state: AppState) => state.wallpaper)
-    wallpaper!: Nullable<Wallpaper>;
+    wallpaper!: Nullable<ContextualImage>;
 
     @Watch("wallpaper", { immediate: true, deep: true })
     lazyLoadWallpaper() {

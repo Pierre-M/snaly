@@ -8,10 +8,7 @@ export interface HttpError {
 
 export type HttpResponse<R> = [Nullable<R>, Nullable<HttpError>];
 
-export type HttpGetParams = Record<
-    string,
-    boolean | Array<boolean | string | number> | string | number
->;
+export type HttpGetParams = Record<string, any>;
 
 export type HttpPostBody = Record<string, any>;
 
