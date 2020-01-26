@@ -4,7 +4,7 @@ import {
     WeatherDescription,
     WeatherIcon,
 } from "@/business/weather-api/WeatherService";
-import { iconNameMap } from "@/ui/weather-icons/IconNameMap";
+import { iconNameMap } from "@/ui/business/IconNameMap";
 import { Nullable } from "@/types/app";
 
 type IconNameMap = Record<WeatherDescription, string>;

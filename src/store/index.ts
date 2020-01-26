@@ -16,6 +16,7 @@ import {
     ContextualWallpaperService,
     Wallpaper,
 } from "@/business/wallpaper/ContextualWallpaperService";
+import { WeatherIconService } from "@/ui/business/WeatherIconService";
 
 Vue.use(Vuex);
 
@@ -30,6 +31,8 @@ const weatherService = container.resolve<WeatherService>(
 const wallpaperService = container.resolve<ContextualWallpaperService>(
     DIToken.WALLPAPER_SERVICE
 );
+
+const weatherIconService = new WeatherIconService();
 
 export interface AppState {
     coordinates: Nullable<Coordinates>;
@@ -97,12 +100,12 @@ export default new Vuex.Store({
         },
     },
     getters: {
-        weatherId(state: AppState): Nullable<WeatherIcon> {
+        weatherIcon(state: AppState): Nullable<string> {
             if (!state.weather) {
                 return null;
             }
 
-            return state.weather.icon;
+            return weatherIconService.getByWeatherId(state.weather.icon);
         },
     },
 });
