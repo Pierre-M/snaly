@@ -3,9 +3,16 @@
         <div v-if="currentWeatherOverview" class="current-weather-widget">
             <p class="current-weather-widget__temp">
                 <icon :icon="currentWeatherOverview.description.icon" />
-                {{ currentWeatherOverview.temperatureOverview.current }}
-                <sup>°C</sup>
+                {{
+                    currentWeatherOverview.temperatureOverview.current
+                        | temperature
+                }}
             </p>
+
+            <ul>
+                <li><icon icon="wi-sunrise" /> : {{ currentWeatherOverview.suncycle.sunrise.toLocaleTimeString() }}</li>
+                <li><icon icon="wi-sunset" /> : {{ currentWeatherOverview.suncycle.sunset.toLocaleTimeString() }}</li>
+            </ul>
         </div>
     </slide-y-down-transition>
 </template>

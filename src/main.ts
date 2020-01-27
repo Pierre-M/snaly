@@ -6,6 +6,8 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import store from "./store";
 
+import "@/ui/core/vue-filters";
+
 Vue.config.productionTip = false;
 
 new Vue({

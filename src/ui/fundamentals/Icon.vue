@@ -17,44 +17,41 @@ export default class Icon extends Vue {
 </script>
 
 <style lang="scss" scoped>
-$icomoon-font-family: "snaly-icons" !default;
-$icomoon-font-path: "../../assets/fonts" !default;
+    $icomoon-font-family: "snaly-icons" !default;
+    $icomoon-font-path: "../../assets/fonts" !default;
 
-$icon-wi-fog: "\e900";
-$icon-wi-night-alt-snow: "\e901";
-$icon-wi-day-snow: "\e902";
-$icon-wi-night-alt-lightning: "\e903";
-$icon-wi-day-lightning: "\e904";
-$icon-wi-night-alt-rain: "\e905";
-$icon-wi-day-rain: "\e906";
-$icon-wi-showers: "\e907";
-$icon-wi-cloud: "\e908";
-$icon-wi-cloudy: "\e909";
-$icon-wi-night-alt-cloudy: "\e90a";
-$icon-wi-day-cloudy: "\e90b";
-$icon-wi-night-clear: "\e90c";
-$icon-wi-day-sunny: "\e90d";
+    $icon-wi-sunrise: "\e90e";
+    $icon-wi-sunset: "\e90f";
+    $icon-wi-fog: "\e900";
+    $icon-wi-night-alt-snow: "\e901";
+    $icon-wi-day-snow: "\e902";
+    $icon-wi-night-alt-lightning: "\e903";
+    $icon-wi-day-lightning: "\e904";
+    $icon-wi-night-alt-rain: "\e905";
+    $icon-wi-day-rain: "\e906";
+    $icon-wi-showers: "\e907";
+    $icon-wi-cloud: "\e908";
+    $icon-wi-cloudy: "\e909";
+    $icon-wi-night-alt-cloudy: "\e90a";
+    $icon-wi-day-cloudy: "\e90b";
+    $icon-wi-night-clear: "\e90c";
+    $icon-wi-day-sunny: "\e90d";
 
 @font-face {
-    font-family: "#{$icomoon-font-family}";
-    src: url("#{$icomoon-font-path}/#{$icomoon-font-family}.eot?pgfxtn");
-    src: url("#{$icomoon-font-path}/#{$icomoon-font-family}.eot?pgfxtn#iefix")
-            format("embedded-opentype"),
-        url("#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?pgfxtn")
-            format("truetype"),
-        url("#{$icomoon-font-path}/#{$icomoon-font-family}.woff?pgfxtn")
-            format("woff"),
-        url("#{$icomoon-font-path}/#{$icomoon-font-family}.svg?pgfxtn##{$icomoon-font-family}")
-            format("svg");
+    font-family: '#{$icomoon-font-family}';
+    src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?eiecfg');
+    src:  url('#{$icomoon-font-path}/#{$icomoon-font-family}.eot?eiecfg#iefix') format('embedded-opentype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?eiecfg') format('truetype'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.woff?eiecfg') format('woff'),
+    url('#{$icomoon-font-path}/#{$icomoon-font-family}.svg?eiecfg##{$icomoon-font-family}') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: block;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: "#{$icomoon-font-family}" !important;
+    font-family: '#{$icomoon-font-family}' !important;
     speak: none;
     font-style: normal;
     font-weight: normal;
@@ -67,6 +64,16 @@ $icon-wi-day-sunny: "\e90d";
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-wi-sunrise {
+    &:before {
+        content: $icon-wi-sunrise;
+    }
+}
+.icon-wi-sunset {
+    &:before {
+        content: $icon-wi-sunset;
+    }
+}
 .icon-wi-fog {
     &:before {
         content: $icon-wi-fog;
