@@ -1,9 +1,10 @@
 <template>
     <slide-y-down-transition>
-        <div v-if="weather" class="current-weather-widget">
+        <div v-if="currentWeatherOverview" class="current-weather-widget">
             <p class="current-weather-widget__temp">
-                <icon :icon="weatherIcon" />
-                {{ weather.temperatureInDegrees }} <sup>°C</sup>
+                <icon :icon="currentWeatherOverview.description.icon" />
+                {{ currentWeatherOverview.temperatureOverview.current }}
+                <sup>°C</sup>
             </p>
         </div>
     </slide-y-down-transition>
@@ -11,12 +12,11 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Getter, State } from "vuex-class";
+import { State } from "vuex-class";
 import { SlideYDownTransition } from "vue2-transitions";
-import { CurrentWeather } from "@/business/weather-api/WeatherService";
 import { AppState } from "@/store";
-import { Nullable } from "@/types/app";
 import Icon from "@/ui/fundamentals/Icon.vue";
+import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 
 @Component({
     components: {
@@ -25,11 +25,8 @@ import Icon from "@/ui/fundamentals/Icon.vue";
     }
 })
 export default class App extends Vue {
-    @State((state: AppState) => state.weather)
-    weather!: CurrentWeather;
-
-    @Getter("weatherIcon")
-    weatherIcon!: Nullable<string>;
+    @State((state: AppState) => state.currentWeatherOverview)
+    currentWeatherOverview!: CurrentWeatherOverview;
 }
 </script>
 

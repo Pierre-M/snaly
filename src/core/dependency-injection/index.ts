@@ -3,22 +3,23 @@
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { AxiosHttpClient } from "@/core/http/AxiosHttpClient";
-import { OpenWeatherApiService } from "@/business/weather-api/OpenWeatherApiService";
 import { BrowserGeolocationService } from "@/business/geolocation/BrowserGeolocationService";
 import { BrowserScreenInspector } from "@/core/browser/BrowserScreenInspector";
 import { UnsplashImageService } from "@/core/image/UnsplashImageService";
 import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
+import { AlgoliaGeocodingService } from "@/business/geocoding/AlgoliaGeocodingService";
+import { OWACurrentWeatherService } from "@/business/weather/OWACurrentWeatherService";
 
 container.register(DIToken.HTTP_CLIENT, {
     useClass: AxiosHttpClient
 });
 
-container.register(DIToken.WEATHER_SERVICE, {
-    useClass: OpenWeatherApiService
-});
-
 container.register(DIToken.GEOLOCATION_SERVICE, {
     useClass: BrowserGeolocationService
+});
+
+container.register(DIToken.GEOCODING_SERVICE, {
+    useClass: AlgoliaGeocodingService
 });
 
 container.register(DIToken.WALLPAPER_SERVICE, {
@@ -31,4 +32,8 @@ container.register(DIToken.SCREEN_INSPECTOR, {
 
 container.register(DIToken.CONTEXTUAL_IMAGE_SERVICE, {
     useClass: UnsplashImageService
+});
+
+container.register(DIToken.CURRENT_WEATHER_SERVICE, {
+    useClass: OWACurrentWeatherService
 });

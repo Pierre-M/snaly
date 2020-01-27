@@ -2,11 +2,11 @@
 
 import {
     GeolocationService,
-    Coordinates
+    UserCoordinates
 } from "@/business/geolocation/GeolocationService";
 
 export class BrowserGeolocationService implements GeolocationService {
-    getCoordinates(): Promise<Coordinates> {
+    getCoordinates(): Promise<UserCoordinates> {
         //TODO resolve issue of geolocation authorization on safari
 
         // return new Promise(resolve => {

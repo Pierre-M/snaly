@@ -5,9 +5,7 @@
     Check https://openweathermap.org/weather-conditions for more info.
 */
 
-import { WeatherIcon } from "@/business/weather-api/WeatherService";
-
-export type IconNameMap = Record<WeatherIcon, string>;
+export type IconNameMap = Record<string, string>;
 
 export const iconNameMap: IconNameMap = {
     "01d": "wi-day-sunny",

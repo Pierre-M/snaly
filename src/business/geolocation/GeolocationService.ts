@@ -1,10 +1,10 @@
 "use strict";
 
-export interface Coordinates {
+export interface UserCoordinates {
     latitude: number;
     longitude: number;
 }
 
 export interface GeolocationService {
-    getCoordinates(): Promise<Coordinates>;
+    getCoordinates(): Promise<UserCoordinates>;
 }

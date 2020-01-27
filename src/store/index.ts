@@ -1,19 +1,18 @@
 import Vue from "vue";
 import Vuex, { ActionContext } from "vuex";
-import {
-    CurrentWeather,
-    WeatherService
-} from "@/business/weather-api/WeatherService";
 import { Nullable } from "@/types/app";
 import {
-    Coordinates,
-    GeolocationService
+    GeolocationService,
+    UserCoordinates
 } from "@/business/geolocation/GeolocationService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import { WeatherIconService } from "@/ui/weather-icons/WeatherIconService";
 import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
 import { ContextualImage } from "@/core/image/ContextualImageService";
+import {
+    CurrentWeatherOverview,
+    CurrentWeatherService
+} from "@/business/weather/WeatherService";
 
 Vue.use(Vuex);
 
@@ -21,39 +20,40 @@ const geolocationService = container.resolve<GeolocationService>(
     DIToken.GEOLOCATION_SERVICE
 );
 
-const weatherService = container.resolve<WeatherService>(
-    DIToken.WEATHER_SERVICE
-);
-
 const wallpaperService = container.resolve<WallpaperService>(
     DIToken.WALLPAPER_SERVICE
 );
 
-const weatherIconService = new WeatherIconService();
+const currentWeatherService = container.resolve<CurrentWeatherService>(
+    DIToken.CURRENT_WEATHER_SERVICE
+);
 
 export interface AppState {
-    coordinates: Nullable<Coordinates>;
-    weather: Nullable<CurrentWeather>;
+    coordinates: Nullable<UserCoordinates>;
+    currentWeatherOverview: Nullable<CurrentWeatherOverview>;
     wallpaper: Nullable<ContextualImage>;
 }
 
 const state: AppState = {
     coordinates: null,
-    weather: null,
+    currentWeatherOverview: null,
     wallpaper: null
 };
 
 export default new Vuex.Store({
     state,
     mutations: {
-        updateCoordinates(state: AppState, coordinates: Nullable<Coordinates>) {
+        updateCoordinates(
+            state: AppState,
+            coordinates: Nullable<UserCoordinates>
+        ) {
             state.coordinates = coordinates;
         },
-        updateCurrentWeather(
+        updateCurrentWeatherOverview(
             state: AppState,
-            currentWeather: Nullable<CurrentWeather>
+            currentWeatherOverview: Nullable<CurrentWeatherOverview>
         ) {
-            state.weather = currentWeather;
+            state.currentWeatherOverview = currentWeatherOverview;
         },
         updateWallpaper(state: AppState, wallpaper: Nullable<ContextualImage>) {
             state.wallpaper = wallpaper;
@@ -62,7 +62,7 @@ export default new Vuex.Store({
     actions: {
         async init(context: ActionContext<AppState, AppState>) {
             await context.dispatch("getCoordinates");
-            await context.dispatch("getWeather");
+            await context.dispatch("getCurrentWeatherOverview");
             await context.dispatch("getWallpaper");
         },
 
@@ -71,38 +71,33 @@ export default new Vuex.Store({
             context.commit("updateCoordinates", coordinates);
         },
 
-        async getWeather(context: ActionContext<AppState, AppState>) {
-            const coordinates: Nullable<Coordinates> =
+        async getCurrentWeatherOverview(
+            context: ActionContext<AppState, AppState>
+        ) {
+            const coordinates: Nullable<UserCoordinates> =
                 context.state.coordinates;
 
             if (!coordinates) {
                 return;
             }
 
-            const weather = await weatherService.getByCoordinates(coordinates);
+            const weatherOverview = await currentWeatherService.getCurrentWeatherByCoordinates(
+                coordinates
+            );
 
-            context.commit("updateCurrentWeather", weather);
+            context.commit("updateCurrentWeatherOverview", weatherOverview);
         },
 
         async getWallpaper(context: ActionContext<AppState, AppState>) {
-            if (!context.state.weather) {
+            if (!context.state.currentWeatherOverview) {
                 return;
             }
 
             const wallpaper = await wallpaperService.get(
-                context.state.weather.description
+                context.state.currentWeatherOverview.description.text
             );
 
             context.commit("updateWallpaper", wallpaper);
-        }
-    },
-    getters: {
-        weatherIcon(state: AppState): Nullable<string> {
-            if (!state.weather) {
-                return null;
-            }
-
-            return weatherIconService.getByWeatherId(state.weather.icon);
         }
     }
 });
