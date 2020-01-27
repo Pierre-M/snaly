@@ -14,9 +14,11 @@
     "deploy": "yarn test:unit && yarn build:prod && push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.149",
     "axios": "^0.19.2",
     "core-js": "^3.4.4",
     "lighthouse": "^5.6.0",
+    "lodash": "4.17.15",
     "querystring": "0.2.0",
     "register-service-worker": "^1.6.2",
     "reset-css": "^5.0.1",
