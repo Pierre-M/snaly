@@ -7,7 +7,7 @@ import {
     BASE_UNSPLASH_FORMATTING_PARAMS,
     BASE_UNSPLASH_REQUEST,
     UNSPLASH_API_URL,
-    UnsplashImageService,
+    UnsplashImageService
 } from "@/core/image/UnsplashImageService";
 import { ContextualImageRequest } from "@/core/image/ContextualImageService";
 import { generateUnsplashResults } from "../../_mocks/UnsplashApiDataGenerator";
@@ -28,7 +28,7 @@ describe("UnsplashImageService", () => {
         const expectedParams: ContextualImageRequest = {
             query: "test",
             orientation: undefined,
-            ...BASE_UNSPLASH_REQUEST,
+            ...BASE_UNSPLASH_REQUEST
         };
 
         await service.get({ query: expectedParams.query });
@@ -64,14 +64,14 @@ describe("UnsplashImageService", () => {
             query: "test",
             width: 1000,
             height: 500,
-            dpr: 3,
+            dpr: 3
         };
 
         const expectedParams = {
             ...BASE_UNSPLASH_FORMATTING_PARAMS,
             w: request.width?.toString(),
             h: request.width?.toString(),
-            dpi: request.dpr!.toString(),
+            dpi: request.dpr!.toString()
         };
 
         const res = await service.get(request);

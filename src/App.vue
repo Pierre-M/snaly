@@ -19,8 +19,8 @@ import WeatherScreenLayout from "@/ui/layout/WeatherScreenLayout.vue";
         WeatherScreenLayout,
         CurrentWeatherWidget,
         WallpaperComponent,
-        AppContainer,
-    },
+        AppContainer
+    }
 })
 export default class App extends Vue {
     created() {

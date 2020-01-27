@@ -3,7 +3,7 @@
 import {
     ScreenInspector,
     ScreenOrientation,
-    ScreenSize,
+    ScreenSize
 } from "@/core/browser/ScreenInspector";
 
 export class BrowserScreenInspector implements ScreenInspector {
@@ -26,7 +26,7 @@ export class BrowserScreenInspector implements ScreenInspector {
     get size(): ScreenSize {
         return {
             width: window.innerWidth,
-            height: window.innerHeight,
+            height: window.innerHeight
         };
     }
 

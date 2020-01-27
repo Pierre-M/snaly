@@ -21,8 +21,8 @@ import Icon from "@/ui/fundamentals/Icon.vue";
 @Component({
     components: {
         Icon,
-        SlideYDownTransition,
-    },
+        SlideYDownTransition
+    }
 })
 export default class App extends Vue {
     @State((state: AppState) => state.weather)

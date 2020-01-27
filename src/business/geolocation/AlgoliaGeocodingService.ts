@@ -12,12 +12,12 @@ export class AlgoliaGeocodingService implements GeocodingService {
                 aroundLatLng: `${coordinates.latitude},${coordinates.longitude}`,
                 type: "city",
                 hitsPerPage: 1,
-                language: "fr",
+                language: "fr"
             })
             .then(res => {
                 return {
                     city: res.data.hits[0].city[0],
-                    country: res.data.hits[0].country,
+                    country: res.data.hits[0].country
                 };
             });
     }

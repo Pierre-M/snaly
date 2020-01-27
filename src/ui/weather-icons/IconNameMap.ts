@@ -27,5 +27,5 @@ export const iconNameMap: IconNameMap = {
     "13d": "wi-day-snow",
     "13n": "wi-night-alt-snow",
     "50d": "wi-fog",
-    "50n": "wi-fog",
+    "50n": "wi-fog"
 };

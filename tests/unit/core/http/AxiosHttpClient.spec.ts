@@ -17,7 +17,7 @@ describe("AxiosHttpClient", () => {
     beforeEach(() => {
         client = new AxiosHttpClient();
         httpResponse = {
-            data: "data",
+            data: "data"
         } as AxiosResponse;
         mockAxiosResponse(httpResponse);
     });

@@ -2,7 +2,7 @@
 
 import {
     GeolocationService,
-    Coordinates,
+    Coordinates
 } from "@/business/geolocation/GeolocationService";
 
 export class BrowserGeolocationService implements GeolocationService {

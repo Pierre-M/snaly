@@ -19,7 +19,7 @@ import { AppState } from "@/store";
 import { ContextualImage } from "@/core/image/ContextualImageService";
 
 @Component({
-    components: { FadeTransition },
+    components: { FadeTransition }
 })
 export default class WallpaperCompponent extends Vue {
     @State((state: AppState) => state.wallpaper)

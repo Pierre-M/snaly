@@ -2,7 +2,7 @@
 
 import {
     CurrentWeather,
-    WeatherService,
+    WeatherService
 } from "@/business/weather-api/WeatherService";
 import { Coordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
@@ -29,7 +29,7 @@ export class OpenWeatherApiService implements WeatherService {
         return {
             temperatureInDegrees: res.main.temp,
             description: res.weather[0].description,
-            icon: res.weather[0].icon,
+            icon: res.weather[0].icon
         };
     }
 }

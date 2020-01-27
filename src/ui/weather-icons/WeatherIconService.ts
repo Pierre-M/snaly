@@ -2,7 +2,7 @@
 
 import {
     WeatherDescription,
-    WeatherIcon,
+    WeatherIcon
 } from "@/business/weather-api/WeatherService";
 import { iconNameMap } from "@/ui/weather-icons/IconNameMap";
 import { Nullable } from "@/types/app";

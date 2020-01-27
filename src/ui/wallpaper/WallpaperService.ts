@@ -5,7 +5,7 @@ import { DIToken } from "@/core/dependency-injection/DIToken";
 import { ScreenInspector } from "@/core/browser/ScreenInspector";
 import {
     ContextualImage,
-    ContextualImageService,
+    ContextualImageService
 } from "@/core/image/ContextualImageService";
 import { Nullable } from "@/types/app";
 
@@ -25,7 +25,7 @@ export class WallpaperService {
             width: this.screenInspector.size.width,
             height: this.screenInspector.size.height,
             dpr: this.screenInspector.dpr,
-            orientation: this.screenInspector.orientation,
+            orientation: this.screenInspector.orientation
         });
     }
 }

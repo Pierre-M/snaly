@@ -5,7 +5,7 @@ import qs from "querystring";
 import {
     ContextualImage,
     ContextualImageRequest,
-    ContextualImageService,
+    ContextualImageService
 } from "@/core/image/ContextualImageService";
 import { inject, injectable, singleton } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
@@ -19,11 +19,11 @@ export const UNSPLASH_BUCKET_SIZE = 10;
 export const BASE_UNSPLASH_REQUEST = {
     page: 1,
     per_page: UNSPLASH_BUCKET_SIZE,
-    client_id: UNSPLASH_API_KEY,
+    client_id: UNSPLASH_API_KEY
 };
 export const BASE_UNSPLASH_FORMATTING_PARAMS = {
     fit: "clamp",
-    dpi: 2,
+    dpi: 2
 };
 
 @injectable()
@@ -53,7 +53,7 @@ export class UnsplashImageService implements ContextualImageService {
         return {
             ...BASE_UNSPLASH_REQUEST,
             query: request.query,
-            orientation: request.orientation,
+            orientation: request.orientation
         };
     }
 
@@ -75,12 +75,12 @@ export class UnsplashImageService implements ContextualImageService {
             ...BASE_UNSPLASH_FORMATTING_PARAMS,
             w: sizeParam,
             h: sizeParam,
-            dpi: request.dpr,
+            dpi: request.dpr
         });
 
         return {
             color,
-            src: `${rawUrl}?${params}`,
+            src: `${rawUrl}?${params}`
         };
     }
 }

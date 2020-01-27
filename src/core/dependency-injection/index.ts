@@ -10,25 +10,25 @@ import { UnsplashImageService } from "@/core/image/UnsplashImageService";
 import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
 
 container.register(DIToken.HTTP_CLIENT, {
-    useClass: AxiosHttpClient,
+    useClass: AxiosHttpClient
 });
 
 container.register(DIToken.WEATHER_SERVICE, {
-    useClass: OpenWeatherApiService,
+    useClass: OpenWeatherApiService
 });
 
 container.register(DIToken.GEOLOCATION_SERVICE, {
-    useClass: BrowserGeolocationService,
+    useClass: BrowserGeolocationService
 });
 
 container.register(DIToken.WALLPAPER_SERVICE, {
-    useClass: WallpaperService,
+    useClass: WallpaperService
 });
 
 container.register(DIToken.SCREEN_INSPECTOR, {
-    useClass: BrowserScreenInspector,
+    useClass: BrowserScreenInspector
 });
 
 container.register(DIToken.CONTEXTUAL_IMAGE_SERVICE, {
-    useClass: UnsplashImageService,
+    useClass: UnsplashImageService
 });

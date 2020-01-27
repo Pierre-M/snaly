@@ -2,12 +2,12 @@ import Vue from "vue";
 import Vuex, { ActionContext } from "vuex";
 import {
     CurrentWeather,
-    WeatherService,
+    WeatherService
 } from "@/business/weather-api/WeatherService";
 import { Nullable } from "@/types/app";
 import {
     Coordinates,
-    GeolocationService,
+    GeolocationService
 } from "@/business/geolocation/GeolocationService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
@@ -40,7 +40,7 @@ export interface AppState {
 const state: AppState = {
     coordinates: null,
     weather: null,
-    wallpaper: null,
+    wallpaper: null
 };
 
 export default new Vuex.Store({
@@ -57,7 +57,7 @@ export default new Vuex.Store({
         },
         updateWallpaper(state: AppState, wallpaper: Nullable<ContextualImage>) {
             state.wallpaper = wallpaper;
-        },
+        }
     },
     actions: {
         async init(context: ActionContext<AppState, AppState>) {
@@ -94,7 +94,7 @@ export default new Vuex.Store({
             );
 
             context.commit("updateWallpaper", wallpaper);
-        },
+        }
     },
     getters: {
         weatherIcon(state: AppState): Nullable<string> {
@@ -103,6 +103,6 @@ export default new Vuex.Store({
             }
 
             return weatherIconService.getByWeatherId(state.weather.icon);
-        },
-    },
+        }
+    }
 });

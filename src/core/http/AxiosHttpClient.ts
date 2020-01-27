@@ -6,7 +6,7 @@ import {
     HttpError,
     HttpGetParams,
     HttpPostBody,
-    HttpResponse,
+    HttpResponse
 } from "@/core/http/HttpClient";
 import { Nullable } from "@/types/app";
 

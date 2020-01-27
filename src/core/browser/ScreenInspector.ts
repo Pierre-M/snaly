@@ -2,7 +2,7 @@
 
 export enum ScreenOrientation {
     PORTRAIT = "portrait",
-    LANDSCAPE = "landscape",
+    LANDSCAPE = "landscape"
 }
 
 export interface ScreenSize {
