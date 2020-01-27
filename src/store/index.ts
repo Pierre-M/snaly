@@ -11,7 +11,8 @@ import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
 import { ContextualImage } from "@/core/image/ContextualImageService";
 import {
     CurrentWeatherOverview,
-    CurrentWeatherService
+    WeatherForecastEntry,
+    WeatherService
 } from "@/business/weather/WeatherService";
 
 Vue.use(Vuex);
@@ -24,19 +25,21 @@ const wallpaperService = container.resolve<WallpaperService>(
     DIToken.WALLPAPER_SERVICE
 );
 
-const currentWeatherService = container.resolve<CurrentWeatherService>(
-    DIToken.CURRENT_WEATHER_SERVICE
+const weatherService = container.resolve<WeatherService>(
+    DIToken.WEATHER_SERVICE
 );
 
 export interface AppState {
     coordinates: Nullable<UserCoordinates>;
     currentWeatherOverview: Nullable<CurrentWeatherOverview>;
+    hourlyWeatherForecast: Nullable<WeatherForecastEntry[]>;
     wallpaper: Nullable<ContextualImage>;
 }
 
 const state: AppState = {
     coordinates: null,
     currentWeatherOverview: null,
+    hourlyWeatherForecast: null,
     wallpaper: null
 };
 
@@ -55,6 +58,12 @@ export default new Vuex.Store({
         ) {
             state.currentWeatherOverview = currentWeatherOverview;
         },
+        updateHourlyWeatherForecast(
+            state: AppState,
+            weatherForecast: Nullable<WeatherForecastEntry[]>
+        ) {
+            state.hourlyWeatherForecast = weatherForecast;
+        },
         updateWallpaper(state: AppState, wallpaper: Nullable<ContextualImage>) {
             state.wallpaper = wallpaper;
         }
@@ -62,6 +71,7 @@ export default new Vuex.Store({
     actions: {
         async init(context: ActionContext<AppState, AppState>) {
             await context.dispatch("getCoordinates");
+            context.dispatch("getHourlyWeatherForecast");
             await context.dispatch("getCurrentWeatherOverview");
             await context.dispatch("getWallpaper");
         },
@@ -81,11 +91,28 @@ export default new Vuex.Store({
                 return;
             }
 
-            const weatherOverview = await currentWeatherService.getCurrentWeatherByCoordinates(
+            const weatherOverview = await weatherService.getCurrentWeatherByCoordinates(
                 coordinates
             );
 
             context.commit("updateCurrentWeatherOverview", weatherOverview);
+        },
+
+        async getHourlyWeatherForecast(
+            context: ActionContext<AppState, AppState>
+        ) {
+            const coordinates: Nullable<UserCoordinates> =
+                context.state.coordinates;
+
+            if (!coordinates) {
+                return;
+            }
+
+            const weatherForecast = await weatherService.getHourlyForecastByCoordinates(
+                coordinates
+            );
+
+            context.commit("updateHourlyWeatherForecast", weatherForecast);
         },
 
         async getWallpaper(context: ActionContext<AppState, AppState>) {

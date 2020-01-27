@@ -26,14 +26,26 @@ export interface SunCycle {
     sunset: Date;
 }
 
-export interface CurrentWeatherOverview {
+export interface WeatherOverview {
     temperatureOverview: TemperatureOverview;
     description: WeatherDescription;
+}
+
+export interface CurrentWeatherOverview extends WeatherOverview {
     suncycle: SunCycle;
 }
 
-export interface CurrentWeatherService {
+export interface WeatherForecastEntry {
+    overview: WeatherOverview;
+    date: Date;
+}
+
+export interface WeatherService {
     getCurrentWeatherByCoordinates(
         coordinates: UserCoordinates
     ): Promise<Nullable<CurrentWeatherOverview>>;
+
+    getHourlyForecastByCoordinates(
+        coordinates: UserCoordinates
+    ): Promise<Nullable<WeatherForecastEntry[]>>;
 }

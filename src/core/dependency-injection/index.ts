@@ -8,7 +8,7 @@ import { BrowserScreenInspector } from "@/core/browser/BrowserScreenInspector";
 import { UnsplashImageService } from "@/core/image/UnsplashImageService";
 import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
 import { AlgoliaGeocodingService } from "@/business/geocoding/AlgoliaGeocodingService";
-import { OWACurrentWeatherService } from "@/business/weather/OWACurrentWeatherService";
+import { OWAWeatherService } from "@/business/weather/OWAWeatherService";
 
 container.register(DIToken.HTTP_CLIENT, {
     useClass: AxiosHttpClient
@@ -34,6 +34,6 @@ container.register(DIToken.CONTEXTUAL_IMAGE_SERVICE, {
     useClass: UnsplashImageService
 });
 
-container.register(DIToken.CURRENT_WEATHER_SERVICE, {
-    useClass: OWACurrentWeatherService
+container.register(DIToken.WEATHER_SERVICE, {
+    useClass: OWAWeatherService
 });

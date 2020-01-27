@@ -6,7 +6,7 @@ import { DIToken } from "@/core/dependency-injection/DIToken";
 import { AxiosHttpClient } from "@/core/http/AxiosHttpClient";
 import { BrowserGeolocationService } from "@/business/geolocation/BrowserGeolocationService";
 import { UnsplashImageService } from "@/core/image/UnsplashImageService";
-import { OWACurrentWeatherService } from "@/business/weather/OWACurrentWeatherService";
+import { OWAWeatherService } from "@/business/weather/OWAWeatherService";
 
 describe("Dependency injection container", () => {
     it("should resolve dependency for all entries in DITokens", () => {
@@ -34,9 +34,9 @@ describe("Dependency injection container", () => {
     });
 
     it("should return an OpenWeatherApiService for WeatherService interface", () => {
-        expect(
-            container.resolve(DIToken.CURRENT_WEATHER_SERVICE)
-        ).toBeInstanceOf(OWACurrentWeatherService);
+        expect(container.resolve(DIToken.WEATHER_SERVICE)).toBeInstanceOf(
+            OWAWeatherService
+        );
     });
 
     it("should return an BrowserGeolocationService for GeolocationService interface", () => {
