@@ -31,9 +31,9 @@
 import { Component, Vue } from "vue-property-decorator";
 import { State } from "vuex-class";
 import { SlideYDownTransition } from "vue2-transitions";
-import { AppState } from "@/store";
 import Icon from "@/ui/fundamentals/Icon.vue";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
+import { AppState } from "@/store/state";
 
 @Component({
     components: {

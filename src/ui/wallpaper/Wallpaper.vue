@@ -15,8 +15,8 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import { State } from "vuex-class";
 import { FadeTransition } from "vue2-transitions";
 import { Nullable } from "@/types/app";
-import { AppState } from "@/store";
 import { ContextualImage } from "@/core/image/ContextualImageService";
+import { AppState } from "@/store/state";
 
 @Component({
     components: { FadeTransition }
