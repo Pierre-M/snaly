@@ -10,6 +10,7 @@ import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
 import { AlgoliaGeocodingService } from "@/business/geocoding/AlgoliaGeocodingService";
 import { OWAWeatherService } from "@/business/weather/OWAWeatherService";
 import { MobileGestureService } from "@/core/hardware/MobileGestureService";
+import {MobileHapticFeedBackService} from "@/core/hardware/MobileHapticFeedBackService";
 
 container.register(DIToken.HTTP_CLIENT, {
     useClass: AxiosHttpClient
@@ -41,4 +42,8 @@ container.register(DIToken.WEATHER_SERVICE, {
 
 container.register(DIToken.GESTURE_SERVICE, {
     useClass: MobileGestureService
+});
+
+container.register(DIToken.HAPTIC_FEEDBACK_SERVICE, {
+    useClass: MobileHapticFeedBackService
 });

@@ -8,5 +8,6 @@ export enum DIToken {
     SCREEN_INSPECTOR = "ScreenInspector",
     CONTEXTUAL_IMAGE_SERVICE = "ContextualImageService",
     WALLPAPER_SERVICE = "WallpaperService",
-    GESTURE_SERVICE = "GESTURE_SERVICE"
+    GESTURE_SERVICE = "GESTURE_SERVICE",
+    HAPTIC_FEEDBACK_SERVICE = "HapticFeedbackService"
 }
