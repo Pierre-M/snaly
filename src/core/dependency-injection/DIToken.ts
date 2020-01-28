@@ -7,5 +7,6 @@ export enum DIToken {
     GEOCODING_SERVICE = "GeocodingService",
     SCREEN_INSPECTOR = "ScreenInspector",
     CONTEXTUAL_IMAGE_SERVICE = "ContextualImageService",
-    WALLPAPER_SERVICE = "WallpaperService"
+    WALLPAPER_SERVICE = "WallpaperService",
+    GESTURE_SERVICE = "GESTURE_SERVICE"
 }

@@ -11,6 +11,7 @@ import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
 import { WeatherService } from "@/business/weather/WeatherService";
+import { GestureService } from "@/core/hardware/GestureService";
 
 const geolocationService = container.resolve<GeolocationService>(
     DIToken.GEOLOCATION_SERVICE
@@ -24,9 +25,17 @@ const weatherService = container.resolve<WeatherService>(
     DIToken.WEATHER_SERVICE
 );
 
+const gestureService = container.resolve<GestureService>(
+    DIToken.GESTURE_SERVICE
+);
+
 export const actions: ActionTree<AppState, AppState> = {
     async init(context: ActionContext<AppState, AppState>) {
         await context.dispatch("getCoordinates");
+
+        if (gestureService.canHandleShake) {
+            gestureService.onShake(() => context.dispatch("getWallpaper"));
+        }
     },
 
     async getCoordinates(context: ActionContext<AppState, AppState>) {

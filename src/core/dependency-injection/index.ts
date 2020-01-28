@@ -9,6 +9,7 @@ import { UnsplashImageService } from "@/core/image/UnsplashImageService";
 import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
 import { AlgoliaGeocodingService } from "@/business/geocoding/AlgoliaGeocodingService";
 import { OWAWeatherService } from "@/business/weather/OWAWeatherService";
+import { MobileGestureService } from "@/core/hardware/MobileGestureService";
 
 container.register(DIToken.HTTP_CLIENT, {
     useClass: AxiosHttpClient
@@ -36,4 +37,8 @@ container.register(DIToken.CONTEXTUAL_IMAGE_SERVICE, {
 
 container.register(DIToken.WEATHER_SERVICE, {
     useClass: OWAWeatherService
+});
+
+container.register(DIToken.GESTURE_SERVICE, {
+    useClass: MobileGestureService
 });

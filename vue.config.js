@@ -4,7 +4,8 @@ const path = require("path");
 
 module.exports = {
     devServer: {
-        disableHostCheck: true
+        disableHostCheck: true,
+        https: true
     },
     publicPath: process.env.DEPLOY_ENV === "PROD" ? "/snaly/" : "/",
 
