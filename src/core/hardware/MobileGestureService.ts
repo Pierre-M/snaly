@@ -11,6 +11,8 @@ export class MobileGestureService implements GestureService {
             threshold: 15,
             timeout: 1000
         });
+
+        this.shakeDetector.start();
     }
 
     get canHandleShake(): boolean {
