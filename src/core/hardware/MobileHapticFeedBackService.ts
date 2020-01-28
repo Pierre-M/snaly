@@ -1,7 +1,7 @@
 "use strict";
 
 import { HapticFeedbackService } from "@/core/hardware/HapticFeedbackService";
-import {injectable, singleton} from "tsyringe";
+import { injectable, singleton } from "tsyringe";
 
 //export for testing
 export const VIBRATE_FEEDBACK_DURATION_IN_MS = 20;
