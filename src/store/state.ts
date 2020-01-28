@@ -6,18 +6,15 @@ import {
     CurrentWeatherOverview,
     WeatherForecastEntry
 } from "@/business/weather/WeatherService";
-import { ContextualImage } from "@/core/image/ContextualImageService";
 
-export interface AppState {
+export interface RootState {
     coordinates: Nullable<UserCoordinates>;
     currentWeatherOverview: Nullable<CurrentWeatherOverview>;
     hourlyWeatherForecast: Nullable<WeatherForecastEntry[]>;
-    wallpaper: Nullable<ContextualImage>;
 }
 
-export const state: AppState = {
+export const state: RootState = {
     coordinates: null,
     currentWeatherOverview: null,
-    hourlyWeatherForecast: null,
-    wallpaper: null
+    hourlyWeatherForecast: null
 };

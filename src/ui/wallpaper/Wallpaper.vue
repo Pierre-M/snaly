@@ -16,13 +16,13 @@ import { State } from "vuex-class";
 import { FadeTransition } from "vue2-transitions";
 import { Nullable } from "@/types/app";
 import { ContextualImage } from "@/core/image/ContextualImageService";
-import { AppState } from "@/store/state";
+import { AppState } from "@/store";
 
 @Component({
     components: { FadeTransition }
 })
 export default class WallpaperCompponent extends Vue {
-    @State((state: AppState) => state.wallpaper)
+    @State((state: AppState) => state.wallpaperModule.wallpaper)
     wallpaper!: Nullable<ContextualImage>;
 
     @Watch("wallpaper", { immediate: true, deep: true })
@@ -32,7 +32,7 @@ export default class WallpaperCompponent extends Vue {
         }
 
         const img = document.createElement("img");
-        img.classList.add("wallpaper-container__image");
+        img.classList.add("wallpaperModule-container__image");
 
         img.addEventListener("load", () => {
             const container = this.$refs.backgroundContainer as HTMLDivElement;
