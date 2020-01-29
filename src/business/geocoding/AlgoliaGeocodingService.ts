@@ -1,10 +1,7 @@
 "use strict";
 
 import axios from "axios";
-import {
-    Address,
-    GeocodingService
-} from "@/business/geocoding/GeocodingService";
+import { Address, GeocodingService } from "@/business/geocoding/GeocodingService";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
 

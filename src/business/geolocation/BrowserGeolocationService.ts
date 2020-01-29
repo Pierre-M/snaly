@@ -1,9 +1,6 @@
 "use strict";
 
-import {
-    GeolocationService,
-    UserCoordinates
-} from "@/business/geolocation/GeolocationService";
+import { GeolocationService, UserCoordinates } from "@/business/geolocation/GeolocationService";
 
 export class BrowserGeolocationService implements GeolocationService {
     getCoordinates(): Promise<UserCoordinates> {

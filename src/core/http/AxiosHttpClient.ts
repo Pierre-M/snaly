@@ -1,20 +1,11 @@
 "use strict";
 
 import axios, { AxiosResponse } from "axios";
-import {
-    HttpClient,
-    HttpError,
-    HttpGetParams,
-    HttpPostBody,
-    HttpResponse
-} from "@/core/http/HttpClient";
+import { HttpClient, HttpError, HttpGetParams, HttpPostBody, HttpResponse } from "@/core/http/HttpClient";
 import { Nullable } from "@/types/app";
 
 export class AxiosHttpClient implements HttpClient {
-    async get<T>(
-        url: string,
-        params?: HttpGetParams
-    ): Promise<HttpResponse<T>> {
+    async get<T>(url: string, params?: HttpGetParams): Promise<HttpResponse<T>> {
         let response = { data: null } as AxiosResponse;
         let error: Nullable<HttpError> = null;
 
@@ -44,10 +35,7 @@ export class AxiosHttpClient implements HttpClient {
         return response.status.toString().charAt(0) === "2";
     }
 
-    private static handleResponse<T>(
-        response: AxiosResponse,
-        error: any
-    ): HttpResponse<T> {
+    private static handleResponse<T>(response: AxiosResponse, error: any): HttpResponse<T> {
         if (error) {
             return [null, error];
         }

@@ -18,8 +18,6 @@ describe("MobileHapticFeedbackService", () => {
 
     it("should use right api upon vibrate call", () => {
         service.vibrate();
-        expect(window.navigator.vibrate).toHaveBeenCalledWith(
-            VIBRATE_FEEDBACK_DURATION_IN_MS
-        );
+        expect(window.navigator.vibrate).toHaveBeenCalledWith(VIBRATE_FEEDBACK_DURATION_IN_MS);
     });
 });

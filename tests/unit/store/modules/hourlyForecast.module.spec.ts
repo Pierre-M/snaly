@@ -4,15 +4,9 @@ import { fakeWeatherService } from "../../_mocks";
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
-import {
-    generateCurrentWeatherOverview,
-    generateHourlyForecast
-} from "../../_mocks/generators/WeatherGenerator";
+import { generateCurrentWeatherOverview, generateHourlyForecast } from "../../_mocks/generators/WeatherGenerator";
 import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
-import {
-    hourlyForecastModule,
-    HourlyForecastModuleAction
-} from "@/store/module/hourlyForecast.module";
+import { hourlyForecastModule, HourlyForecastModuleAction } from "@/store/module/hourlyForecast.module";
 
 Vue.use(Vuex);
 
@@ -36,36 +30,26 @@ describe("hourly forecast store module", () => {
     it("should not call for weatherService service when coordinates are null", () => {
         store.dispatch(HourlyForecastModuleAction.GET_FORECAST, null);
 
-        expect(
-            fakeWeatherService.getHourlyForecastByCoordinates
-        ).not.toHaveBeenCalled();
+        expect(fakeWeatherService.getHourlyForecastByCoordinates).not.toHaveBeenCalled();
     });
 
     it("should call for weatherService with coordinates", () => {
         const coordinates = generateUserCoordinates();
         store.dispatch(HourlyForecastModuleAction.GET_FORECAST, coordinates);
 
-        expect(
-            fakeWeatherService.getHourlyForecastByCoordinates
-        ).toHaveBeenCalledWith(coordinates);
+        expect(fakeWeatherService.getHourlyForecastByCoordinates).toHaveBeenCalledWith(coordinates);
     });
 
     it("should update state when weather overview is null or not", async () => {
         const forecast = generateHourlyForecast();
         fakeWeatherService.hourlyForecastValue = forecast;
 
-        await store.dispatch(
-            HourlyForecastModuleAction.GET_FORECAST,
-            generateUserCoordinates()
-        );
+        await store.dispatch(HourlyForecastModuleAction.GET_FORECAST, generateUserCoordinates());
 
         expect(store.state.hourlyForecastModule.forecast).toEqual(forecast);
         fakeWeatherService.hourlyForecastValue = null;
 
-        await store.dispatch(
-            HourlyForecastModuleAction.GET_FORECAST,
-            generateUserCoordinates()
-        );
+        await store.dispatch(HourlyForecastModuleAction.GET_FORECAST, generateUserCoordinates());
 
         expect(store.state.hourlyForecastModule.forecast).toEqual(null);
     });

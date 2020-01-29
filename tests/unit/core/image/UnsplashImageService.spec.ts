@@ -33,10 +33,7 @@ describe("UnsplashImageService", () => {
 
         await service.get({ query: expectedParams.query });
 
-        expect(httpClient.get).toHaveBeenCalledWith(
-            UNSPLASH_API_URL,
-            expectedParams
-        );
+        expect(httpClient.get).toHaveBeenCalledWith(UNSPLASH_API_URL, expectedParams);
     });
 
     it("it should return null if no data is returned by unsplash", async () => {
@@ -53,8 +50,7 @@ describe("UnsplashImageService", () => {
         const res2 = await service.get({ query });
         const res3 = await service.get({ query });
         const res4 = await service.get({ query });
-        const hasAtLeastOneUniqItem =
-            uniqWith([res1, res2, res3, res4], isEqual).length > 1;
+        const hasAtLeastOneUniqItem = uniqWith([res1, res2, res3, res4], isEqual).length > 1;
 
         expect(hasAtLeastOneUniqItem).toBe(true);
     });

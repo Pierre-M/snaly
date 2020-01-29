@@ -9,9 +9,7 @@ import { CoordinatesModuleAction } from "@/store/module/coordinates.module";
 import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
 import { AppState } from "@/store/index";
 
-const gestureService = container.resolve<GestureService>(
-    DIToken.GESTURE_SERVICE
-);
+const gestureService = container.resolve<GestureService>(DIToken.GESTURE_SERVICE);
 
 export const actions: ActionTree<RootState, RootState> = {
     async init(context: ActionContext<RootState, RootState>) {

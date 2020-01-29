@@ -41,11 +41,7 @@ export interface WeatherForecastEntry {
 }
 
 export interface WeatherService {
-    getCurrentWeatherByCoordinates(
-        coordinates: UserCoordinates
-    ): Promise<Nullable<CurrentWeatherOverview>>;
+    getCurrentWeatherByCoordinates(coordinates: UserCoordinates): Promise<Nullable<CurrentWeatherOverview>>;
 
-    getHourlyForecastByCoordinates(
-        coordinates: UserCoordinates
-    ): Promise<Nullable<WeatherForecastEntry[]>>;
+    getHourlyForecastByCoordinates(coordinates: UserCoordinates): Promise<Nullable<WeatherForecastEntry[]>>;
 }

@@ -28,17 +28,12 @@ export class OWAWeatherService implements WeatherService {
 
     constructor(@inject(DIToken.HTTP_CLIENT) private httpClient: HttpClient) {}
 
-    async getCurrentWeatherByCoordinates(
-        coordinates: UserCoordinates
-    ): Promise<Nullable<CurrentWeatherOverview>> {
-        const [res] = await this.httpClient.get<any>(
-            this.CURRENT_WEATHER_API_URL,
-            {
-                lat: coordinates.latitude,
-                lon: coordinates.longitude,
-                ...this.BASE_API_PARAMS
-            }
-        );
+    async getCurrentWeatherByCoordinates(coordinates: UserCoordinates): Promise<Nullable<CurrentWeatherOverview>> {
+        const [res] = await this.httpClient.get<any>(this.CURRENT_WEATHER_API_URL, {
+            lat: coordinates.latitude,
+            lon: coordinates.longitude,
+            ...this.BASE_API_PARAMS
+        });
 
         if (!res) {
             return null;
@@ -49,9 +44,7 @@ export class OWAWeatherService implements WeatherService {
         });
     }
 
-    async getHourlyForecastByCoordinates(
-        coordinates: UserCoordinates
-    ): Promise<Nullable<WeatherForecastEntry[]>> {
+    async getHourlyForecastByCoordinates(coordinates: UserCoordinates): Promise<Nullable<WeatherForecastEntry[]>> {
         const [res] = await this.httpClient.get<any>(this.FORECAST_API_URL, {
             lat: coordinates.latitude,
             lon: coordinates.longitude,

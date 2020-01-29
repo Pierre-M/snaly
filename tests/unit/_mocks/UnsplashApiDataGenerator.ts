@@ -13,9 +13,7 @@ function generateResultItem() {
     };
 }
 
-export function generateUnsplashResults(
-    { count }: { count: number } = { count: UNSPLASH_BUCKET_SIZE }
-) {
+export function generateUnsplashResults({ count }: { count: number } = { count: UNSPLASH_BUCKET_SIZE }) {
     return {
         results: [...Array(count).keys()].map(generateResultItem)
     };

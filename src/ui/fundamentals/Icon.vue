@@ -40,14 +40,10 @@ $icon-wi-day-sunny: "\e90d";
 @font-face {
     font-family: "#{$icomoon-font-family}";
     src: url("#{$icomoon-font-path}/#{$icomoon-font-family}.eot?eiecfg");
-    src: url("#{$icomoon-font-path}/#{$icomoon-font-family}.eot?eiecfg#iefix")
-            format("embedded-opentype"),
-        url("#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?eiecfg")
-            format("truetype"),
-        url("#{$icomoon-font-path}/#{$icomoon-font-family}.woff?eiecfg")
-            format("woff"),
-        url("#{$icomoon-font-path}/#{$icomoon-font-family}.svg?eiecfg##{$icomoon-font-family}")
-            format("svg");
+    src: url("#{$icomoon-font-path}/#{$icomoon-font-family}.eot?eiecfg#iefix") format("embedded-opentype"),
+        url("#{$icomoon-font-path}/#{$icomoon-font-family}.ttf?eiecfg") format("truetype"),
+        url("#{$icomoon-font-path}/#{$icomoon-font-family}.woff?eiecfg") format("woff"),
+        url("#{$icomoon-font-path}/#{$icomoon-font-family}.svg?eiecfg##{$icomoon-font-family}") format("svg");
     font-weight: normal;
     font-style: normal;
     font-display: block;

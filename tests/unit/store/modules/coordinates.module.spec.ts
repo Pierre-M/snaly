@@ -3,10 +3,7 @@
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
 import { fakeGeolocationService } from "../../_mocks";
-import {
-    coordinatesModule,
-    CoordinatesModuleAction
-} from "@/store/module/coordinates.module";
+import { coordinatesModule, CoordinatesModuleAction } from "@/store/module/coordinates.module";
 import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 
 Vue.use(Vuex);

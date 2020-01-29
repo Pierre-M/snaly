@@ -1,20 +1,13 @@
 "use strict";
 
-import {
-    CurrentWeatherOverview,
-    TemperatureUnit,
-    WeatherOverview
-} from "@/business/weather/WeatherService";
+import { CurrentWeatherOverview, TemperatureUnit, WeatherOverview } from "@/business/weather/WeatherService";
 import { weatherIconService } from "@/business/weather/WeatherIconService";
 
 export interface OWACurrentWeatherBuilderParams {
     unit: TemperatureUnit;
 }
 
-export function OWAWeatherOverviewBuilder(
-    data: any,
-    params: OWACurrentWeatherBuilderParams
-): WeatherOverview {
+export function OWAWeatherOverviewBuilder(data: any, params: OWACurrentWeatherBuilderParams): WeatherOverview {
     return {
         temperatureOverview: {
             current: Math.round(data.main.temp),

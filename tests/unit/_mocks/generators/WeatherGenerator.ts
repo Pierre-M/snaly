@@ -1,9 +1,6 @@
 "use strict";
 
-import {
-    CurrentWeatherOverview,
-    WeatherForecastEntry
-} from "@/business/weather/WeatherService";
+import { CurrentWeatherOverview, WeatherForecastEntry } from "@/business/weather/WeatherService";
 
 export function generateCurrentWeatherOverview(): CurrentWeatherOverview {
     return {

@@ -9,9 +9,7 @@ import { RootState } from "@/store/state";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { IWallpaperService } from "@/ui/wallpaper/WallpaperService";
 
-const wallpaperService = container.resolve<IWallpaperService>(
-    DIToken.WALLPAPER_SERVICE
-);
+const wallpaperService = container.resolve<IWallpaperService>(DIToken.WALLPAPER_SERVICE);
 
 export interface WallpaperModuleState {
     wallpaper: Nullable<ContextualImage>;
@@ -26,10 +24,7 @@ export const wallpaperModule: Module<WallpaperModuleState, RootState> = {
         wallpaper: null
     },
     mutations: {
-        updateWallpaper(
-            state: WallpaperModuleState,
-            wallpaper: Nullable<ContextualImage>
-        ) {
+        updateWallpaper(state: WallpaperModuleState, wallpaper: Nullable<ContextualImage>) {
             state.wallpaper = wallpaper;
         }
     },
@@ -42,9 +37,7 @@ export const wallpaperModule: Module<WallpaperModuleState, RootState> = {
                 return;
             }
 
-            const wallpaper = await wallpaperService.get(
-                weatherOverview.description.text
-            );
+            const wallpaper = await wallpaperService.get(weatherOverview.description.text);
 
             commit("updateWallpaper", wallpaper);
         }

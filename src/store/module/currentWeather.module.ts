@@ -1,10 +1,7 @@
 "use strict";
 
 import { ActionContext, Module } from "vuex";
-import {
-    CurrentWeatherOverview,
-    WeatherService
-} from "@/business/weather/WeatherService";
+import { CurrentWeatherOverview, WeatherService } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import { RootState } from "@/store/state";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
@@ -15,18 +12,13 @@ export interface CurrentWeatherModuleState {
     overview: Nullable<CurrentWeatherOverview>;
 }
 
-const weatherService = container.resolve<WeatherService>(
-    DIToken.WEATHER_SERVICE
-);
+const weatherService = container.resolve<WeatherService>(DIToken.WEATHER_SERVICE);
 
 export enum CurrentWeatherModuleAction {
     GET_BY_COORDINATE = "GetCurrentWeatherOverviewByCoordinates"
 }
 
-export const currentWeatherModule: Module<
-    CurrentWeatherModuleState,
-    RootState
-> = {
+export const currentWeatherModule: Module<CurrentWeatherModuleState, RootState> = {
     state: {
         overview: null
     },
@@ -47,9 +39,7 @@ export const currentWeatherModule: Module<
                 return;
             }
 
-            const weatherOverview = await weatherService.getCurrentWeatherByCoordinates(
-                coordinates
-            );
+            const weatherOverview = await weatherService.getCurrentWeatherByCoordinates(coordinates);
 
             commit("updateCurrentWeatherOverview", weatherOverview);
         }

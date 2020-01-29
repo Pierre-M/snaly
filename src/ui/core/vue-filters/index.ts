@@ -7,16 +7,10 @@ interface TemperatureFilterParams {
     unit: TemperatureUnit;
 }
 
-Vue.filter(
-    "temperature",
-    (
-        value: number,
-        { unit }: TemperatureFilterParams = { unit: TemperatureUnit.CELSIUS }
-    ) => {
-        if (!value) {
-            return "";
-        }
-
-        return `${value}${unit === TemperatureUnit.CELSIUS ? "°" : "°F"}`;
+Vue.filter("temperature", (value: number, { unit }: TemperatureFilterParams = { unit: TemperatureUnit.CELSIUS }) => {
+    if (!value) {
+        return "";
     }
-);
+
+    return `${value}${unit === TemperatureUnit.CELSIUS ? "°" : "°F"}`;
+});

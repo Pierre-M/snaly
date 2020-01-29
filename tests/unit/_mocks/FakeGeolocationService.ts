@@ -1,9 +1,6 @@
 "use strict";
 
-import {
-    GeolocationService,
-    UserCoordinates
-} from "@/business/geolocation/GeolocationService";
+import { GeolocationService, UserCoordinates } from "@/business/geolocation/GeolocationService";
 
 export class FakeGeolocationService implements GeolocationService {
     private returnedValue: UserCoordinates = { latitude: 0, longitude: 0 };

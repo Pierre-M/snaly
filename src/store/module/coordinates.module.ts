@@ -1,18 +1,13 @@
 "use strict";
 
-import {
-    GeolocationService,
-    UserCoordinates
-} from "@/business/geolocation/GeolocationService";
+import { GeolocationService, UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
 import { ActionContext, Module } from "vuex";
 import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 
-const geolocationService = container.resolve<GeolocationService>(
-    DIToken.GEOLOCATION_SERVICE
-);
+const geolocationService = container.resolve<GeolocationService>(DIToken.GEOLOCATION_SERVICE);
 
 export interface CoordinatesModuleState {
     coordinates: Nullable<UserCoordinates>;
@@ -27,10 +22,7 @@ export const coordinatesModule: Module<CoordinatesModuleState, RootState> = {
         coordinates: null
     },
     mutations: {
-        updateCoordinates(
-            state: CoordinatesModuleState,
-            coordinates: Nullable<UserCoordinates>
-        ) {
+        updateCoordinates(state: CoordinatesModuleState, coordinates: Nullable<UserCoordinates>) {
             state.coordinates = coordinates;
         }
     },

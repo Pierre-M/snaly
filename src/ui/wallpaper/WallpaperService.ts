@@ -3,10 +3,7 @@
 import { inject, injectable, singleton } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { ScreenInspector } from "@/core/browser/ScreenInspector";
-import {
-    ContextualImage,
-    ContextualImageService
-} from "@/core/image/ContextualImageService";
+import { ContextualImage, ContextualImageService } from "@/core/image/ContextualImageService";
 import { Nullable } from "@/types/app";
 
 export interface IWallpaperService {

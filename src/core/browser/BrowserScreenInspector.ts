@@ -1,19 +1,13 @@
 "use strict";
 
-import {
-    ScreenInspector,
-    ScreenOrientation,
-    ScreenSize
-} from "@/core/browser/ScreenInspector";
+import { ScreenInspector, ScreenOrientation, ScreenSize } from "@/core/browser/ScreenInspector";
 
 export class BrowserScreenInspector implements ScreenInspector {
     get orientation(): ScreenOrientation {
         const orientation = window.screen.orientation;
 
         if (!orientation) {
-            return this.size.width > this.size.height
-                ? ScreenOrientation.LANDSCAPE
-                : ScreenOrientation.PORTRAIT;
+            return this.size.width > this.size.height ? ScreenOrientation.LANDSCAPE : ScreenOrientation.PORTRAIT;
         }
 
         if (orientation.type.includes("portrait")) {
