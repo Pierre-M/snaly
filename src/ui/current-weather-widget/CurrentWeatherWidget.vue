@@ -33,7 +33,7 @@ import { State } from "vuex-class";
 import { SlideYDownTransition } from "vue2-transitions";
 import Icon from "@/ui/fundamentals/Icon.vue";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
-import { RootState } from "@/store/state";
+import { AppState } from "@/store";
 
 @Component({
     components: {
@@ -42,7 +42,7 @@ import { RootState } from "@/store/state";
     }
 })
 export default class App extends Vue {
-    @State((state: RootState) => state.currentWeatherOverview)
+    @State((state: AppState) => state.currentWeatherModule.overview)
     currentWeatherOverview!: CurrentWeatherOverview;
 }
 </script>

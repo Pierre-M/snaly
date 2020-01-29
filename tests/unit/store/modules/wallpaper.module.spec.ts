@@ -66,16 +66,4 @@ describe("wallpaper store module", () => {
 
         expect(store.state.wallpaperModule.wallpaper).toEqual(null);
     });
-
-    it("should update statewhen a wallpaper is found", async () => {
-        const image = generateContextualImage();
-        fakeWallpaperService.setReturnedValue(image);
-
-        await store.dispatch(
-            WallpaperModuleAction.REFRESH_WALLPAPER,
-            weatherOverview
-        );
-
-        expect(store.state.wallpaperModule.wallpaper).toEqual(image);
-    });
 });

@@ -1,13 +1,13 @@
 "use strict";
 
-import { ContextualImage } from "@/core/image/ContextualImageService";
-import { RootState } from "@/store/state";
 import { ActionContext, Module } from "vuex";
-import { Nullable } from "@/types/app";
-import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { container } from "tsyringe";
-import { IWallpaperService } from "@/ui/wallpaper/WallpaperService";
+import { Nullable } from "@/types/app";
+import { ContextualImage } from "@/core/image/ContextualImageService";
 import { DIToken } from "@/core/dependency-injection/DIToken";
+import { RootState } from "@/store/state";
+import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
+import { IWallpaperService } from "@/ui/wallpaper/WallpaperService";
 
 const wallpaperService = container.resolve<IWallpaperService>(
     DIToken.WALLPAPER_SERVICE
@@ -34,10 +34,10 @@ export const wallpaperModule: Module<WallpaperModuleState, RootState> = {
         }
     },
     actions: {
-        [WallpaperModuleAction.REFRESH_WALLPAPER]: async function(
+        [WallpaperModuleAction.REFRESH_WALLPAPER]: async (
             { commit }: ActionContext<WallpaperModuleState, RootState>,
             weatherOverview: Nullable<CurrentWeatherOverview>
-        ) {
+        ) => {
             if (!weatherOverview) {
                 return;
             }

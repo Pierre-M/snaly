@@ -3,18 +3,14 @@
 import { ActionContext, ActionTree } from "vuex";
 import { RootState } from "./state";
 import { Nullable } from "@/types/app";
-import {
-    GeolocationService,
-    UserCoordinates
-} from "@/business/geolocation/GeolocationService";
+import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { WeatherService } from "@/business/weather/WeatherService";
 import { GestureService } from "@/core/hardware/GestureService";
-
-const geolocationService = container.resolve<GeolocationService>(
-    DIToken.GEOLOCATION_SERVICE
-);
+import { CoordinatesModuleAction } from "@/store/module/coordinates.module";
+import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
+import { AppState } from "@/store/index";
 
 const weatherService = container.resolve<WeatherService>(
     DIToken.WEATHER_SERVICE
@@ -26,36 +22,16 @@ const gestureService = container.resolve<GestureService>(
 
 export const actions: ActionTree<RootState, RootState> = {
     async init(context: ActionContext<RootState, RootState>) {
-        await context.dispatch("getCoordinates");
+        await context.dispatch(CoordinatesModuleAction.GET_COORDINATES);
 
         if (gestureService.canHandleShake) {
             gestureService.onShake(() => {
                 context.dispatch(
-                    "getWallpaperByWeatherOverview",
-                    context.state.currentWeatherOverview
+                    WallpaperModuleAction.REFRESH_WALLPAPER,
+                    (context.state as AppState).currentWeatherModule.overview
                 );
             });
         }
-    },
-
-    async getCoordinates(context: ActionContext<RootState, RootState>) {
-        const coordinates = await geolocationService.getCoordinates();
-        context.commit("updateCoordinates", coordinates);
-    },
-
-    async getCurrentWeatherOverviewByCoordinates(
-        { commit }: ActionContext<RootState, RootState>,
-        coordinates: Nullable<UserCoordinates>
-    ) {
-        if (!coordinates) {
-            return;
-        }
-
-        const weatherOverview = await weatherService.getCurrentWeatherByCoordinates(
-            coordinates
-        );
-
-        commit("updateCurrentWeatherOverview", weatherOverview);
     },
 
     async getHourlyWeatherForecastByCoordinates(
