@@ -6,6 +6,7 @@ import { actions } from "@/store/actions";
 
 import {
     wallpaperModule,
+    WallpaperModuleAction,
     WallpaperModuleState
 } from "@/store/module/wallpaper.module";
 
@@ -35,7 +36,7 @@ store.watch(
 store.watch(
     (state: RootState) => state.currentWeatherOverview,
     overview => {
-        store.dispatch("getWallpaperByWeatherOverview", overview);
+        store.dispatch(WallpaperModuleAction.REFRESH_WALLPAPER, overview);
     }
 );
 

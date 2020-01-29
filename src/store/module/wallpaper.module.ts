@@ -6,15 +6,19 @@ import { ActionContext, Module } from "vuex";
 import { Nullable } from "@/types/app";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { container } from "tsyringe";
-import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
+import { IWallpaperService } from "@/ui/wallpaper/WallpaperService";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 
-const wallpaperService = container.resolve<WallpaperService>(
+const wallpaperService = container.resolve<IWallpaperService>(
     DIToken.WALLPAPER_SERVICE
 );
 
 export interface WallpaperModuleState {
     wallpaper: Nullable<ContextualImage>;
+}
+
+export enum WallpaperModuleAction {
+    REFRESH_WALLPAPER = "refreshWallpaper"
 }
 
 export const wallpaperModule: Module<WallpaperModuleState, RootState> = {
@@ -30,7 +34,7 @@ export const wallpaperModule: Module<WallpaperModuleState, RootState> = {
         }
     },
     actions: {
-        async getWallpaperByWeatherOverview(
+        [WallpaperModuleAction.REFRESH_WALLPAPER]: async function(
             { commit }: ActionContext<WallpaperModuleState, RootState>,
             weatherOverview: Nullable<CurrentWeatherOverview>
         ) {

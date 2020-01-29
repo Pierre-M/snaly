@@ -9,9 +9,13 @@ import {
 } from "@/core/image/ContextualImageService";
 import { Nullable } from "@/types/app";
 
+export interface IWallpaperService {
+    get(query: string): Promise<Nullable<ContextualImage>>;
+}
+
 @injectable()
 @singleton()
-export class WallpaperService {
+export class WallpaperService implements IWallpaperService {
     constructor(
         @inject(DIToken.SCREEN_INSPECTOR)
         private screenInspector: ScreenInspector,
