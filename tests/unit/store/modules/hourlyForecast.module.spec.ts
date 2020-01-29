@@ -3,24 +3,27 @@
 import { fakeWeatherService } from "../../_mocks";
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
-import {
-    currentWeatherModule,
-    CurrentWeatherModuleAction
-} from "@/store/module/currentWeather.module";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
-import { generateCurrentWeatherOverview } from "../../_mocks/generators/WeatherGenerator";
+import {
+    generateCurrentWeatherOverview,
+    generateHourlyForecast
+} from "../../_mocks/generators/WeatherGenerator";
 import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
+import {
+    hourlyForecastModule,
+    HourlyForecastModuleAction
+} from "@/store/module/hourlyForecast.module";
 
 Vue.use(Vuex);
 
 let store: Store<any>;
 let weatherOverview: CurrentWeatherOverview;
 
-describe("current weather store module", () => {
+describe("hourly forecast store module", () => {
     beforeEach(() => {
         store = new Store({
             modules: {
-                currentWeatherModule
+                hourlyForecastModule
             }
         });
         weatherOverview = generateCurrentWeatherOverview();
@@ -31,44 +34,39 @@ describe("current weather store module", () => {
     });
 
     it("should not call for weatherService service when coordinates are null", () => {
-        store.dispatch(CurrentWeatherModuleAction.GET_BY_COORDINATE, null);
+        store.dispatch(HourlyForecastModuleAction.GET_FORECAST, null);
 
         expect(
-            fakeWeatherService.getCurrentWeatherByCoordinates
+            fakeWeatherService.getHourlyForecastByCoordinates
         ).not.toHaveBeenCalled();
     });
 
     it("should call for weatherService with coordinates", () => {
         const coordinates = generateUserCoordinates();
-        store.dispatch(
-            CurrentWeatherModuleAction.GET_BY_COORDINATE,
-            coordinates
-        );
+        store.dispatch(HourlyForecastModuleAction.GET_FORECAST, coordinates);
 
         expect(
-            fakeWeatherService.getCurrentWeatherByCoordinates
+            fakeWeatherService.getHourlyForecastByCoordinates
         ).toHaveBeenCalledWith(coordinates);
     });
 
     it("should update state when weather overview is null or not", async () => {
-        const weatherOverview = generateCurrentWeatherOverview();
-        fakeWeatherService.currentOverviewValue = weatherOverview;
+        const forecast = generateHourlyForecast();
+        fakeWeatherService.hourlyForecastValue = forecast;
 
         await store.dispatch(
-            CurrentWeatherModuleAction.GET_BY_COORDINATE,
+            HourlyForecastModuleAction.GET_FORECAST,
             generateUserCoordinates()
         );
 
-        expect(store.state.currentWeatherModule.overview).toEqual(
-            weatherOverview
-        );
-        fakeWeatherService.currentOverviewValue = null;
+        expect(store.state.hourlyForecastModule.forecast).toEqual(forecast);
+        fakeWeatherService.hourlyForecastValue = null;
 
         await store.dispatch(
-            CurrentWeatherModuleAction.GET_BY_COORDINATE,
+            HourlyForecastModuleAction.GET_FORECAST,
             generateUserCoordinates()
         );
 
-        expect(store.state.currentWeatherModule.overview).toEqual(null);
+        expect(store.state.hourlyForecastModule.forecast).toEqual(null);
     });
 });

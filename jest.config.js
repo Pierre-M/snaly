@@ -3,7 +3,8 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
         `<rootDir>/src/App.vue`,
-        `<rootDir>/src/core/**/*.ts`
+        `<rootDir>/src/core/**/*.ts`,
+        `<rootDir>/src/store/**/*.ts`
     ],
     setupFiles: [`<rootDir>/tests/unit/index.ts`]
 };

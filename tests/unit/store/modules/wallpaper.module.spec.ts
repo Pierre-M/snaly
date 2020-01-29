@@ -8,7 +8,7 @@ import {
     WallpaperModuleAction
 } from "@/store/module/wallpaper.module";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
-import { generateCurrentWeatherOverview } from "../../_mocks/generators/CurrentWeatherOverviewGenerator";
+import { generateCurrentWeatherOverview } from "../../_mocks/generators/WeatherGenerator";
 import { generateContextualImage } from "../../_mocks/generators/ContextualImageGenerator";
 
 Vue.use(Vuex);

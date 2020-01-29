@@ -16,15 +16,25 @@ import {
 } from "@/store/module/coordinates.module";
 
 import {
-    CurrentWeatherModuleAction,
     currentWeatherModule,
+    CurrentWeatherModuleAction,
     CurrentWeatherModuleState
 } from "@/store/module/currentWeather.module";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
+import {
+    hourlyForecastModule,
+    HourlyForecastModuleAction
+} from "@/store/module/hourlyForecast.module";
 
 Vue.use(Vuex);
+
+export interface AppState {
+    wallpaperModule: WallpaperModuleState;
+    coordinatesModule: CoordinatesModuleState;
+    currentWeatherModule: CurrentWeatherModuleState;
+}
 
 const store = new Vuex.Store({
     state,
@@ -33,20 +43,15 @@ const store = new Vuex.Store({
     modules: {
         wallpaperModule,
         coordinatesModule,
-        currentWeatherModule
+        currentWeatherModule,
+        hourlyForecastModule
     }
 });
-
-export interface AppState extends RootState {
-    wallpaperModule: WallpaperModuleState;
-    coordinatesModule: CoordinatesModuleState;
-    currentWeatherModule: CurrentWeatherModuleState;
-}
 
 store.watch(
     (state: RootState) => (state as AppState).coordinatesModule.coordinates,
     (coordinates: Nullable<UserCoordinates>) => {
-        store.dispatch("getHourlyWeatherForecastByCoordinates", coordinates);
+        store.dispatch(HourlyForecastModuleAction.GET_FORECAST, coordinates);
         store.dispatch(
             CurrentWeatherModuleAction.GET_BY_COORDINATE,
             coordinates
