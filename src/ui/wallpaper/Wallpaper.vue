@@ -32,7 +32,7 @@ export default class WallpaperCompponent extends Vue {
         }
 
         const img = document.createElement("img");
-        img.classList.add("wallpaperModule-container__image");
+        img.classList.add("wallpaper-container__image");
 
         img.addEventListener("load", () => {
             const container = this.$refs.backgroundContainer as HTMLDivElement;
@@ -78,6 +78,7 @@ export default class WallpaperCompponent extends Vue {
         transition-property: opacity;
         transition-duration: 1s;
         transition-timing-function: ease-out;
+        transition-delay: 500ms;
 
         &.loaded {
             opacity: 1;
