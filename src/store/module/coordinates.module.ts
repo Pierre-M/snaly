@@ -17,12 +17,19 @@ export enum CoordinatesModuleAction {
     GET_COORDINATES = "getCoordinates"
 }
 
+export enum CoordinatesModuleMutation {
+    UPDATE_COORDINATES = "updateCoordinates"
+}
+
 export const coordinatesModule: Module<CoordinatesModuleState, RootState> = {
     state: {
         coordinates: null
     },
     mutations: {
-        updateCoordinates(state: CoordinatesModuleState, coordinates: Nullable<UserCoordinates>) {
+        [CoordinatesModuleMutation.UPDATE_COORDINATES]: (
+            state: CoordinatesModuleState,
+            coordinates: Nullable<UserCoordinates>
+        ) => {
             state.coordinates = coordinates;
         }
     },

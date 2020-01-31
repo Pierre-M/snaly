@@ -26,7 +26,7 @@ import { State } from "vuex-class";
 import { SlideYDownTransition } from "vue2-transitions";
 import Icon from "@/ui/fundamentals/Icon.vue";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
-import { AppState } from "@/store";
+import { AppState } from "@/store/store";
 
 @Component({
     components: {

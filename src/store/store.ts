@@ -26,7 +26,7 @@ export interface AppState {
     currentWeatherModule: CurrentWeatherModuleState;
 }
 
-const store = new Vuex.Store({
+export const store = new Vuex.Store({
     state,
     mutations,
     actions,
@@ -52,5 +52,3 @@ store.watch(
         store.dispatch(WallpaperModuleAction.REFRESH_WALLPAPER, overview);
     }
 );
-
-export default store;

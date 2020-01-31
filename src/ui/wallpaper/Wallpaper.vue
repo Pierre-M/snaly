@@ -16,7 +16,7 @@ import { State } from "vuex-class";
 import { FadeTransition } from "vue2-transitions";
 import { Nullable } from "@/types/app";
 import { ContextualImage } from "@/core/image/ContextualImageService";
-import { AppState } from "@/store";
+import { AppState } from "@/store/store";
 
 @Component({
     components: { FadeTransition }

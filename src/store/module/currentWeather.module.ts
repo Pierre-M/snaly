@@ -18,15 +18,19 @@ export enum CurrentWeatherModuleAction {
     GET_BY_COORDINATE = "GetCurrentWeatherOverviewByCoordinates"
 }
 
+export enum CurrentWeatherModuleMutation {
+    UPDATE_OVERVIEW = "UpdateCurrentWeatherOverview"
+}
+
 export const currentWeatherModule: Module<CurrentWeatherModuleState, RootState> = {
     state: {
         overview: null
     },
     mutations: {
-        updateCurrentWeatherOverview(
+        [CurrentWeatherModuleMutation.UPDATE_OVERVIEW]: (
             state: CurrentWeatherModuleState,
             currentWeatherOverview: Nullable<CurrentWeatherOverview>
-        ) {
+        ) => {
             state.overview = currentWeatherOverview;
         }
     },
@@ -41,7 +45,7 @@ export const currentWeatherModule: Module<CurrentWeatherModuleState, RootState> 
 
             const weatherOverview = await weatherService.getCurrentWeatherByCoordinates(coordinates);
 
-            commit("updateCurrentWeatherOverview", weatherOverview);
+            commit(CurrentWeatherModuleMutation.UPDATE_OVERVIEW, weatherOverview);
         }
     }
 };

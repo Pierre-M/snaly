@@ -7,7 +7,7 @@ import { DIToken } from "@/core/dependency-injection/DIToken";
 import { GestureService } from "@/core/hardware/GestureService";
 import { CoordinatesModuleAction } from "@/store/module/coordinates.module";
 import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
-import { AppState } from "@/store/index";
+import { AppState } from "@/store/store";
 
 const gestureService = container.resolve<GestureService>(DIToken.GESTURE_SERVICE);
 
