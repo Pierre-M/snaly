@@ -14,6 +14,9 @@ describe("BrowserScreenInspector", () => {
     it("should return right screen orientation if available", () => {
         setScreenOrientation("portrait");
         expect(inspector.orientation).toEqual(ScreenOrientation.PORTRAIT);
+
+        setScreenOrientation("landscape");
+        expect(inspector.orientation).toEqual(ScreenOrientation.LANDSCAPE);
     });
 
     it("should return right screen size", () => {
@@ -31,26 +34,41 @@ describe("BrowserScreenInspector", () => {
         setScreenOrientation(null);
         setScreenSize({ width: 1000, height: 500 });
         expect(inspector.orientation).toEqual(ScreenOrientation.LANDSCAPE);
+
+        setScreenSize({ width: 500, height: 1000 });
+        expect(inspector.orientation).toEqual(ScreenOrientation.PORTRAIT);
     });
 });
 
 function setDevicePixelRatio(ratio: number) {
     Object.defineProperty(window, "devicePixelRatio", {
-        value: ratio
+        value: ratio,
+        writable: true
     });
 }
 
 function setScreenSize(params: { width: number; height: number }) {
     Object.defineProperty(window, "innerWidth", {
-        value: params.width
+        value: params.width,
+        writable: true
     });
 
     Object.defineProperty(window, "innerHeight", {
-        value: params.height
+        value: params.height,
+        writable: true
     });
 }
 
 function setScreenOrientation(orientation: Nullable<string>) {
+    if (!orientation) {
+        Object.defineProperty(window.screen, "orientation", {
+            value: null,
+            writable: true
+        });
+
+        return;
+    }
+
     Object.defineProperty(window.screen, "orientation", {
         value: {
             type: [orientation]
