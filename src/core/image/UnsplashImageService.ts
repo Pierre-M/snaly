@@ -10,7 +10,7 @@ import { HttpClient } from "@/core/http/HttpClient";
 // export for testing
 export const UNSPLASH_API_URL = "https://api.unsplash.com/search/photos";
 export const UNSPLASH_API_KEY = "1e06a29c85e7f51d089e75a4f5aff4296c0687c55a7814ec64f722a13e310b92";
-export const UNSPLASH_BUCKET_SIZE = 10;
+export const UNSPLASH_BUCKET_SIZE = 20;
 export const BASE_UNSPLASH_REQUEST = {
     page: 1,
     per_page: UNSPLASH_BUCKET_SIZE,
