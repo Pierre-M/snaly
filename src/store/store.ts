@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import { RootState, state } from "@/store/state";
 import { mutations } from "@/store/mutations";
 import { actions } from "@/store/actions";
+import { getters } from "@/store/getters";
 
 import { wallpaperModule, WallpaperModuleAction, WallpaperModuleState } from "@/store/module/wallpaper.module";
 
@@ -10,7 +11,7 @@ import {
     localizationModule,
     LocalizationModuleAction,
     LocalizationModuleState
-} from "@/store/module/localizationModule";
+} from "@/store/module/localization.module";
 
 import {
     currentWeatherModule,
@@ -34,6 +35,7 @@ export const store = new Vuex.Store({
     state,
     mutations,
     actions,
+    getters,
     modules: {
         wallpaperModule,
         localizationModule,

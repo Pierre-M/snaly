@@ -50,7 +50,7 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
             context: ActionContext<LocalizationModuleState, RootState>
         ) => {
             const coordinates = await geolocationService.getCoordinates();
-            context.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
+            await context.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
         },
         [LocalizationModuleAction.GET_LOCATION]: async (
             context: ActionContext<LocalizationModuleState, RootState>,

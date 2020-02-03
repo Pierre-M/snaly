@@ -5,7 +5,7 @@ import { RootState } from "./state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { GestureService } from "@/core/hardware/GestureService";
-import { LocalizationModuleAction } from "@/store/module/localizationModule";
+import { LocalizationModuleAction } from "@/store/module/localization.module";
 import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
 import { AppState } from "@/store/store";
 
