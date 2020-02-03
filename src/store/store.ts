@@ -22,6 +22,7 @@ import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import { hourlyForecastModule, HourlyForecastModuleAction } from "@/store/module/hourlyForecast.module";
+import { UIModuleState, uiModule } from "@/store/module/ui.module";
 
 Vue.use(Vuex);
 
@@ -29,6 +30,7 @@ export interface AppState {
     wallpaperModule: WallpaperModuleState;
     localizationModule: LocalizationModuleState;
     currentWeatherModule: CurrentWeatherModuleState;
+    uiModule: UIModuleState;
 }
 
 export const store = new Vuex.Store({
@@ -40,7 +42,8 @@ export const store = new Vuex.Store({
         wallpaperModule,
         localizationModule,
         currentWeatherModule,
-        hourlyForecastModule
+        hourlyForecastModule,
+        uiModule
     }
 });
 

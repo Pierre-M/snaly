@@ -1,3 +1,15 @@
-$bg: blue;
+$snaly-c-white: #fff;
+$snaly-c-black: #000;
 
 $snaly_font_family: "Roboto", sans-serif;
+
+@mixin setSize($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+@mixin boxAlign() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

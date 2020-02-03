@@ -63,5 +63,14 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
             const location = await geocodingService.getAddress(coordinates);
             context.commit(LocalizationModuleMutation.UPDATE_LOCATION, location);
         }
+    },
+    getters: {
+        shortenedLocation(state: LocalizationModuleState): Nullable<string> {
+            if (!state.location) {
+                return null;
+            }
+
+            return `${state.location.city}, ${state.location.countryCode.toLocaleUpperCase()}`;
+        }
     }
 };
