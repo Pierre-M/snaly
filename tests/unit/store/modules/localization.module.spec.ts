@@ -3,7 +3,7 @@
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
 import { fakeGeolocationService } from "../../_mocks";
-import { coordinatesModule, CoordinatesModuleAction } from "@/store/module/coordinates.module";
+import { localizationModule, LocalizationModuleAction } from "@/store/module/localizationModule";
 import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 
 Vue.use(Vuex);
@@ -14,7 +14,7 @@ describe("coordinates store module", () => {
     beforeEach(() => {
         store = new Store({
             modules: {
-                coordinatesModule
+                localizationModule
             }
         });
     });
@@ -24,7 +24,7 @@ describe("coordinates store module", () => {
     });
 
     it("should call for geoLocationService upon getlocation action", () => {
-        store.dispatch(CoordinatesModuleAction.GET_COORDINATES);
+        store.dispatch(LocalizationModuleAction.GET_COORDINATES);
 
         expect(fakeGeolocationService.getCoordinates).toHaveBeenCalled();
     });
@@ -33,8 +33,8 @@ describe("coordinates store module", () => {
         const coordinates = generateUserCoordinates();
         fakeGeolocationService.setReturnedValue(coordinates);
 
-        await store.dispatch(CoordinatesModuleAction.GET_COORDINATES);
+        await store.dispatch(LocalizationModuleAction.GET_COORDINATES);
 
-        expect(store.state.coordinatesModule.coordinates).toEqual(coordinates);
+        expect(store.state.localizationModule.coordinates).toEqual(coordinates);
     });
 });

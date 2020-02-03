@@ -9,36 +9,36 @@ import { DIToken } from "@/core/dependency-injection/DIToken";
 
 const geolocationService = container.resolve<GeolocationService>(DIToken.GEOLOCATION_SERVICE);
 
-export interface CoordinatesModuleState {
+export interface LocalizationModuleState {
     coordinates: Nullable<UserCoordinates>;
 }
 
-export enum CoordinatesModuleAction {
+export enum LocalizationModuleAction {
     GET_COORDINATES = "getCoordinates"
 }
 
-export enum CoordinatesModuleMutation {
+export enum LocalizationModuleMutation {
     UPDATE_COORDINATES = "updateCoordinates"
 }
 
-export const coordinatesModule: Module<CoordinatesModuleState, RootState> = {
+export const localizationModule: Module<LocalizationModuleState, RootState> = {
     state: {
         coordinates: null
     },
     mutations: {
-        [CoordinatesModuleMutation.UPDATE_COORDINATES]: (
-            state: CoordinatesModuleState,
+        [LocalizationModuleMutation.UPDATE_COORDINATES]: (
+            state: LocalizationModuleState,
             coordinates: Nullable<UserCoordinates>
         ) => {
             state.coordinates = coordinates;
         }
     },
     actions: {
-        [CoordinatesModuleAction.GET_COORDINATES]: async (
-            context: ActionContext<CoordinatesModuleState, RootState>
+        [LocalizationModuleAction.GET_COORDINATES]: async (
+            context: ActionContext<LocalizationModuleState, RootState>
         ) => {
             const coordinates = await geolocationService.getCoordinates();
-            context.commit("updateCoordinates", coordinates);
+            context.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
         }
     }
 };
