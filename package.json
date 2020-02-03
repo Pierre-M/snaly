@@ -9,7 +9,9 @@
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "lighthouse": "mkdirp lighthouse && lighthouse https://pierre-m.github.io/snaly --quiet --view --output html --output-path ./lighthouse/report.html",
-    "lighthouse:clean": "rm -rf lighthouse"
+    "lighthouse:clean": "rm -rf lighthouse",
+    "postinstall": "yarn run prepare-assets",
+    "prepare-assets": "gulp build-icon-font"
   },
   "husky": {
     "hooks": {
