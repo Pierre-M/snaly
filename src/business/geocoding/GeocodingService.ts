@@ -3,7 +3,7 @@
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
 
-export interface Address {
+export interface UserLocation {
     city: string;
     country: string;
     countryCode: string;
@@ -11,5 +11,5 @@ export interface Address {
 }
 
 export interface GeocodingService {
-    getAddress(coordinates: UserCoordinates): Promise<Nullable<Address>>;
+    getAddress(coordinates: UserCoordinates): Promise<Nullable<UserLocation>>;
 }
