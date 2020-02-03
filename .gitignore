@@ -25,3 +25,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Icon font building
+/src/assets/fonts/*
+/src/ui/style/_icons.scss
