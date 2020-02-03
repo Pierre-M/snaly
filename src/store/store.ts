@@ -6,7 +6,11 @@ import { actions } from "@/store/actions";
 
 import { wallpaperModule, WallpaperModuleAction, WallpaperModuleState } from "@/store/module/wallpaper.module";
 
-import {localizationModule, LocalizationModuleAction, LocalizationModuleState} from "@/store/module/localizationModule";
+import {
+    localizationModule,
+    LocalizationModuleAction,
+    LocalizationModuleState
+} from "@/store/module/localizationModule";
 
 import {
     currentWeatherModule,

@@ -6,7 +6,7 @@ import { ActionContext, Module } from "vuex";
 import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import {GeocodingService, UserLocation} from "@/business/geocoding/GeocodingService";
+import { GeocodingService, UserLocation } from "@/business/geocoding/GeocodingService";
 
 const geolocationService = container.resolve<GeolocationService>(DIToken.GEOLOCATION_SERVICE);
 const geocodingService = container.resolve<GeocodingService>(DIToken.GEOCODING_SERVICE);
