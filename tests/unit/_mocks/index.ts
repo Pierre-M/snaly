@@ -10,11 +10,14 @@ import { FakeWeatherService } from "./FakeWeatherService";
 import { WeatherService } from "@/business/weather/WeatherService";
 import { FakeGestureService } from "./FakeGestureService";
 import { GestureService } from "@/core/hardware/GestureService";
+import { FakeGeocodingService } from "./FakeGeocodingService";
+import { GeocodingService } from "@/business/geocoding/GeocodingService";
 
 export const fakeWallpaperService = new FakeWallpaperService();
 export const fakeGeolocationService = new FakeGeolocationService();
 export const fakeWeatherService = new FakeWeatherService();
 export const fakeGestureService = new FakeGestureService();
+export const fakeGeocodingService = new FakeGeocodingService();
 
 container.register<IWallpaperService>(DIToken.WALLPAPER_SERVICE, {
     useValue: fakeWallpaperService
@@ -30,4 +33,8 @@ container.register<WeatherService>(DIToken.WEATHER_SERVICE, {
 
 container.register<GestureService>(DIToken.GESTURE_SERVICE, {
     useValue: fakeGestureService
+});
+
+container.register<GeocodingService>(DIToken.GEOCODING_SERVICE, {
+    useValue: fakeGeocodingService
 });

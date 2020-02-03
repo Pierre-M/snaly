@@ -38,3 +38,13 @@ export function generateAlgoliaPlacesAPIResponse(opt?: Partial<UserLocation>) {
         degradedQuery: false
     };
 }
+
+export function generateUserLocation(opt?: Partial<UserLocation>): UserLocation {
+    return {
+        city: "Paris",
+        countryCode: "fr",
+        country: "France",
+        zipCode: "75001",
+        ...opt
+    };
+}

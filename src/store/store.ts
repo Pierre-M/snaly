@@ -6,7 +6,7 @@ import { actions } from "@/store/actions";
 
 import { wallpaperModule, WallpaperModuleAction, WallpaperModuleState } from "@/store/module/wallpaper.module";
 
-import { localizationModule, LocalizationModuleState } from "@/store/module/localizationModule";
+import {localizationModule, LocalizationModuleAction, LocalizationModuleState} from "@/store/module/localizationModule";
 
 import {
     currentWeatherModule,
@@ -43,6 +43,7 @@ store.watch(
     (coordinates: Nullable<UserCoordinates>) => {
         store.dispatch(HourlyForecastModuleAction.GET_FORECAST, coordinates);
         store.dispatch(CurrentWeatherModuleAction.GET_BY_COORDINATE, coordinates);
+        store.dispatch(LocalizationModuleAction.GET_LOCATION, coordinates);
     }
 );
 
