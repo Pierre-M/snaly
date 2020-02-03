@@ -11,6 +11,11 @@
     "lighthouse": "mkdirp lighthouse && lighthouse https://pierre-m.github.io/snaly --quiet --view --output html --output-path ./lighthouse/report.html",
     "lighthouse:clean": "rm -rf lighthouse"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn test:unit"
+    }
+  },
   "dependencies": {
     "@types/lodash": "4.14.149",
     "axios": "0.19.2",
@@ -45,6 +50,7 @@
     "eslint": "5.16.0",
     "eslint-plugin-prettier": "3.1.2",
     "eslint-plugin-vue": "5.2.3",
+    "husky": "4.2.1",
     "jest-mock-axios": "3.2.0",
     "prettier": "1.19.1",
     "push-dir": "0.4.1",
