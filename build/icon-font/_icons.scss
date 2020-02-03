@@ -1,3 +1,4 @@
+//noinspection ALL
 @font-face {
   font-family: "<%= fontName %>";
   src: url("<%= fontPath %><%= fontName %>.eot");
@@ -10,17 +11,25 @@
   font-display: block;
 }
 
-.<%= className %>::before {
-  display: inline-block;
-  font-family: "<%= fontName %>" !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.<%= className %> {
+  &,
+  &::before {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+  }
+
+  &::before {
+    font-family: "<%= fontName %>", serif !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
 <% _.each(glyphs, function(glyph) { %>.<%= className %>-<%= glyph.name %>::before { content: "\<%= glyph.unicode[0].charCodeAt(0).toString(16).toUpperCase() %>" }

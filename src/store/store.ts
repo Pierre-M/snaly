@@ -6,7 +6,7 @@ import { actions } from "@/store/actions";
 
 import { wallpaperModule, WallpaperModuleAction, WallpaperModuleState } from "@/store/module/wallpaper.module";
 
-import { coordinatesModule, CoordinatesModuleState } from "@/store/module/coordinates.module";
+import { localizationModule, LocalizationModuleState } from "@/store/module/localizationModule";
 
 import {
     currentWeatherModule,
@@ -22,7 +22,7 @@ Vue.use(Vuex);
 
 export interface AppState {
     wallpaperModule: WallpaperModuleState;
-    coordinatesModule: CoordinatesModuleState;
+    localizationModule: LocalizationModuleState;
     currentWeatherModule: CurrentWeatherModuleState;
 }
 
@@ -32,14 +32,14 @@ export const store = new Vuex.Store({
     actions,
     modules: {
         wallpaperModule,
-        coordinatesModule,
+        localizationModule,
         currentWeatherModule,
         hourlyForecastModule
     }
 });
 
 store.watch(
-    (state: RootState) => (state as AppState).coordinatesModule.coordinates,
+    (state: RootState) => (state as AppState).localizationModule.coordinates,
     (coordinates: Nullable<UserCoordinates>) => {
         store.dispatch(HourlyForecastModuleAction.GET_FORECAST, coordinates);
         store.dispatch(CurrentWeatherModuleAction.GET_BY_COORDINATE, coordinates);
