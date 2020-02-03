@@ -2,19 +2,40 @@
 
 import { shallowMount } from "@vue/test-utils";
 import App from "@/App.vue";
+import { Store } from "vuex";
+
+let store: Store<any>;
 
 describe("App root component", () => {
-    it("should dispatch init action to the store", () => {
-        const dummyStore = {
-            dispatch: jest.fn()
-        };
+    beforeEach(() => {
+        store = ({
+            dispatch: jest.fn(),
+            getters: {
+                appTitle: "Initial title"
+            }
+        } as unknown) as Store<any>;
+    });
 
+    it("should dispatch init action to the store", () => {
         shallowMount(App, {
             mocks: {
-                $store: dummyStore
+                $store: store
             }
         });
 
-        expect(dummyStore.dispatch).toHaveBeenCalledWith("init");
+        expect(store.dispatch).toHaveBeenCalledWith("init");
+    });
+
+    it("should be able to update document title upon store changes", () => {
+        shallowMount(App, {
+            mocks: {
+                $store: store
+            }
+        });
+
+        expect(document.title).toBe(store.getters.appTitle);
+
+        store.getters.appTitle = "New title";
+        expect(document.title).toBe(store.getters.appTitle);
     });
 });

@@ -8,11 +8,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import AppContainer from "@/ui/layout/AppContainer.vue";
 import WallpaperComponent from "@/ui/wallpaper/Wallpaper.vue";
 import CurrentWeatherWidget from "@/ui/current-weather-widget/CurrentWeatherWidget.vue";
 import WeatherScreenLayout from "@/ui/layout/WeatherScreenLayout.vue";
+import { Getter } from "vuex-class";
 
 @Component({
     components: {
@@ -23,8 +24,16 @@ import WeatherScreenLayout from "@/ui/layout/WeatherScreenLayout.vue";
     }
 })
 export default class App extends Vue {
+    @Getter("appTitle")
+    appTitle!: string;
+
     created() {
         this.$store.dispatch("init");
+    }
+
+    @Watch("appTitle", { immediate: true })
+    updateAppTitle() {
+        document.title = this.appTitle;
     }
 }
 </script>

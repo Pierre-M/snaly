@@ -3,7 +3,7 @@
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
 import { fakeGeocodingService, fakeGeolocationService } from "../../_mocks";
-import { localizationModule, LocalizationModuleAction } from "@/store/module/localizationModule";
+import { localizationModule, LocalizationModuleAction } from "@/store/module/localization.module";
 import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 import { generateUserLocation } from "../../_mocks/generators/LocalizationGenerator";
 

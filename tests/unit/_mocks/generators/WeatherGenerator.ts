@@ -3,11 +3,14 @@
 import { CurrentWeatherOverview, WeatherForecastEntry } from "@/business/weather/WeatherService";
 
 export function generateCurrentWeatherOverview(): CurrentWeatherOverview {
-    return {
+    return ({
+        temperatureOverview: {
+            current: "14"
+        },
         description: {
             text: "dummy description"
         }
-    } as CurrentWeatherOverview;
+    } as unknown) as CurrentWeatherOverview;
 }
 
 export function generateHourlyForecast(): WeatherForecastEntry[] {

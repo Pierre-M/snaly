@@ -5,7 +5,7 @@ import { store } from "@/store/store";
 import { generateUserCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
 import { HourlyForecastModuleAction } from "@/store/module/hourlyForecast.module";
 import { CurrentWeatherModuleAction, CurrentWeatherModuleMutation } from "@/store/module/currentWeather.module";
-import { LocalizationModuleAction, LocalizationModuleMutation } from "@/store/module/localizationModule";
+import { LocalizationModuleAction, LocalizationModuleMutation } from "@/store/module/localization.module";
 import { generateCurrentWeatherOverview } from "../_mocks/generators/WeatherGenerator";
 import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
 
