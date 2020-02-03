@@ -7,7 +7,6 @@ module.exports = {
         disableHostCheck: true,
         https: true
     },
-    publicPath: process.env.DEPLOY_ENV === "PROD" ? "/snaly/" : "/",
 
     css: {
         loaderOptions: {

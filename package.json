@@ -4,14 +4,12 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "yarn lint && yarn test:unit && vue-cli-service build",
-    "build:prod": "DEPLOY_ENV=PROD yarn build",
+    "build": "yarn test:unit && vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "lighthouse": "mkdirp lighthouse && lighthouse https://pierre-m.github.io/snaly --quiet --view --output html --output-path ./lighthouse/report.html",
-    "lighthouse:clean": "rm -rf lighthouse",
-    "deploy": "yarn test:unit && yarn build:prod && push-dir --dir=dist --branch=gh-pages --cleanup"
+    "lighthouse:clean": "rm -rf lighthouse"
   },
   "dependencies": {
     "@types/lodash": "4.14.149",
