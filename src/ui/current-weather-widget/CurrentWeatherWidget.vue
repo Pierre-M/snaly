@@ -5,17 +5,6 @@
                 <icon :icon="currentWeatherOverview.description.icon" />
                 {{ currentWeatherOverview.temperatureOverview.current | temperature }}
             </p>
-
-            <ul>
-                <li>
-                    <icon icon="wi-sunrise" /> :
-                    {{ currentWeatherOverview.suncycle.sunrise.toLocaleTimeString() }}
-                </li>
-                <li>
-                    <icon icon="wi-sunset" /> :
-                    {{ currentWeatherOverview.suncycle.sunset.toLocaleTimeString() }}
-                </li>
-            </ul>
         </div>
     </slide-y-down-transition>
 </template>
@@ -43,6 +32,8 @@ export default class App extends Vue {
 <style lang="scss" scoped>
 .current-weather-widget {
     &__temp {
+        display: flex;
+        align-items: center;
         font-size: 100px;
         color: white;
     }

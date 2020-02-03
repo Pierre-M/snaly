@@ -3,6 +3,7 @@
 import { shallowMount } from "@vue/test-utils";
 import App from "@/App.vue";
 import { Store } from "vuex";
+import DesktopLayout from "@/ui/layout/DesktopLayout.vue";
 
 let store: Store<any>;
 
@@ -11,7 +12,8 @@ describe("App root component", () => {
         store = ({
             dispatch: jest.fn(),
             getters: {
-                appTitle: "Initial title"
+                appTitle: "Initial title",
+                layout: DesktopLayout
             }
         } as unknown) as Store<any>;
     });

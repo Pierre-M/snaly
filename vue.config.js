@@ -4,8 +4,7 @@ const path = require("path");
 
 module.exports = {
     devServer: {
-        disableHostCheck: true,
-        https: true
+        disableHostCheck: true
     },
 
     css: {
