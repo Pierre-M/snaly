@@ -16,7 +16,6 @@ export class BrowserGeolocationService implements GeolocationService {
         //         return resolve(coordinates);
         //     });
         // });
-
         return Promise.resolve({ latitude: 48.864716, longitude: 2.349014 });
     }
 }
