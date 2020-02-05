@@ -1,21 +1,24 @@
 "use strict";
 
 import { GeolocationService, UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { Nullable } from "@/types/app";
 
 export class BrowserGeolocationService implements GeolocationService {
-    getCoordinates(): Promise<UserCoordinates> {
-        //TODO resolve issue of geolocation authorization on safari
+    getCoordinates(): Promise<Nullable<UserCoordinates>> {
+        return new Promise(resolve => {
+            navigator.geolocation.getCurrentPosition(
+                (position: Position) => {
+                    const coordinates: UserCoordinates = {
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    };
 
-        // return new Promise(resolve => {
-        //     navigator.geolocation.getCurrentPosition((position: any) => {
-        //         const coordinates: Coordinates = {
-        //             latitude: position.coords.latitude,
-        //             longitude: position.coords.longitude,
-        //         };
-        //
-        //         return resolve(coordinates);
-        //     });
-        // });
-        return Promise.resolve({ latitude: 48.864716, longitude: 2.349014 });
+                    return resolve(coordinates);
+                },
+                () => {
+                    return resolve(null);
+                }
+            );
+        });
     }
 }
