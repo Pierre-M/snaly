@@ -12,15 +12,13 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { State } from "vuex-class";
-import { SlideYDownTransition } from "vue2-transitions";
-import Icon from "@/ui/fundamentals/Icon.vue";
+import Icon from "@/ui/core/fundamentals/Icon.vue";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { AppState } from "@/store/store";
 
 @Component({
     components: {
-        Icon,
-        SlideYDownTransition
+        Icon
     }
 })
 export default class App extends Vue {

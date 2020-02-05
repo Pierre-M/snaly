@@ -15,9 +15,11 @@ import WallpaperComponent from "@/ui/wallpaper/Wallpaper.vue";
 import CurrentWeatherWidget from "@/ui/current-weather-widget/CurrentWeatherWidget.vue";
 import { Getter } from "vuex-class";
 import AppHeader from "@/ui/layout/AppHeader.vue";
+import Modal from "@/ui/core/components/Modal.vue";
 
 @Component({
     components: {
+        Modal,
         AppHeader,
         CurrentWeatherWidget,
         WallpaperComponent,
