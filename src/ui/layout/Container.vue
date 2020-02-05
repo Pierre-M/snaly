@@ -1,6 +1,8 @@
 <template>
     <main class="app-container">
         <slot />
+
+        <portal-target name="modalContainer" multiple />
     </main>
 </template>
 
@@ -16,6 +18,10 @@ export default class Container extends Vue {}
 
 * {
     box-sizing: border-box;
+
+    @include allStates {
+        outline: none;
+    }
 }
 
 .app-container {

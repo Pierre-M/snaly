@@ -13,14 +13,11 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { State } from "vuex-class";
-import { FadeTransition } from "vue2-transitions";
 import { Nullable } from "@/types/app";
 import { ContextualImage } from "@/core/image/ContextualImageService";
 import { AppState } from "@/store/store";
 
-@Component({
-    components: { FadeTransition }
-})
+@Component
 export default class WallpaperCompponent extends Vue {
     @State((state: AppState) => state.wallpaperModule.wallpaper)
     wallpaper!: Nullable<ContextualImage>;

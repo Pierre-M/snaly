@@ -32,7 +32,7 @@ gulp.task("build-icon-font", function(done) {
                             consolidate("lodash", {
                                 glyphs: glyphs,
                                 fontName: "snaly-icons",
-                                fontPath: "../../assets/fonts/",
+                                fontPath: "../../../assets/fonts/",
                                 className: "icon"
                             })
                         )
