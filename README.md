@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/40cdaa8b-fc18-4963-9e8a-1deb56c390f2/deploy-status)](https://app.netlify.com/sites/snaly/deploys)
 
-Welcome to [snaly.io](snaly.netlify.com) codebase !
+Welcome to [snaly.io](https://snaly.netlify.com/) codebase !
 Before going any further, I would like to thank :
 
 -   [Open Weather Map](https://openweathermap.org/) for their greatweather API
@@ -17,6 +17,7 @@ Before going any further, I would like to thank :
 -   [Tsyringe](https://github.com/microsoft/tsyringe): dependency injection in Typescript applications
 -   [Vuex](https://vuex.vuejs.org/): State managment solution in Vue.js application
 -   [Vue.js](https://vuejs.org/): Well... I know you know it 😄
+-   [TailwindCss](https://tailwindcss.com/): CSS utility framework
 
 ### Snaly is tested with :
 

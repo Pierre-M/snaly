@@ -1,6 +1,5 @@
 "use strict";
 
-import "../_mocks";
 import { store } from "@/store/store";
 import { generateUserCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
 import { HourlyForecastModuleAction } from "@/store/module/hourlyForecast.module";

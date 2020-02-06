@@ -13,3 +13,5 @@ Vue.use(VueScrollLock);
 Vue.use(VClickOutisde);
 Vue.use(VHotKey);
 Vue.use(PortalVue);
+
+import "./_mocks";

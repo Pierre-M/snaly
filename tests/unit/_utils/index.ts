@@ -14,6 +14,11 @@ localVue.use(Portal);
 export function shallowMount<V extends Vue>(component: VueClass<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V> {
     return _shallowMount(component, {
         localVue,
+        mocks: {
+            $store: {
+                dispatch: jest.fn()
+            }
+        },
         ...options
     });
 };

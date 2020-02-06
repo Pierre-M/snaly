@@ -12,12 +12,13 @@ const geolocationService = container.resolve<GeolocationService>(DIToken.GEOLOCA
 const geocodingService = container.resolve<GeocodingService>(DIToken.GEOCODING_SERVICE);
 
 export interface LocalizationModuleState {
-    geolocationIsAllowed: boolean;
+    geolocationHasBeenRequested: boolean;
     coordinates: Nullable<UserCoordinates>;
     location: Nullable<UserLocation>;
 }
 
 export enum LocalizationModuleAction {
+    REQUEST_GEOLOCATION = "requestGeolocation",
     GET_COORDINATES = "getCoordinates",
     GET_LOCATION = "getLocation"
 }
@@ -35,13 +36,13 @@ export enum LocalizationModuleMutation {
 
 export const localizationModule: Module<LocalizationModuleState, RootState> = {
     state: {
-        geolocationIsAllowed: false,
+        geolocationHasBeenRequested: false,
         coordinates: null,
         location: null
     },
     mutations: {
         [LocalizationModuleMutation.UPDATE_GEOLOCATION_AUTH]: (state: LocalizationModuleState, auth: boolean) => {
-            state.geolocationIsAllowed = auth;
+            state.geolocationHasBeenRequested = auth;
         },
         [LocalizationModuleMutation.UPDATE_COORDINATES]: (
             state: LocalizationModuleState,
@@ -57,15 +58,31 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
         }
     },
     actions: {
+        [LocalizationModuleAction.REQUEST_GEOLOCATION]: async (
+            context: ActionContext<LocalizationModuleState, RootState>
+        ) => {
+            await context.commit(LocalizationModuleMutation.UPDATE_GEOLOCATION_AUTH, true);
+            await context.dispatch(LocalizationModuleAction.GET_COORDINATES);
+        },
         [LocalizationModuleAction.GET_COORDINATES]: async (
             context: ActionContext<LocalizationModuleState, RootState>
         ) => {
-            if (!context.state.geolocationIsAllowed) {
+            if (!context.state.geolocationHasBeenRequested) {
                 await context.commit(LocalizationModuleMutation.UPDATE_COORDINATES, DEFAULT_COORDINATES);
                 return;
             }
 
             const coordinates = await geolocationService.getCoordinates();
+
+            if (!coordinates && !context.state.coordinates) {
+                await context.commit(LocalizationModuleMutation.UPDATE_COORDINATES, DEFAULT_COORDINATES);
+                return;
+            }
+
+            if (!coordinates) {
+                return;
+            }
+
             await context.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
         },
         [LocalizationModuleAction.GET_LOCATION]: async (
@@ -77,6 +94,11 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
             }
 
             const location = await geocodingService.getAddress(coordinates);
+
+            if (!location) {
+                return;
+            }
+
             context.commit(LocalizationModuleMutation.UPDATE_LOCATION, location);
         }
     },
