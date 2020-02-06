@@ -29,7 +29,7 @@ export default class WallpaperCompponent extends Vue {
         }
 
         const img = document.createElement("img");
-        img.classList.add("wallpaper-container__image");
+        img.classList.add("wallpaper-image--nopurge");
 
         img.addEventListener("load", () => {
             const container = this.$refs.backgroundContainer as HTMLDivElement;
@@ -55,31 +55,19 @@ export default class WallpaperCompponent extends Vue {
     }
 }
 
-.wallpaper-container {
-    position: fixed;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+.wallpaper-image--nopurge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition-property: opacity;
+    transition-duration: 1s;
+    transition-timing-function: ease-out;
+    transition-delay: 500ms;
 
-    &__image {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0;
-        transition-property: opacity;
-        transition-duration: 1s;
-        transition-timing-function: ease-out;
-        transition-delay: 500ms;
-
-        &.loaded {
-            opacity: 1;
-        }
+    &.loaded {
+        opacity: 1;
     }
 }
 </style>

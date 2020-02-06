@@ -1,16 +1,16 @@
 <template>
-    <container>
+    <div>
         <component :is="layout">
             <wallpaper-component slot="bg" />
             <app-header slot="header" />
             <current-weather-widget />
         </component>
-    </container>
+        <portal-target name="modalContainer" multiple />
+    </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import Container from "@/ui/layout/Container.vue";
 import WallpaperComponent from "@/ui/wallpaper/Wallpaper.vue";
 import CurrentWeatherWidget from "@/ui/current-weather-widget/CurrentWeatherWidget.vue";
 import { Getter } from "vuex-class";
@@ -22,8 +22,7 @@ import Modal from "@/ui/core/components/Modal.vue";
         Modal,
         AppHeader,
         CurrentWeatherWidget,
-        WallpaperComponent,
-        Container
+        WallpaperComponent
     }
 })
 export default class App extends Vue {
