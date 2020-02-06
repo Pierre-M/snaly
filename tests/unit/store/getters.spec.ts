@@ -1,6 +1,5 @@
 "use strict";
 
-import "../_mocks";
 import { store } from "@/store/store";
 import { DEFAULT_APP_TITLE } from "@/store/getters";
 import { LocalizationModuleMutation } from "@/store/module/localization.module";

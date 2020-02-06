@@ -18,13 +18,16 @@ Vue.use(Vuex);
 
 let store: Store<any>;
 
-const SCENARIO_PREFIX = "store:localizationModule -";
+const BASE_STATE = { ...localizationModule.state };
 
-describe(`${SCENARIO_PREFIX} actions & mutations`, () => {
+describe("Vuex store: LocalizationModule - actions & mutations", () => {
     beforeEach(() => {
         store = new Store({
             modules: {
-                localizationModule
+                localizationModule: {
+                    ...localizationModule,
+                    state: { ...BASE_STATE }
+                }
             }
         });
     });
@@ -54,6 +57,29 @@ describe(`${SCENARIO_PREFIX} actions & mutations`, () => {
         expect(fakeGeolocationService.getCoordinates).toHaveBeenCalled();
     });
 
+    it("should update coordinates state only when received coordinates are not null", async () => {
+        const coordinates = generateUserCoordinates();
+        fakeGeolocationService.setReturnedValue(coordinates);
+        await store.commit(LocalizationModuleMutation.UPDATE_GEOLOCATION_AUTH, true);
+
+        await store.dispatch(LocalizationModuleAction.GET_COORDINATES);
+
+        expect((store.state.localizationModule as LocalizationModuleState).coordinates).toEqual(coordinates);
+
+        fakeGeolocationService.setReturnedValue(null);
+        await store.dispatch(LocalizationModuleAction.GET_COORDINATES);
+
+        expect((store.state.localizationModule as LocalizationModuleState).coordinates).toEqual(coordinates);
+    });
+
+    it("should set coordinates to default one if received coordinates and current coordinates are null", async () => {
+        fakeGeolocationService.setReturnedValue(null);
+        await store.commit(LocalizationModuleMutation.UPDATE_GEOLOCATION_AUTH, true);
+        await store.dispatch(LocalizationModuleAction.GET_COORDINATES);
+
+        expect((store.state.localizationModule as LocalizationModuleState).coordinates).toEqual(DEFAULT_COORDINATES);
+    });
+
     it("should call for geocodingService with right coordinates upon getLocation action", () => {
         const coordinates = generateUserCoordinates();
 
@@ -68,7 +94,7 @@ describe(`${SCENARIO_PREFIX} actions & mutations`, () => {
         expect(fakeGeocodingService.getAddress).not.toHaveBeenCalled();
     });
 
-    it("should update state upon getLocationAction when location is null or not", async () => {
+    it("should update state upon getLocationAction only when location is not null", async () => {
         const location = generateUserLocation();
         fakeGeocodingService.returnedValue = location;
 
@@ -80,11 +106,17 @@ describe(`${SCENARIO_PREFIX} actions & mutations`, () => {
 
         await store.dispatch(LocalizationModuleAction.GET_LOCATION, generateUserCoordinates());
 
-        expect(store.state.localizationModule.location).toEqual(null);
+        expect(store.state.localizationModule.location).toEqual(location);
+    });
+
+    it("should update geolocation request state and call for coordinates upon call on requestGeolocation action", async () => {
+        await store.dispatch(LocalizationModuleAction.REQUEST_GEOLOCATION);
+        expect(store.state.localizationModule.geolocationHasBeenRequested).toBe(true);
+        expect(fakeGeolocationService.getCoordinates).toHaveBeenCalled();
     });
 });
 
-describe(`${SCENARIO_PREFIX} getters`, () => {
+describe("Vuex store: LocalizationModule - getters", () => {
     beforeEach(() => {
         store = new Store({
             modules: {
