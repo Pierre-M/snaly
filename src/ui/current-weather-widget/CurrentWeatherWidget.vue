@@ -1,9 +1,12 @@
 <template>
     <slide-y-down-transition>
         <div v-if="currentWeatherOverview" class="current-weather-widget">
-            <p class="current-weather-widget__temp">
-                <icon :icon="currentWeatherOverview.description.icon" />
+            <p class="weather-temp">
+                <icon :icon="currentWeatherOverview.description.icon" class="weather-icon" />
                 {{ currentWeatherOverview.temperatureOverview.current | temperature }}
+            </p>
+            <p class="current-weather-widget__desc">
+                {{ currentWeatherOverview.description.text }}
             </p>
         </div>
     </slide-y-down-transition>
@@ -29,11 +32,15 @@ export default class App extends Vue {
 
 <style lang="scss" scoped>
 .current-weather-widget {
-    &__temp {
-        display: flex;
-        align-items: center;
-        font-size: 100px;
-        color: white;
-    }
+    @include boxAlign;
+    flex-direction: column;
+    color: $snaly-c-white;
+}
+.weather-temp {
+    @include boxAlign;
+}
+
+.weather-icon {
+    font-size: 120px;
 }
 </style>
