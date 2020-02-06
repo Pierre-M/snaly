@@ -53,7 +53,7 @@ describe("AxiosHttpClient", () => {
     it("should return right payload for errored get request", async () => {
         mockAxiosError();
         const res = await client.get(API_URL, GET_PARAMS);
-        expect(res).toEqual([null, expect.any(Object)]);
+        expect(res).toEqual([null, expect.any(Error)]);
     });
 
     it("should return right payload for post request with 2xx status", async () => {
@@ -76,8 +76,8 @@ describe("AxiosHttpClient", () => {
 
     it("should return right payload for errored post request", async () => {
         mockAxiosError();
-        const res = await client.get(API_URL);
-        expect(res).toEqual([null, expect.any(Object)]);
+        const res = await client.post(API_URL);
+        expect(res).toEqual([null, expect.any(Error)]);
     });
 });
 
@@ -93,6 +93,10 @@ function mockAxiosResponse(data: Record<string, any>, status: number = 200) {
 function mockAxiosError() {
     // @ts-ignore
     axios.get.mockImplementation(() => {
+        throw new Error("Dummy error");
+    });
+    // @ts-ignore
+    axios.post.mockImplementation(() => {
         throw new Error("Dummy error");
     });
 }
