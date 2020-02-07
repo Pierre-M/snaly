@@ -5,6 +5,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import "./registerServiceWorker";
 import { store } from "./store/store";
+import { I18nPlugin as i18n } from "@/ui/core/vue-plugins/I18nPlugin";
 
 import "@/assets/styles/index.css";
 
@@ -15,5 +16,6 @@ Vue.config.productionTip = false;
 
 new Vue({
     store,
+    i18n,
     render: h => h(App)
 }).$mount("#app");
