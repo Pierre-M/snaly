@@ -3,7 +3,7 @@
         <div
             ref="backgroundContainer"
             aria-hidden="true"
-            class="wallpaper-container"
+            class="fixed inset-0"
             v-if="wallpaper"
             :style="`background-color: ${wallpaper.color}`"
         />
@@ -60,6 +60,8 @@ export default class WallpaperCompponent extends Vue {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    max-width: none;
+    max-height: none;
     opacity: 0;
     transition-property: opacity;
     transition-duration: 1s;
