@@ -16,6 +16,13 @@ export interface TemperatureOverview {
     unit: TemperatureUnit;
 }
 
+export interface TemperatureRange {
+    min: number;
+    max: number;
+    average: number;
+    unit: TemperatureUnit;
+}
+
 export interface WeatherDescription {
     icon: Nullable<string>;
     text: string;
@@ -40,7 +47,14 @@ export interface WeatherForecastEntry {
     date: Date;
 }
 
+export interface WeatherDailyForecast {
+    date: Date;
+    temperatureRange: TemperatureRange;
+    description: WeatherDescription;
+    forecast: WeatherForecastEntry[];
+}
+
 export interface WeatherService {
     getCurrentWeatherByCoordinates(coordinates: UserCoordinates): Promise<Nullable<CurrentWeatherOverview>>;
-    getHourlyForecastByCoordinates(coordinates: UserCoordinates): Promise<Nullable<WeatherForecastEntry[]>>;
+    getDailyForecastsByCoordinates(coordinates: UserCoordinates): Promise<Nullable<WeatherDailyForecast[]>>;
 }

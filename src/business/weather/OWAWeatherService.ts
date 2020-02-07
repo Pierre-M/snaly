@@ -4,7 +4,7 @@ import { Nullable } from "@/types/app";
 import {
     CurrentWeatherOverview,
     TemperatureUnit,
-    WeatherForecastEntry,
+    WeatherDailyForecast,
     WeatherService
 } from "@/business/weather/WeatherService";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
@@ -12,7 +12,7 @@ import { OWACurrentWeatherOverviewBuilder } from "@/business/weather/OWAWeatherO
 import { inject, injectable } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { HttpClient } from "@/core/http/HttpClient";
-import { OWAWeatherForecastBuilder } from "@/business/weather/OWAWeatherForecastBuilder";
+import { owaDailyForecastsBuilder } from "@/business/weather/OWADailyForecastsBuilder";
 
 @injectable()
 export class OWAWeatherService implements WeatherService {
@@ -44,7 +44,7 @@ export class OWAWeatherService implements WeatherService {
         });
     }
 
-    async getHourlyForecastByCoordinates(coordinates: UserCoordinates): Promise<Nullable<WeatherForecastEntry[]>> {
+    async getDailyForecastsByCoordinates(coordinates: UserCoordinates): Promise<Nullable<WeatherDailyForecast[]>> {
         const [res] = await this.httpClient.get<any>(this.FORECAST_API_URL, {
             lat: coordinates.latitude,
             lon: coordinates.longitude,
@@ -55,10 +55,6 @@ export class OWAWeatherService implements WeatherService {
             return null;
         }
 
-        return res.list.slice(0, 5).map((item: any) =>
-            OWAWeatherForecastBuilder(item, {
-                unit: TemperatureUnit.CELSIUS
-            })
-        );
+        return owaDailyForecastsBuilder.build(res.list, { unit: TemperatureUnit.CELSIUS });
     }
 }

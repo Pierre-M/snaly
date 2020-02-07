@@ -21,7 +21,11 @@ import {
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
-import { hourlyForecastModule, HourlyForecastModuleAction } from "@/store/module/hourlyForecast.module";
+import {
+    dailyForecastsModule,
+    DailyForecastsModuleAction,
+    DailyForecastsModuleState
+} from "@/store/module/dailyForecasts.module";
 import { UIModuleState, uiModule } from "@/store/module/ui.module";
 
 Vue.use(Vuex);
@@ -30,6 +34,7 @@ export interface AppState {
     wallpaperModule: WallpaperModuleState;
     localizationModule: LocalizationModuleState;
     currentWeatherModule: CurrentWeatherModuleState;
+    dailyForecastsModule: DailyForecastsModuleState;
     uiModule: UIModuleState;
 }
 
@@ -42,7 +47,7 @@ export const store = new Vuex.Store({
         wallpaperModule,
         localizationModule,
         currentWeatherModule,
-        hourlyForecastModule,
+        dailyForecastsModule,
         uiModule
     }
 });
@@ -50,7 +55,7 @@ export const store = new Vuex.Store({
 store.watch(
     (state: RootState) => (state as AppState).localizationModule.coordinates,
     (coordinates: Nullable<UserCoordinates>) => {
-        store.dispatch(HourlyForecastModuleAction.GET_FORECAST, coordinates);
+        store.dispatch(DailyForecastsModuleAction.GET_FORECAST, coordinates);
         store.dispatch(CurrentWeatherModuleAction.GET_BY_COORDINATE, coordinates);
         store.dispatch(LocalizationModuleAction.GET_LOCATION, coordinates);
     }
