@@ -1,5 +1,5 @@
 <template>
-    <icon-btn icon="geolocation" @click="requestGeolocation" />
+    <icon-btn icon="geolocation" @click="requestGeolocation" :label="$t('request_geolocation_cta_label')" />
 </template>
 
 <script lang="ts">

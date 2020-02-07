@@ -1,5 +1,5 @@
 <template>
-    <button type="button" class="icon-btn" @click="clickHandler">
+    <button type="button" class="icon-btn" :aria-label="label" @click="clickHandler">
         <icon :icon="icon" />
     </button>
 </template>
@@ -14,6 +14,9 @@ import Icon from "@/ui/core/fundamentals/Icon.vue";
 export default class IconBtn extends Vue {
     @Prop({ type: String, required: true })
     icon!: string;
+
+    @Prop({ type: String, required: true })
+    label!: string;
 
     clickHandler(e: Event) {
         this.$emit("click", e);
