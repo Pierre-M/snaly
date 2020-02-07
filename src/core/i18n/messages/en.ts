@@ -3,6 +3,8 @@
 export const en = {
     request_geolocation_cta_label: "Request geolocation",
     days: {
+        today: "Today",
+        tomorrow: "Tomorrow",
         0: "Sunday",
         1: "Monday",
         2: "Tuesday",
