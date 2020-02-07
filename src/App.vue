@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="w-full h-full">
         <component :is="layout">
             <wallpaper-component slot="bg" />
             <app-header slot="header" />

@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-screen h-screen overflow-hidden p-6">
+    <div class="relative w-full h-full overflow-hidden p-6">
         <div class="fixed inset-0">
             <slot name="bg" />
         </div>
