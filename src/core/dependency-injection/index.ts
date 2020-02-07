@@ -11,6 +11,7 @@ import { AlgoliaGeocodingService } from "@/business/geocoding/AlgoliaGeocodingSe
 import { OWAWeatherService } from "@/business/weather/OWAWeatherService";
 import { MobileGestureService } from "@/core/hardware/MobileGestureService";
 import { MobileHapticFeedBackService } from "@/core/hardware/MobileHapticFeedBackService";
+import { BrowserDevToolsLogger } from "@/business/easter-eggs/BrowserDevToolsLogger";
 
 container.register(DIToken.HTTP_CLIENT, {
     useClass: AxiosHttpClient
@@ -46,4 +47,8 @@ container.register(DIToken.GESTURE_SERVICE, {
 
 container.register(DIToken.HAPTIC_FEEDBACK_SERVICE, {
     useClass: MobileHapticFeedBackService
+});
+
+container.register(DIToken.DEVTOOLS_LOGGER, {
+    useClass: BrowserDevToolsLogger
 });
