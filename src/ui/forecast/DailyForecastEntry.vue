@@ -1,7 +1,7 @@
 <template>
     <section class="text-2xl">
         <header class="flex justify-between items-center">
-            <h2 class="flex items-center font-semibold">
+            <h2 class="flex items-center">
                 {{ dailyForecast.date | dayString }}
                 <icon class="ml-1 text-4xl" :icon="dailyForecast.description.icon" />
             </h2>
