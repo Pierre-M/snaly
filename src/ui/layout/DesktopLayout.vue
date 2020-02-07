@@ -1,16 +1,20 @@
 <template>
-    <div class="relative w-screen h-screen">
+    <div class="relative w-screen h-screen overflow-hidden p-6">
         <div class="fixed inset-0">
             <slot name="bg" />
         </div>
 
-        <main class="relative w-full h-full flex flex-col">
+        <main class="relative flex flex-col w-full h-full">
             <header>
                 <slot name="header" />
             </header>
 
             <div class="flex-1 flex items-center justify-center">
                 <slot />
+            </div>
+
+            <div class="flex justify-center">
+                <slot name="footer" />
             </div>
         </main>
     </div>

@@ -4,6 +4,7 @@
             <wallpaper-component slot="bg" />
             <app-header slot="header" />
             <current-weather-widget />
+            <daily-forecasts-widget slot="footer" />
         </component>
         <portal-target name="modalContainer" multiple />
     </div>
@@ -16,9 +17,11 @@ import CurrentWeatherWidget from "@/ui/current-weather-widget/CurrentWeatherWidg
 import { Getter } from "vuex-class";
 import AppHeader from "@/ui/layout/AppHeader.vue";
 import Modal from "@/ui/core/components/Modal.vue";
+import DailyForecastsWidget from "@/ui/forecast/DailyForecastsWidget.vue";
 
 @Component({
     components: {
+        DailyForecastsWidget,
         Modal,
         AppHeader,
         CurrentWeatherWidget,

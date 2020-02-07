@@ -2,7 +2,7 @@
 
 import { store } from "@/store/store";
 import { generateUserCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
-import { HourlyForecastModuleAction } from "@/store/module/hourlyForecast.module";
+import { DailyForecastsModuleAction } from "@/store/module/dailyForecasts.module";
 import { CurrentWeatherModuleAction, CurrentWeatherModuleMutation } from "@/store/module/currentWeather.module";
 import { LocalizationModuleAction, LocalizationModuleMutation } from "@/store/module/localization.module";
 import { generateCurrentWeatherOverview } from "../_mocks/generators/WeatherGenerator";
@@ -20,7 +20,7 @@ describe("store", () => {
     it("should call for weather forecast upon coordinates state change", async () => {
         const coordinates = generateUserCoordinates();
         await store.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
-        expect(store.dispatch).toHaveBeenCalledWith(HourlyForecastModuleAction.GET_FORECAST, coordinates);
+        expect(store.dispatch).toHaveBeenCalledWith(DailyForecastsModuleAction.GET_FORECAST, coordinates);
     });
 
     it("should call for weather overview upon coordinates state change", async () => {

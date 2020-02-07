@@ -1,12 +1,13 @@
 <template>
     <fade-transition>
-        <div
-            ref="backgroundContainer"
-            aria-hidden="true"
-            class="fixed inset-0"
-            v-if="wallpaper"
-            :style="`background-color: ${wallpaper.color}`"
-        />
+        <div v-if="wallpaper" class="fixed inset-0 bg-black">
+            <div
+                ref="backgroundContainer"
+                aria-hidden="true"
+                class="fixed inset-0 opacity-90"
+                :style="`background-color: ${wallpaper.color}`"
+            />
+        </div>
     </fade-transition>
 </template>
 

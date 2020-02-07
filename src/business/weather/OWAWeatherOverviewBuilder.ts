@@ -10,10 +10,10 @@ export interface OWACurrentWeatherBuilderParams {
 export function OWAWeatherOverviewBuilder(data: any, params: OWACurrentWeatherBuilderParams): WeatherOverview {
     return {
         temperatureOverview: {
-            current: Math.round(data.main.temp),
-            min: Math.round(data.main.temp_min),
-            max: Math.round(data.main.temp_max),
-            felt: Math.round(data.main.feels_like),
+            current: data.main.temp,
+            min: data.main.temp_min,
+            max: data.main.temp_max,
+            felt: data.main.feels_like,
             unit: params.unit
         },
         description: {

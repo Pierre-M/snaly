@@ -10,3 +10,7 @@ export const I18nPlugin = new VueI18n({
     locale: "en",
     messages
 });
+
+export const I18nService = new Vue({
+    i18n: I18nPlugin
+});
