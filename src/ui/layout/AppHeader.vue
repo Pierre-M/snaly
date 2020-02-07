@@ -1,10 +1,12 @@
 <template>
-    <div class="app-header">
-        <div class="app-header__actions"></div>
-        <p v-if="title" class="app-header__title">
-            {{ title }}
-        </p>
-        <div class="app-header__actions right">
+    <div class="flex justify-between items-center text-white">
+        <div class="w-20"></div>
+        <slide-y-up-transition>
+            <p v-if="title" class="text-2xl font-semibold">
+                {{ title }}
+            </p>
+        </slide-y-up-transition>
+        <div class="w-20 flex justify-end">
             <allow-user-geolocation-cta />
         </div>
     </div>
@@ -24,29 +26,3 @@ export default class AppHeader extends Vue {
     title!: Nullable<string>;
 }
 </script>
-
-<style lang="scss" scoped>
-.app-header {
-    @include boxAlign(space-between);
-    width: 100%;
-    height: 50px;
-    padding: 15px;
-    font-size: 20px;
-    font-weight: 500;
-    color: $snaly-c-white;
-
-    &__title {
-        flex: 1;
-        text-align: center;
-    }
-
-    &__actions {
-        @include boxAlign;
-        width: 100px;
-
-        &.right {
-            @include boxAlign(right);
-        }
-    }
-}
-</style>
