@@ -10,7 +10,8 @@ describe("IconBtn", () => {
     beforeEach(() => {
         wrapper = shallowMount(IconBtn, {
             propsData: {
-                icon: "my-icon"
+                icon: "my-icon",
+                label: "My label"
             },
             slots: {
                 default: "My button label"
