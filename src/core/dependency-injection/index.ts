@@ -12,6 +12,7 @@ import { OWAWeatherService } from "@/business/weather/OWAWeatherService";
 import { MobileGestureService } from "@/core/hardware/MobileGestureService";
 import { MobileHapticFeedBackService } from "@/core/hardware/MobileHapticFeedBackService";
 import { BrowserDevToolsLogger } from "@/business/easter-eggs/BrowserDevToolsLogger";
+import { SENTRY_DSN, SentryAlertingService } from "@/core/alerting/SentryAlertingService";
 
 container.register(DIToken.HTTP_CLIENT, {
     useClass: AxiosHttpClient
@@ -51,4 +52,10 @@ container.register(DIToken.HAPTIC_FEEDBACK_SERVICE, {
 
 container.register(DIToken.DEVTOOLS_LOGGER, {
     useClass: BrowserDevToolsLogger
+});
+
+container.register(DIToken.ALERTING_SERVICE, {
+    useValue: new SentryAlertingService({
+        dsn: SENTRY_DSN
+    })
 });

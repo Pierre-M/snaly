@@ -10,5 +10,6 @@ export enum DIToken {
     WALLPAPER_SERVICE = "WallpaperService",
     GESTURE_SERVICE = "GESTURE_SERVICE",
     HAPTIC_FEEDBACK_SERVICE = "HapticFeedbackService",
-    DEVTOOLS_LOGGER = "DevToolsLogger"
+    DEVTOOLS_LOGGER = "DevToolsLogger",
+    ALERTING_SERVICE = "AlertingService"
 }
