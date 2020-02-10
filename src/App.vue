@@ -4,6 +4,7 @@
             <wallpaper-component slot="bg" />
             <app-header slot="header" />
             <current-weather-widget />
+            <suncycle-widget slot="footer" />
             <daily-forecasts-widget slot="footer" />
         </component>
         <portal-target name="modalContainer" multiple></portal-target>
@@ -13,15 +14,17 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import WallpaperComponent from "@/ui/wallpaper/Wallpaper.vue";
-import CurrentWeatherWidget from "@/ui/current-weather-widget/CurrentWeatherWidget.vue";
+import CurrentWeatherWidget from "@/ui/weather/CurrentWeatherWidget.vue";
 import { Getter } from "vuex-class";
 import AppHeader from "@/ui/layout/AppHeader.vue";
 import Modal from "@/ui/core/components/Modal.vue";
-import DailyForecastsWidget from "@/ui/forecast/DailyForecastsWidget.vue";
+import DailyForecastsWidget from "@/ui/weather/DailyForecastsWidget.vue";
 import { UIModuleGetter } from "@/store/module/ui.module";
+import SuncycleWidget from "@/ui/weather/SuncycleWidget.vue";
 
 @Component({
     components: {
+        SuncycleWidget,
         DailyForecastsWidget,
         Modal,
         AppHeader,

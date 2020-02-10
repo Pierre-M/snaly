@@ -27,9 +27,13 @@ $snaly_font_family: "Roboto", sans-serif;
 }
 
 @mixin quietButton() {
-    border: none;
     padding: 0;
-    background-color: transparent;
+
+    @include allStates {
+        border: none;
+        outline: none;
+        background-color: transparent;
+    }
 }
 
 @mixin clickable {

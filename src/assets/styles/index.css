@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* purgecss start ignore */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+/* purgecss end ignore */

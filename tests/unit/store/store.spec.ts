@@ -2,8 +2,7 @@
 
 import { AppState, store } from "@/store/store";
 import { generateUserCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
-import { DailyForecastsModuleAction } from "@/store/module/dailyForecasts.module";
-import { CurrentWeatherModuleAction, CurrentWeatherModuleMutation } from "@/store/module/currentWeather.module";
+import { WeatherModuleAction, WeatherModuleMutation } from "@/store/module/weather.module";
 import { LocalizationModuleAction, LocalizationModuleMutation } from "@/store/module/localization.module";
 import { generateCurrentWeatherOverview } from "../_mocks/generators/WeatherGenerator";
 import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
@@ -22,7 +21,7 @@ describe("store", () => {
         const unit = (store.state as AppState).userPreferencesModule.temperatureUnit;
 
         await store.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
-        expect(store.dispatch).toHaveBeenCalledWith(DailyForecastsModuleAction.GET_FORECAST, { coordinates, unit });
+        expect(store.dispatch).toHaveBeenCalledWith(WeatherModuleAction.GET_FORECAST, { coordinates, unit });
     });
 
     it("should call for weather overview upon coordinates state change", async () => {
@@ -30,7 +29,7 @@ describe("store", () => {
         const unit = (store.state as AppState).userPreferencesModule.temperatureUnit;
 
         await store.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
-        expect(store.dispatch).toHaveBeenCalledWith(CurrentWeatherModuleAction.GET_CURRENT_WEATHER, {
+        expect(store.dispatch).toHaveBeenCalledWith(WeatherModuleAction.GET_CURRENT_WEATHER, {
             coordinates,
             unit
         });
@@ -45,7 +44,7 @@ describe("store", () => {
 
     it("should call for a new wallpaper upon weather overview state change", async () => {
         const weather = generateCurrentWeatherOverview();
-        await store.commit(CurrentWeatherModuleMutation.UPDATE_OVERVIEW, weather);
+        await store.commit(WeatherModuleMutation.UPDATE_OVERVIEW, weather);
         expect(store.dispatch).toHaveBeenCalledWith(WallpaperModuleAction.REFRESH_WALLPAPER, weather);
     });
 });

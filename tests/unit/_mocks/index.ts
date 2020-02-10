@@ -16,6 +16,10 @@ import { FakeDevToolsLogger } from "./FakeDevToolsLogger";
 import { DevToolsLogger } from "@/business/easter-eggs/DevToolsLogger";
 import { EnvironmentService } from "@/core/env/EnvironmentService";
 import { WebpackEnvironmentService } from "@/core/env/WebpackEnvironmentService";
+import { FakeSharingService } from "./FakeSharingService";
+import { SharingService } from "@/core/browser/SharingService";
+import { FakeHapticFeedbackService } from "./FakeHapticFeedbackService";
+import { HapticFeedbackService } from "@/core/hardware/HapticFeedbackService";
 
 export const fakeWallpaperService = new FakeWallpaperService();
 export const fakeGeolocationService = new FakeGeolocationService();
@@ -23,6 +27,8 @@ export const fakeWeatherService = new FakeWeatherService();
 export const fakeGestureService = new FakeGestureService();
 export const fakeGeocodingService = new FakeGeocodingService();
 export const fakeDevToolsLogger = new FakeDevToolsLogger();
+export const fakeSharingService = new FakeSharingService();
+export const fakeHapticFeedbackService = new FakeHapticFeedbackService();
 
 container.register<IWallpaperService>(DIToken.WALLPAPER_SERVICE, {
     useValue: fakeWallpaperService
@@ -50,4 +56,12 @@ container.register<DevToolsLogger>(DIToken.DEVTOOLS_LOGGER, {
 
 container.register<EnvironmentService>(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
+});
+
+container.register<SharingService>(DIToken.SHARING_SERVICE, {
+    useValue: fakeSharingService
+});
+
+container.register<HapticFeedbackService>(DIToken.HAPTIC_FEEDBACK_SERVICE, {
+    useValue: fakeHapticFeedbackService
 });

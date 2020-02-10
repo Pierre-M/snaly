@@ -12,7 +12,7 @@ const envService = container.resolve<EnvironmentService>(DIToken.ENVIRONMENT_SER
 
 describe("SentryAlertingService", () => {
     it("should not init Sentry integration in dev environment", () => {
-        envService.setEnv(Environment.DEV);
+        process.env.NODE_ENV = Environment.DEV;
 
         new SentryAlertingService(envService);
 
@@ -20,7 +20,7 @@ describe("SentryAlertingService", () => {
     });
 
     it("should init Sentry integration in production environment", () => {
-        envService.setEnv(Environment.PROD);
+        process.env.NODE_ENV = Environment.PROD;
 
         new SentryAlertingService(envService);
 
@@ -31,7 +31,7 @@ describe("SentryAlertingService", () => {
     });
 
     it("should not call for Sentry captureException method in dev environment", () => {
-        envService.setEnv(Environment.DEV);
+        process.env.NODE_ENV = Environment.DEV;
 
         const service = new SentryAlertingService(envService);
 
@@ -41,7 +41,7 @@ describe("SentryAlertingService", () => {
     });
 
     it("should call for Sentry captureException method in production environment with the right payload", () => {
-        envService.setEnv(Environment.PROD);
+        process.env.NODE_ENV = Environment.PROD;
 
         const service = new SentryAlertingService(envService);
 

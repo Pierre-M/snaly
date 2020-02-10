@@ -23,7 +23,7 @@ export const actions: ActionTree<RootState, RootState> = {
             gestureService.onShake(() => {
                 context.dispatch(
                     WallpaperModuleAction.REFRESH_WALLPAPER,
-                    (context.state as AppState).currentWeatherModule.overview
+                    (context.state as AppState).weatherModule.current
                 );
             });
         }

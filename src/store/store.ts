@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { isEqual } from "lodash";
 import { RootState, state } from "@/store/state";
 import { mutations } from "@/store/mutations";
 import { actions } from "@/store/actions";
@@ -14,19 +15,14 @@ import {
 } from "@/store/module/localization.module";
 
 import {
-    currentWeatherModule,
-    CurrentWeatherModuleAction,
-    CurrentWeatherModuleState
-} from "@/store/module/currentWeather.module";
+    weatherModule,
+    WeatherModuleAction,
+    WeatherModuleRequest,
+    WeatherModuleState
+} from "@/store/module/weather.module";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
-import { CurrentWeatherOverview, WeatherServiceRequest } from "@/business/weather/WeatherService";
+import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
-import {
-    dailyForecastsModule,
-    DailyForecastsModuleAction,
-    DailyForecastsModuleState,
-    WeatherModuleRequest
-} from "@/store/module/dailyForecasts.module";
 import { UIModuleState, uiModule } from "@/store/module/ui.module";
 import { userPreferencesModule, UserPreferencesModuleState } from "@/store/module/userPreferences.module";
 
@@ -35,8 +31,7 @@ Vue.use(Vuex);
 export interface AppState {
     wallpaperModule: WallpaperModuleState;
     localizationModule: LocalizationModuleState;
-    currentWeatherModule: CurrentWeatherModuleState;
-    dailyForecastsModule: DailyForecastsModuleState;
+    weatherModule: WeatherModuleState;
     uiModule: UIModuleState;
     userPreferencesModule: UserPreferencesModuleState;
 }
@@ -49,8 +44,7 @@ export const store = new Vuex.Store({
     modules: {
         wallpaperModule,
         localizationModule,
-        currentWeatherModule,
-        dailyForecastsModule,
+        weatherModule,
         uiModule,
         userPreferencesModule
     }
@@ -58,21 +52,25 @@ export const store = new Vuex.Store({
 
 store.watch(
     (state: RootState) => (state as AppState).localizationModule.coordinates,
-    (coordinates: Nullable<UserCoordinates>) => {
+    (newCoordinates: Nullable<UserCoordinates>, oldCoordinates: Nullable<UserCoordinates>) => {
+        if (isEqual(newCoordinates, oldCoordinates)) return;
+
         const weatherRequest: WeatherModuleRequest = {
             unit: (store.state as AppState).userPreferencesModule.temperatureUnit,
-            coordinates
+            coordinates: newCoordinates
         };
 
-        store.dispatch(DailyForecastsModuleAction.GET_FORECAST, weatherRequest);
-        store.dispatch(CurrentWeatherModuleAction.GET_CURRENT_WEATHER, weatherRequest);
-        store.dispatch(LocalizationModuleAction.GET_LOCATION, coordinates);
+        store.dispatch(WeatherModuleAction.GET_FORECAST, weatherRequest);
+        store.dispatch(WeatherModuleAction.GET_CURRENT_WEATHER, weatherRequest);
+        store.dispatch(LocalizationModuleAction.GET_LOCATION, newCoordinates);
     }
 );
 
 store.watch(
-    (state: RootState) => (state as AppState).currentWeatherModule.overview,
-    (overview: Nullable<CurrentWeatherOverview>) => {
-        store.dispatch(WallpaperModuleAction.REFRESH_WALLPAPER, overview);
+    (state: RootState) => (state as AppState).weatherModule.current,
+    (newOverview: Nullable<CurrentWeatherOverview>, oldOverview: Nullable<CurrentWeatherOverview>) => {
+        if (isEqual(newOverview, oldOverview)) return;
+
+        store.dispatch(WallpaperModuleAction.REFRESH_WALLPAPER, newOverview);
     }
 );

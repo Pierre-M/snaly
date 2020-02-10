@@ -12,5 +12,6 @@ export enum DIToken {
     HAPTIC_FEEDBACK_SERVICE = "HapticFeedbackService",
     DEVTOOLS_LOGGER = "DevToolsLogger",
     ALERTING_SERVICE = "AlertingService",
-    ENVIRONMENT_SERVICE = "EnvironmentService"
+    ENVIRONMENT_SERVICE = "EnvironmentService",
+    SHARING_SERVICE = "SharingService"
 }

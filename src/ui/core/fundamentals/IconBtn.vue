@@ -1,5 +1,5 @@
 <template>
-    <button type="button" class="icon-btn" :aria-label="label" @click="clickHandler">
+    <button type="button" class="icon-btn" v-haptic :aria-label="label" @click="clickHandler">
         <icon :icon="icon" />
     </button>
 </template>
@@ -31,8 +31,6 @@ $icon-btn-inner-space: 10px;
     @include boxAlign;
     @include quietButton;
     @include clickable;
-    margin: -$icon-btn-inner-space;
-    padding: $icon-btn-inner-space;
     color: inherit;
     font-size: 30px;
     @include withTransition;
