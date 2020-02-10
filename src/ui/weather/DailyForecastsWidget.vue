@@ -1,6 +1,6 @@
 <template>
     <slide-y-down-transition>
-        <ul v-if="days" v-click-outside="() => closeForecasts()" class="max-w-screen-xs text-white w-full">
+        <ul v-if="days" v-click-outside="() => closeForecasts()" class="text-white w-full">
             <li v-for="(day, idx) in days" :key="idx">
                 <daily-forecast-entry :daily-forecast="day" />
             </li>
@@ -14,7 +14,7 @@ import { Action, State } from "vuex-class";
 import { AppState } from "@/store/store";
 import { WeatherDailyForecast } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
-import DailyForecastEntry from "@/ui/forecast/DailyForecastEntry.vue";
+import DailyForecastEntry from "@/ui/weather/DailyForecastEntry.vue";
 import { UIModuleActions } from "@/store/module/ui.module";
 
 @Component({
