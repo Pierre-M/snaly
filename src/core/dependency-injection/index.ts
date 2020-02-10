@@ -13,6 +13,7 @@ import { MobileGestureService } from "@/core/hardware/MobileGestureService";
 import { MobileHapticFeedBackService } from "@/core/hardware/MobileHapticFeedBackService";
 import { BrowserDevToolsLogger } from "@/business/easter-eggs/BrowserDevToolsLogger";
 import { SENTRY_DSN, SentryAlertingService } from "@/core/alerting/SentryAlertingService";
+import { WebpackEnvironmentService } from "@/core/env/WebpackEnvironmentService";
 
 container.register(DIToken.HTTP_CLIENT, {
     useClass: AxiosHttpClient
@@ -58,4 +59,8 @@ container.register(DIToken.ALERTING_SERVICE, {
     useValue: new SentryAlertingService({
         dsn: SENTRY_DSN
     })
+});
+
+container.register(DIToken.ENVIRONMENT_SERVICE, {
+    useClass: WebpackEnvironmentService
 });
