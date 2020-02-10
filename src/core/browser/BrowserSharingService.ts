@@ -12,7 +12,13 @@ export class BrowserSharingService implements SharingService {
 
     async share(request: ShareRequest): Promise<void> {
         if (!this.canShare) return;
-        // @ts-ignore
-        return await navigator.share(request);
+
+        // let's try / catch share action to avoid errors due to cancelled sharing on mobile
+        try {
+            // @ts-ignore
+            await navigator.share(request);
+        } catch (err) {
+            //
+        }
     }
 }
