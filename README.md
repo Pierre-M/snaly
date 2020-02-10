@@ -5,13 +5,13 @@
 Welcome to [snaly.io](https://snaly.netlify.com/) codebase !
 Before going any further, I would like to thank :
 
--   [Open Weather Map](https://openweathermap.org/) for their greatweather API
+-   [Open Weather Map](https://openweathermap.org/) for their great weather API
 -   [Algolia Places](https://community.algolia.com/places/) for their geolocation/geocoding API
 -   [Unsplash](https://unsplash.com) for their searchable photo database
 
 ## Technical stack
 
-### Snaky is written with :
+### Snaly is written with :
 
 -   [Typescript](https://www.typescriptlang.org/)
 -   [Tsyringe](https://github.com/microsoft/tsyringe): dependency injection in Typescript applications

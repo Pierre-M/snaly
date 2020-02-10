@@ -3,6 +3,7 @@
 import { GetterTree } from "vuex";
 import { AppState } from "@/store/store";
 import { RootState } from "@/store/state";
+import { temperature } from "@/ui/core/vue-filters";
 
 export const DEFAULT_APP_TITLE = "Snaly";
 
@@ -15,6 +16,8 @@ export const getters: GetterTree<RootState, RootState> = {
             return DEFAULT_APP_TITLE;
         }
 
-        return `${overview.temperatureOverview.current}° 📍 ${location.city}, ${location.countryCode.toUpperCase()}`;
+        return `${temperature(overview.temperatureOverview.current)} 📍 ${
+            location.city
+        }, ${location.countryCode.toUpperCase()}`;
     }
 };
