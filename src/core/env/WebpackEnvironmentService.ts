@@ -15,6 +15,9 @@ export class WebpackEnvironmentService implements EnvironmentService {
     }
 
     setEnv(env: Environment): void {
-        process.env.NODE_ENV = env;
+        Object.defineProperty(process.env, "NODE_ENV", {
+            value: env,
+            writable: true
+        });
     }
 }

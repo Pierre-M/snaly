@@ -1,13 +1,17 @@
 "use strict";
 
 import { DevToolsLogger } from "@/business/easter-eggs/DevToolsLogger";
-import { injectable, singleton } from "tsyringe";
+import { inject, injectable, singleton } from "tsyringe";
+import { DIToken } from "@/core/dependency-injection/DIToken";
+import { EnvironmentService } from "@/core/env/EnvironmentService";
 
 @injectable()
 @singleton()
 export class BrowserDevToolsLogger implements DevToolsLogger {
+    constructor(@inject(DIToken.ENVIRONMENT_SERVICE) private envService: EnvironmentService) {}
+
     displayWelcomeMessage(): void {
-        if (process.env.NODE_ENV !== "production") {
+        if (this.envService.isDevelopment) {
             return;
         }
 

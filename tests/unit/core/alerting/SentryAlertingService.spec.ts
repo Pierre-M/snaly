@@ -1,36 +1,39 @@
 "use strict";
 
 import * as Sentry from "@sentry/browser";
+import { SENTRY_DSN, SentryAlertingService } from "@/core/alerting/SentryAlertingService";
+import { container } from "tsyringe";
+import { Environment, EnvironmentService } from "@/core/env/EnvironmentService";
+import { DIToken } from "@/core/dependency-injection/DIToken";
+
 jest.mock("@sentry/browser");
 
-import { SentryAlertingService } from "@/core/alerting/SentryAlertingService";
-
-const FAKE_SENTRY_DSN = "fake_sentry_dsn";
+const envService = container.resolve<EnvironmentService>(DIToken.ENVIRONMENT_SERVICE);
 
 describe("SentryAlertingService", () => {
     it("should not init Sentry integration in dev environment", () => {
-        process.env.NODE_ENV = "development";
+        envService.setEnv(Environment.DEV);
 
-        new SentryAlertingService({ dsn: FAKE_SENTRY_DSN });
+        new SentryAlertingService(envService);
 
         expect(Sentry.init).not.toHaveBeenCalled();
     });
 
     it("should init Sentry integration in production environment", () => {
-        process.env.NODE_ENV = "production";
+        envService.setEnv(Environment.PROD);
 
-        new SentryAlertingService({ dsn: FAKE_SENTRY_DSN });
+        new SentryAlertingService(envService);
 
         expect(Sentry.init).toHaveBeenCalledWith({
-            dsn: FAKE_SENTRY_DSN,
+            dsn: SENTRY_DSN,
             integrations: expect.any(Array)
         });
     });
 
     it("should not call for Sentry captureException method in dev environment", () => {
-        process.env.NODE_ENV = "development";
+        envService.setEnv(Environment.DEV);
 
-        const service = new SentryAlertingService({ dsn: "fake-dsn" });
+        const service = new SentryAlertingService(envService);
 
         service.logError("test");
 
@@ -38,9 +41,9 @@ describe("SentryAlertingService", () => {
     });
 
     it("should call for Sentry captureException method in production environment with the right payload", () => {
-        process.env.NODE_ENV = "production";
+        envService.setEnv(Environment.PROD);
 
-        const service = new SentryAlertingService({ dsn: "fake-dsn" });
+        const service = new SentryAlertingService(envService);
 
         service.logError("test");
 
