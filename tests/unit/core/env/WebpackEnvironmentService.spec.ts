@@ -1,7 +1,6 @@
 "use strict";
 
 import { WebpackEnvironmentService } from "@/core/env/WebpackEnvironmentService";
-import { Environment } from "@/core/env/EnvironmentService";
 
 let service: WebpackEnvironmentService;
 
@@ -32,17 +31,5 @@ describe("WebpackEnvironmentService", () => {
         process.env.NODE_ENV = "development";
 
         expect(service.isDevelopment).toBe(true);
-    });
-
-    it("should be able to change environment value", () => {
-        service.setEnv(Environment.DEV);
-
-        expect(service.isDevelopment).toBe(true);
-        expect(service.isProduction).toBe(false);
-
-        service.setEnv(Environment.PROD);
-
-        expect(service.isDevelopment).toBe(false);
-        expect(service.isProduction).toBe(true);
     });
 });

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { isEqual } from "lodash";
 import { RootState, state } from "@/store/state";
 import { mutations } from "@/store/mutations";
 import { actions } from "@/store/actions";
@@ -51,21 +52,25 @@ export const store = new Vuex.Store({
 
 store.watch(
     (state: RootState) => (state as AppState).localizationModule.coordinates,
-    (coordinates: Nullable<UserCoordinates>) => {
+    (newCoordinates: Nullable<UserCoordinates>, oldCoordinates: Nullable<UserCoordinates>) => {
+        if (isEqual(newCoordinates, oldCoordinates)) return;
+
         const weatherRequest: WeatherModuleRequest = {
             unit: (store.state as AppState).userPreferencesModule.temperatureUnit,
-            coordinates
+            coordinates: newCoordinates
         };
 
         store.dispatch(WeatherModuleAction.GET_FORECAST, weatherRequest);
         store.dispatch(WeatherModuleAction.GET_CURRENT_WEATHER, weatherRequest);
-        store.dispatch(LocalizationModuleAction.GET_LOCATION, coordinates);
+        store.dispatch(LocalizationModuleAction.GET_LOCATION, newCoordinates);
     }
 );
 
 store.watch(
     (state: RootState) => (state as AppState).weatherModule.current,
-    (overview: Nullable<CurrentWeatherOverview>) => {
-        store.dispatch(WallpaperModuleAction.REFRESH_WALLPAPER, overview);
+    (newOverview: Nullable<CurrentWeatherOverview>, oldOverview: Nullable<CurrentWeatherOverview>) => {
+        if (isEqual(newOverview, oldOverview)) return;
+
+        store.dispatch(WallpaperModuleAction.REFRESH_WALLPAPER, newOverview);
     }
 );

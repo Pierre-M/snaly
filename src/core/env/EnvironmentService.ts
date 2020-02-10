@@ -8,5 +8,4 @@ export enum Environment {
 export interface EnvironmentService {
     isProduction: boolean;
     isDevelopment: boolean;
-    setEnv(env: Environment): void;
 }
