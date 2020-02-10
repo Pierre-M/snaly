@@ -1,6 +1,6 @@
 "use strict";
 
-import { WeatherDailyForecast, WeatherService } from "@/business/weather/WeatherService";
+import { TemperatureUnit, WeatherDailyForecast, WeatherService } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import { ActionContext, Module } from "vuex";
 import { RootState } from "@/store/state";
@@ -18,6 +18,11 @@ export enum DailyForecastsModuleAction {
     GET_FORECAST = "GetDailyForecasts"
 }
 
+export interface WeatherModuleRequest {
+    coordinates: Nullable<UserCoordinates>;
+    unit: TemperatureUnit;
+}
+
 export const dailyForecastsModule: Module<DailyForecastsModuleState, RootState> = {
     state: {
         days: null
@@ -33,13 +38,13 @@ export const dailyForecastsModule: Module<DailyForecastsModuleState, RootState> 
     actions: {
         [DailyForecastsModuleAction.GET_FORECAST]: async (
             { commit }: ActionContext<DailyForecastsModuleState, RootState>,
-            coordinates: Nullable<UserCoordinates>
+            { coordinates, unit }: WeatherModuleRequest
         ) => {
             if (!coordinates) {
                 return;
             }
 
-            const weatherForecast = await weatherService.getDailyForecastsByCoordinates(coordinates);
+            const weatherForecast = await weatherService.getDailyForecasts({ coordinates, unit });
 
             commit("updateHourlyWeatherForecast", weatherForecast);
         }

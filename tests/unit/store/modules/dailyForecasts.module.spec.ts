@@ -3,10 +3,14 @@
 import { fakeWeatherService } from "../../_mocks";
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
-import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
+import { CurrentWeatherOverview, TemperatureUnit } from "@/business/weather/WeatherService";
 import { generateCurrentWeatherOverview, generateDailyForecasts } from "../../_mocks/generators/WeatherGenerator";
 import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
-import { dailyForecastsModule, DailyForecastsModuleAction } from "@/store/module/dailyForecasts.module";
+import {
+    dailyForecastsModule,
+    DailyForecastsModuleAction,
+    WeatherModuleRequest
+} from "@/store/module/dailyForecasts.module";
 
 Vue.use(Vuex);
 
@@ -28,28 +32,42 @@ describe("daily forecasts store module", () => {
     });
 
     it("should not call for weatherService service when coordinates are null", () => {
-        store.dispatch(DailyForecastsModuleAction.GET_FORECAST, null);
+        const request: WeatherModuleRequest = {
+            coordinates: null,
+            unit: TemperatureUnit.CELSIUS
+        };
 
-        expect(fakeWeatherService.getDailyForecastsByCoordinates).not.toHaveBeenCalled();
+        store.dispatch(DailyForecastsModuleAction.GET_FORECAST, request);
+
+        expect(fakeWeatherService.getDailyForecasts).not.toHaveBeenCalled();
     });
 
     it("should call for weatherService with coordinates", () => {
-        const coordinates = generateUserCoordinates();
-        store.dispatch(DailyForecastsModuleAction.GET_FORECAST, coordinates);
+        const request: WeatherModuleRequest = {
+            coordinates: generateUserCoordinates(),
+            unit: TemperatureUnit.CELSIUS
+        };
 
-        expect(fakeWeatherService.getDailyForecastsByCoordinates).toHaveBeenCalledWith(coordinates);
+        store.dispatch(DailyForecastsModuleAction.GET_FORECAST, request);
+
+        expect(fakeWeatherService.getDailyForecasts).toHaveBeenCalledWith(request);
     });
 
     it("should update state when weather forecast is null or not", async () => {
         const forecast = generateDailyForecasts();
         fakeWeatherService.dailyForecastsValue = forecast;
 
-        await store.dispatch(DailyForecastsModuleAction.GET_FORECAST, generateUserCoordinates());
+        const request: WeatherModuleRequest = {
+            coordinates: generateUserCoordinates(),
+            unit: TemperatureUnit.CELSIUS
+        };
+
+        await store.dispatch(DailyForecastsModuleAction.GET_FORECAST, request);
 
         expect(store.state.dailyForecastsModule.days).toEqual(forecast);
         fakeWeatherService.dailyForecastsValue = null;
 
-        await store.dispatch(DailyForecastsModuleAction.GET_FORECAST, generateUserCoordinates());
+        await store.dispatch(DailyForecastsModuleAction.GET_FORECAST, request);
 
         expect(store.state.dailyForecastsModule.days).toEqual(null);
     });

@@ -5,7 +5,8 @@ import {
     CurrentWeatherOverview,
     TemperatureUnit,
     WeatherDailyForecast,
-    WeatherService
+    WeatherService,
+    WeatherServiceRequest
 } from "@/business/weather/WeatherService";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { OWACurrentWeatherOverviewBuilder } from "@/business/weather/OWAWeatherOverviewBuilder";
@@ -22,16 +23,16 @@ export class OWAWeatherService implements WeatherService {
     private CURRENT_WEATHER_API_URL = `${this.API_BASE_URL}/weather`;
     private FORECAST_API_URL = `${this.API_BASE_URL}/forecast`;
     private BASE_API_PARAMS = {
-        units: "metric",
         APPID: this.API_KEY
     };
 
     constructor(@inject(DIToken.HTTP_CLIENT) private httpClient: HttpClient) {}
 
-    async getCurrentWeatherByCoordinates(coordinates: UserCoordinates): Promise<Nullable<CurrentWeatherOverview>> {
+    async getCurrentWeather({ coordinates, unit }: WeatherServiceRequest): Promise<Nullable<CurrentWeatherOverview>> {
         const [res] = await this.httpClient.get<any>(this.CURRENT_WEATHER_API_URL, {
             lat: coordinates.latitude,
             lon: coordinates.longitude,
+            units: unit,
             ...this.BASE_API_PARAMS
         });
 
@@ -44,10 +45,11 @@ export class OWAWeatherService implements WeatherService {
         });
     }
 
-    async getDailyForecastsByCoordinates(coordinates: UserCoordinates): Promise<Nullable<WeatherDailyForecast[]>> {
+    async getDailyForecasts({ coordinates, unit }: WeatherServiceRequest): Promise<Nullable<WeatherDailyForecast[]>> {
         const [res] = await this.httpClient.get<any>(this.FORECAST_API_URL, {
             lat: coordinates.latitude,
             lon: coordinates.longitude,
+            units: unit,
             ...this.BASE_API_PARAMS
         });
 

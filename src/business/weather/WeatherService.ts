@@ -4,8 +4,8 @@ import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
 
 export enum TemperatureUnit {
-    CELSIUS = "celsius",
-    FAHRENHEIT = "fahrenheit"
+    CELSIUS = "metric",
+    FAHRENHEIT = "imperial"
 }
 
 export interface TemperatureOverview {
@@ -54,7 +54,12 @@ export interface WeatherDailyForecast {
     forecast: WeatherForecastEntry[];
 }
 
+export interface WeatherServiceRequest {
+    coordinates: UserCoordinates;
+    unit: TemperatureUnit;
+}
+
 export interface WeatherService {
-    getCurrentWeatherByCoordinates(coordinates: UserCoordinates): Promise<Nullable<CurrentWeatherOverview>>;
-    getDailyForecastsByCoordinates(coordinates: UserCoordinates): Promise<Nullable<WeatherDailyForecast[]>>;
+    getCurrentWeather(params: WeatherServiceRequest): Promise<Nullable<CurrentWeatherOverview>>;
+    getDailyForecasts(params: WeatherServiceRequest): Promise<Nullable<WeatherDailyForecast[]>>;
 }
