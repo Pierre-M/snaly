@@ -19,14 +19,16 @@ import {
     CurrentWeatherModuleState
 } from "@/store/module/currentWeather.module";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
-import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
+import { CurrentWeatherOverview, WeatherServiceRequest } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import {
     dailyForecastsModule,
     DailyForecastsModuleAction,
-    DailyForecastsModuleState
+    DailyForecastsModuleState,
+    WeatherModuleRequest
 } from "@/store/module/dailyForecasts.module";
 import { UIModuleState, uiModule } from "@/store/module/ui.module";
+import { userPreferencesModule, UserPreferencesModuleState } from "@/store/module/userPreferences.module";
 
 Vue.use(Vuex);
 
@@ -36,6 +38,7 @@ export interface AppState {
     currentWeatherModule: CurrentWeatherModuleState;
     dailyForecastsModule: DailyForecastsModuleState;
     uiModule: UIModuleState;
+    userPreferencesModule: UserPreferencesModuleState;
 }
 
 export const store = new Vuex.Store({
@@ -48,15 +51,21 @@ export const store = new Vuex.Store({
         localizationModule,
         currentWeatherModule,
         dailyForecastsModule,
-        uiModule
+        uiModule,
+        userPreferencesModule
     }
 });
 
 store.watch(
     (state: RootState) => (state as AppState).localizationModule.coordinates,
     (coordinates: Nullable<UserCoordinates>) => {
-        store.dispatch(DailyForecastsModuleAction.GET_FORECAST, coordinates);
-        store.dispatch(CurrentWeatherModuleAction.GET_BY_COORDINATE, coordinates);
+        const weatherRequest: WeatherModuleRequest = {
+            unit: (store.state as AppState).userPreferencesModule.temperatureUnit,
+            coordinates
+        };
+
+        store.dispatch(DailyForecastsModuleAction.GET_FORECAST, weatherRequest);
+        store.dispatch(CurrentWeatherModuleAction.GET_CURRENT_WEATHER, weatherRequest);
         store.dispatch(LocalizationModuleAction.GET_LOCATION, coordinates);
     }
 );

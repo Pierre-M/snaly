@@ -4,9 +4,9 @@ import { ActionContext, Module } from "vuex";
 import { CurrentWeatherOverview, WeatherService } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import { RootState } from "@/store/state";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
+import { WeatherModuleRequest } from "@/store/module/dailyForecasts.module";
 
 export interface CurrentWeatherModuleState {
     overview: Nullable<CurrentWeatherOverview>;
@@ -15,7 +15,7 @@ export interface CurrentWeatherModuleState {
 const weatherService = container.resolve<WeatherService>(DIToken.WEATHER_SERVICE);
 
 export enum CurrentWeatherModuleAction {
-    GET_BY_COORDINATE = "GetCurrentWeatherOverviewByCoordinates"
+    GET_CURRENT_WEATHER = "GetCurrentWeatherOverviewByCoordinates"
 }
 
 export enum CurrentWeatherModuleMutation {
@@ -35,15 +35,15 @@ export const currentWeatherModule: Module<CurrentWeatherModuleState, RootState> 
         }
     },
     actions: {
-        [CurrentWeatherModuleAction.GET_BY_COORDINATE]: async (
+        [CurrentWeatherModuleAction.GET_CURRENT_WEATHER]: async (
             { commit }: ActionContext<CurrentWeatherModuleState, RootState>,
-            coordinates: Nullable<UserCoordinates>
+            { coordinates, unit }: WeatherModuleRequest
         ) => {
             if (!coordinates) {
                 return;
             }
 
-            const weatherOverview = await weatherService.getCurrentWeatherByCoordinates(coordinates);
+            const weatherOverview = await weatherService.getCurrentWeather({ coordinates, unit });
 
             commit(CurrentWeatherModuleMutation.UPDATE_OVERVIEW, weatherOverview);
         }

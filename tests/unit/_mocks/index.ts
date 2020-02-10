@@ -14,6 +14,8 @@ import { FakeGeocodingService } from "./FakeGeocodingService";
 import { GeocodingService } from "@/business/geocoding/GeocodingService";
 import { FakeDevToolsLogger } from "./FakeDevToolsLogger";
 import { DevToolsLogger } from "@/business/easter-eggs/DevToolsLogger";
+import { EnvironmentService } from "@/core/env/EnvironmentService";
+import { WebpackEnvironmentService } from "@/core/env/WebpackEnvironmentService";
 
 export const fakeWallpaperService = new FakeWallpaperService();
 export const fakeGeolocationService = new FakeGeolocationService();
@@ -44,4 +46,8 @@ container.register<GeocodingService>(DIToken.GEOCODING_SERVICE, {
 
 container.register<DevToolsLogger>(DIToken.DEVTOOLS_LOGGER, {
     useValue: fakeDevToolsLogger
+});
+
+container.register<EnvironmentService>(DIToken.ENVIRONMENT_SERVICE, {
+    useClass: WebpackEnvironmentService
 });
