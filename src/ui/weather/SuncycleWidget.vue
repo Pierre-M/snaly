@@ -1,7 +1,12 @@
 <template>
     <slide-y-down-transition>
         <ul v-if="suncycle" class="flex justify-end pb-4 mb-4 text-white border-b border-white-20 border-solid text-xl">
-            <li v-for="item in items" :key="item.icon" class="flex items-center ml-5" :aria-label="item.label">
+            <li
+                v-for="item in items"
+                :key="item.icon"
+                class="flex items-center ml-5 font-light"
+                :aria-label="item.label"
+            >
                 <icon :icon="item.icon" class="mr-1 text-2xl" />
                 {{ item.value | time }}
             </li>
