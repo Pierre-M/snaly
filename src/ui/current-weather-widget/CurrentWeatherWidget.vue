@@ -26,7 +26,7 @@ import { Nullable } from "@/types/app";
     }
 })
 export default class App extends Vue {
-    @State((state: AppState) => state.currentWeatherModule.overview)
+    @State((state: AppState) => state.weatherModule.current)
     currentWeatherOverview!: CurrentWeatherOverview;
 
     get icon(): Nullable<string> {

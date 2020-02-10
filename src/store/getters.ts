@@ -9,7 +9,7 @@ export const DEFAULT_APP_TITLE = "Snaly";
 
 export const getters: GetterTree<RootState, RootState> = {
     appTitle(state: RootState) {
-        const overview = (state as AppState).currentWeatherModule.overview;
+        const overview = (state as AppState).weatherModule.current;
         const location = (state as AppState).localizationModule.location;
 
         if (!location || !overview) {

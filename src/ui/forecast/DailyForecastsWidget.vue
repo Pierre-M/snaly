@@ -21,7 +21,7 @@ import { UIModuleActions } from "@/store/module/ui.module";
     components: { DailyForecastEntry }
 })
 export default class DailyForecastsWidget extends Vue {
-    @State((state: AppState) => state.dailyForecastsModule.days)
+    @State((state: AppState) => state.weatherModule.days)
     days!: Nullable<WeatherDailyForecast[]>;
 
     @Action(UIModuleActions.TOGGLE_DAILY_FORECAST)
