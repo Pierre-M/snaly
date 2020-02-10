@@ -1,5 +1,5 @@
 <template>
-    <button type="button" class="icon-btn" :aria-label="label" @click="clickHandler">
+    <button type="button" class="icon-btn" v-haptic :aria-label="label" @click="clickHandler">
         <icon :icon="icon" />
     </button>
 </template>
