@@ -29,6 +29,10 @@ Before going any further, I would like to thank :
 
 -   [Netlify](https://www.netlify.com/)
 
+### Snaly is watched by :
+
+- [Sentry](https://sentry.io/) for error alerting and reporting
+
 ## Project setup
 
 ```
