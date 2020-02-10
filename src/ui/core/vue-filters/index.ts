@@ -10,13 +10,15 @@ interface TemperatureFilterParams {
     unit: TemperatureUnit;
 }
 
-Vue.filter("temperature", (value?: number, { unit }: TemperatureFilterParams = { unit: TemperatureUnit.CELSIUS }) => {
+export function temperature(value?: number, { unit }: TemperatureFilterParams = { unit: TemperatureUnit.CELSIUS }) {
     if (!value) {
         return "";
     }
 
     return `${Math.round(value)}${unit === TemperatureUnit.CELSIUS ? "°" : "°F"}`;
-});
+}
+
+Vue.filter("temperature", temperature);
 
 Vue.filter("dayString", (value?: Date) => {
     if (!value) {
