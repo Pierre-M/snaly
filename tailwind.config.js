@@ -30,7 +30,11 @@ module.exports = {
             md: "1280px",
             lg: "1600px"
         },
-        extend: {}
+        extend: {
+            width: {
+                "1/8": "12.5%"
+            }
+        }
     },
     variants: {},
     plugins: []

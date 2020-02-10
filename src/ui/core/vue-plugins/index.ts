@@ -8,6 +8,7 @@ import VHotKey from "v-hotkey";
 import Transitions from "vue2-transitions";
 import PortalVue from "portal-vue";
 import { ModalPlugin } from "@/ui/core/vue-plugins/ModalPlugin";
+import { EventsPlugin } from "@/ui/core/vue-plugins/EventsPlugin";
 
 Vue.use(Transitions);
 Vue.use(VueI18n);
@@ -16,3 +17,4 @@ Vue.use(VClickOutisde);
 Vue.use(VHotKey);
 Vue.use(PortalVue);
 Vue.use(ModalPlugin);
+Vue.use(EventsPlugin);

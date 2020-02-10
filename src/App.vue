@@ -6,7 +6,7 @@
             <current-weather-widget />
             <daily-forecasts-widget slot="footer" />
         </component>
-        <portal-target name="modalContainer" multiple />
+        <portal-target name="modalContainer" multiple></portal-target>
     </div>
 </template>
 
@@ -18,6 +18,7 @@ import { Getter } from "vuex-class";
 import AppHeader from "@/ui/layout/AppHeader.vue";
 import Modal from "@/ui/core/components/Modal.vue";
 import DailyForecastsWidget from "@/ui/forecast/DailyForecastsWidget.vue";
+import { UIModuleGetter } from "@/store/module/ui.module";
 
 @Component({
     components: {
@@ -32,7 +33,7 @@ export default class App extends Vue {
     @Getter("appTitle")
     appTitle!: string;
 
-    @Getter("layout")
+    @Getter(UIModuleGetter.LAYOUT)
     layout!: typeof Vue;
 
     created() {
