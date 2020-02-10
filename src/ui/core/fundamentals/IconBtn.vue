@@ -31,8 +31,6 @@ $icon-btn-inner-space: 10px;
     @include boxAlign;
     @include quietButton;
     @include clickable;
-    margin: -$icon-btn-inner-space;
-    padding: $icon-btn-inner-space;
     color: inherit;
     font-size: 30px;
     @include withTransition;

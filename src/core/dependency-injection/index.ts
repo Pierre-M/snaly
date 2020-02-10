@@ -14,6 +14,7 @@ import { MobileHapticFeedBackService } from "@/core/hardware/MobileHapticFeedBac
 import { BrowserDevToolsLogger } from "@/business/easter-eggs/BrowserDevToolsLogger";
 import { SentryAlertingService } from "@/core/alerting/SentryAlertingService";
 import { WebpackEnvironmentService } from "@/core/env/WebpackEnvironmentService";
+import { BrowserSharingService } from "@/core/browser/BrowserSharingService";
 
 container.register(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
@@ -61,4 +62,8 @@ container.register(DIToken.DEVTOOLS_LOGGER, {
 
 container.register(DIToken.ALERTING_SERVICE, {
     useClass: SentryAlertingService
+});
+
+container.register(DIToken.SHARING_SERVICE, {
+    useClass: BrowserSharingService
 });

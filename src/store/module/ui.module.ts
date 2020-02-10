@@ -6,10 +6,17 @@ import { ActionContext, Module } from "vuex";
 import DesktopLayout from "@/ui/layout/DesktopLayout.vue";
 import { WeatherDailyForecast } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
+import { ShareRequest, SharingService } from "@/core/browser/SharingService";
+import { container } from "tsyringe";
+import { DIToken } from "@/core/dependency-injection/DIToken";
+import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
+
+const sharingService = container.resolve<SharingService>(DIToken.SHARING_SERVICE);
 
 export interface UIModuleState {
     layout: typeof Vue;
     openedForecast: Nullable<WeatherDailyForecast>;
+    canShare: boolean;
 }
 
 export enum UIModuleMutations {
@@ -17,7 +24,8 @@ export enum UIModuleMutations {
 }
 
 export enum UIModuleActions {
-    TOGGLE_DAILY_FORECAST = "toggleDailyForecast"
+    TOGGLE_DAILY_FORECAST = "toggleDailyForecast",
+    SHARE = "shareSnaly"
 }
 
 export enum UIModuleGetter {
@@ -28,7 +36,8 @@ export enum UIModuleGetter {
 export const uiModule: Module<UIModuleState, RootState> = {
     state: {
         layout: DesktopLayout,
-        openedForecast: null
+        openedForecast: null,
+        canShare: sharingService.canShare
     },
     mutations: {
         [UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST]: (
@@ -44,6 +53,15 @@ export const uiModule: Module<UIModuleState, RootState> = {
             forecast?: Nullable<WeatherDailyForecast>
         ) => {
             commit(UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST, forecast || null);
+        },
+        [UIModuleActions.SHARE]: () => {
+            const shareRequest: ShareRequest = {
+                url: window.location.origin,
+                title: I18nService.$t("share.title") as string,
+                text: I18nService.$t("share.description") as string
+            };
+
+            sharingService.share(shareRequest);
         }
     },
     getters: {
