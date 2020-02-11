@@ -1,6 +1,14 @@
 <template>
-    <button type="button" class="icon-btn" v-haptic :aria-label="label" @click="clickHandler">
-        <icon :icon="icon" />
+    <button
+        type="button"
+        class="icon-btn flex items-center justify-center p-0 outline-none border-0
+            focus:outline-none transform transition duration-200 ease-in-out active:scale-75"
+        v-haptic
+        :title="label"
+        :aria-label="label"
+        @click="clickHandler"
+    >
+        <icon :icon="icon" class="text-3xl" />
     </button>
 </template>
 
@@ -23,20 +31,3 @@ export default class IconBtn extends Vue {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-$icon-btn-inner-space: 10px;
-
-.icon-btn {
-    @include boxAlign;
-    @include quietButton;
-    @include clickable;
-    color: inherit;
-    font-size: 30px;
-    @include withTransition;
-
-    &:active {
-        transform: scale(0.8);
-    }
-}
-</style>

@@ -30,7 +30,6 @@
     "portal-vue": "2.1.7",
     "querystring": "0.2.0",
     "register-service-worker": "1.6.2",
-    "reset-css": "5.0.1",
     "shake.js": "1.2.2",
     "tailwindcss": "1.2.0",
     "tsyringe": "4.0.1",

@@ -39,6 +39,8 @@ module.exports = {
             }
         }
     },
-    variants: {},
+    variants: {
+        scale: ["active"]
+    },
     plugins: []
 };

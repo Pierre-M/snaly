@@ -7,7 +7,7 @@
 
             <div class="wrapper">
                 <slide-y-down-transition>
-                    <section class="panel" v-show="opened" v-click-outside="close">
+                    <section class="panel bg-white" v-show="opened" v-click-outside="close">
                         <header class="header">
                             <h2 class="title">{{ title }}</h2>
                         </header>
@@ -88,40 +88,3 @@ export default class Modal extends Vue {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-$modal-panel-width: 600px;
-
-.modal {
-    position: fixed;
-    z-index: 10000;
-    top: 0;
-    left: 0;
-    @include setSize(100vw, 100vh);
-}
-
-.backdrop {
-    position: fixed;
-    z-index: 0;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(1, 22, 56, 0.2);
-}
-
-.wrapper {
-    position: relative;
-    z-index: 1;
-    height: 100vh;
-    overflow: auto;
-}
-
-.panel {
-    width: $modal-panel-width;
-    margin: 5vw auto;
-    background-color: $snaly-c-white;
-    overflow: hidden;
-    border-radius: $snaly-radius--big;
-}
-</style>
