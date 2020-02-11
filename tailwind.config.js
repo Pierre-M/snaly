@@ -30,6 +30,9 @@ module.exports = {
             md: "1280px",
             lg: "1600px"
         },
+        backdropFilter: {
+            blur: "blur(20px)"
+        },
         extend: {
             width: {
                 "1/8": "12.5%"
@@ -43,5 +46,5 @@ module.exports = {
     variants: {
         scale: ["active"]
     },
-    plugins: []
+    plugins: [require("tailwindcss-filters")]
 };
