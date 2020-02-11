@@ -3,6 +3,7 @@
 import Vue from "vue";
 import isToday from "date-fns/isToday";
 import isTomorrow from "date-fns/isTomorrow";
+import format from "date-fns/format";
 import { TemperatureUnit } from "@/business/weather/WeatherService";
 import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
 
@@ -21,9 +22,7 @@ export function temperature(value?: number, { unit }: TemperatureFilterParams = 
 Vue.filter("temperature", temperature);
 
 Vue.filter("dayString", (value?: Date) => {
-    if (!value) {
-        return "";
-    }
+    if (!value) return "";
 
     if (isToday(value)) {
         return I18nService.$t("days.today");
@@ -34,4 +33,12 @@ Vue.filter("dayString", (value?: Date) => {
     }
 
     return I18nService.$t(`days.${value.getDay()}`);
+});
+
+Vue.filter("time", (value?: Date) => {
+    if (!value) return;
+
+    const pattern = I18nService.$t("date.pattern.time") as string;
+
+    return format(value, pattern);
 });

@@ -6,10 +6,12 @@ import { Module } from "vuex";
 
 export interface UserPreferencesModuleState {
     temperatureUnit: TemperatureUnit;
+    local: string;
 }
 
 export const userPreferencesModule: Module<UserPreferencesModuleState, RootState> = {
     state: {
-        temperatureUnit: TemperatureUnit.CELSIUS
+        temperatureUnit: TemperatureUnit.CELSIUS,
+        local: "en"
     }
 };

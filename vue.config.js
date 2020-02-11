@@ -1,10 +1,9 @@
 "use strict";
 
-const path = require("path");
-
 module.exports = {
     devServer: {
-        disableHostCheck: true
+        disableHostCheck: true,
+        https: true
     },
 
     css: {
@@ -13,5 +12,9 @@ module.exports = {
                 prependData: "@import '@/ui/style/_base.scss';"
             }
         }
+    },
+
+    pwa: {
+        themeColor: "#000"
     }
 };

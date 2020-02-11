@@ -13,9 +13,18 @@ export const en = {
         5: "Friday",
         6: "Saturday"
     },
+    date: {
+        pattern: {
+            time: "H:mm"
+        }
+    },
     share: {
         ctaLabel: "Share Snaly",
         title: "Snaly",
         description: "A tiny weather app made with ❤️"
+    },
+    weather: {
+        sunriseLabel: "Sunrise time",
+        sunsetLabel: "Sunset time"
     }
 };

@@ -11,6 +11,7 @@ import "@/assets/styles/index.css";
 
 import "@/ui/core/vue-filters";
 import "@/ui/core/vue-plugins";
+import "@/ui/core/vue-directives";
 
 Vue.config.productionTip = false;
 

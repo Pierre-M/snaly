@@ -13,7 +13,7 @@
                 <slot />
             </div>
 
-            <div class="flex justify-center">
+            <div class="max-w-screen-xs w-full mx-auto">
                 <slot name="footer" />
             </div>
         </main>

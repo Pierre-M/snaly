@@ -8,5 +8,5 @@ export interface ShareRequest {
 
 export interface SharingService {
     canShare: boolean;
-    share(request: ShareRequest): Promise<void>;
+    share(request: ShareRequest): void;
 }

@@ -33,6 +33,9 @@ module.exports = {
         extend: {
             width: {
                 "1/8": "12.5%"
+            },
+            colors: {
+                "white-20": "rgba(255, 255, 255, .5)"
             }
         }
     },
