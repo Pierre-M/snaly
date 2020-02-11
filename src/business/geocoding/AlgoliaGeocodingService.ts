@@ -38,7 +38,7 @@ export class AlgoliaGeocodingService implements GeocodingService {
         const entry = data.hits[0];
 
         return {
-            city: entry.city[0],
+            city: entry?.city[0] || entry?.locale_names[0],
             country: entry.country,
             countryCode: entry.country_code,
             zipCode: entry.postcode[0]
