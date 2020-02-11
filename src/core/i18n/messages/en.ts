@@ -26,5 +26,8 @@ export const en = {
     weather: {
         sunriseLabel: "Sunrise time",
         sunsetLabel: "Sunset time"
+    },
+    citySearch: {
+        openLabel: "Search for city"
     }
 };

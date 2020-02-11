@@ -9,7 +9,7 @@
             </p>
         </slide-y-up-transition>
         <div class="w-20 flex justify-end">
-            <allow-user-geolocation-cta />
+            <city-search-open-cta />
         </div>
     </div>
 </template>
@@ -18,11 +18,11 @@
 import { Component, Vue } from "vue-property-decorator";
 import { Nullable } from "@/types/app";
 import { Getter } from "vuex-class";
-import AllowUserGeolocationCta from "@/ui/geolocation/AllowUserGeolocationCta.vue";
 import SharingCta from "@/ui/core/fundamentals/SharingCta.vue";
+import CitySearchOpenCta from "@/ui/city-search/CitySearchOpenCta.vue";
 
 @Component({
-    components: { SharingCta, AllowUserGeolocationCta }
+    components: { CitySearchOpenCta, SharingCta }
 })
 export default class AppHeader extends Vue {
     @Getter("shortenedLocation")

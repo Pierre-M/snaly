@@ -8,6 +8,7 @@
             <daily-forecasts-widget slot="footer" />
         </component>
         <portal-target name="modalContainer" multiple></portal-target>
+        <portal-target name="citySearchContainer" />
     </div>
 </template>
 
