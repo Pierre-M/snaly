@@ -10,6 +10,11 @@ export interface UserLocation {
     zipCode: string;
 }
 
+export interface GeocodingServiceRequest {
+    coordinates: UserCoordinates;
+    language: string;
+}
+
 export interface GeocodingService {
-    getAddress(coordinates: UserCoordinates): Promise<Nullable<UserLocation>>;
+    getAddress(request: GeocodingServiceRequest): Promise<Nullable<UserLocation>>;
 }

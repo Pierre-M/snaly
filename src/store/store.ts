@@ -11,6 +11,7 @@ import { wallpaperModule, WallpaperModuleAction, WallpaperModuleState } from "@/
 import {
     localizationModule,
     LocalizationModuleAction,
+    LocalizationModuleAddressRequest,
     LocalizationModuleState
 } from "@/store/module/localization.module";
 
@@ -60,9 +61,14 @@ store.watch(
             coordinates: newCoordinates
         };
 
+        const addressRequest: LocalizationModuleAddressRequest = {
+            coordinates: newCoordinates,
+            language: (store.state as AppState).userPreferencesModule.local
+        };
+
         store.dispatch(WeatherModuleAction.GET_FORECAST, weatherRequest);
         store.dispatch(WeatherModuleAction.GET_CURRENT_WEATHER, weatherRequest);
-        store.dispatch(LocalizationModuleAction.GET_LOCATION, newCoordinates);
+        store.dispatch(LocalizationModuleAction.GET_LOCATION, addressRequest);
     }
 );
 

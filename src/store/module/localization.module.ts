@@ -34,6 +34,11 @@ export enum LocalizationModuleMutation {
     UPDATE_LOCATION = "updateLocation"
 }
 
+export interface LocalizationModuleAddressRequest {
+    coordinates: Nullable<UserCoordinates>;
+    language: string;
+}
+
 export const localizationModule: Module<LocalizationModuleState, RootState> = {
     state: {
         geolocationHasBeenRequested: false,
@@ -87,13 +92,13 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
         },
         [LocalizationModuleAction.GET_LOCATION]: async (
             context: ActionContext<LocalizationModuleState, RootState>,
-            coordinates: Nullable<UserCoordinates>
+            { coordinates, language }: LocalizationModuleAddressRequest
         ) => {
             if (!coordinates) {
                 return;
             }
 
-            const location = await geocodingService.getAddress(coordinates);
+            const location = await geocodingService.getAddress({ coordinates, language });
 
             if (!location) {
                 return;

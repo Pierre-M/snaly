@@ -7,6 +7,7 @@ import {
     DEFAULT_COORDINATES,
     localizationModule,
     LocalizationModuleAction,
+    LocalizationModuleAddressRequest,
     LocalizationModuleMutation,
     LocalizationModuleState
 } from "@/store/module/localization.module";
@@ -80,12 +81,13 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
         expect((store.state.localizationModule as LocalizationModuleState).coordinates).toEqual(DEFAULT_COORDINATES);
     });
 
-    it("should call for geocodingService with right coordinates upon getLocation action", () => {
+    it("should call for geocodingService with right coordinates and language upon getLocation action", () => {
         const coordinates = generateUserCoordinates();
+        const language = "fr";
 
-        store.dispatch(LocalizationModuleAction.GET_LOCATION, coordinates);
+        store.dispatch(LocalizationModuleAction.GET_LOCATION, { coordinates, language });
 
-        expect(fakeGeocodingService.getAddress).toHaveBeenCalledWith(coordinates);
+        expect(fakeGeocodingService.getAddress).toHaveBeenCalledWith({ coordinates, language });
     });
 
     it("should not call for geocodingService upon getLocation action if coordinates are null", () => {
@@ -98,13 +100,18 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
         const location = generateUserLocation();
         fakeGeocodingService.returnedValue = location;
 
-        await store.dispatch(LocalizationModuleAction.GET_LOCATION, generateUserCoordinates());
+        const locationRequest: LocalizationModuleAddressRequest = {
+            coordinates: generateUserCoordinates(),
+            language: "fr"
+        };
+
+        await store.dispatch(LocalizationModuleAction.GET_LOCATION, locationRequest);
 
         expect(store.state.localizationModule.location).toEqual(location);
 
         fakeGeocodingService.returnedValue = null;
 
-        await store.dispatch(LocalizationModuleAction.GET_LOCATION, generateUserCoordinates());
+        await store.dispatch(LocalizationModuleAction.GET_LOCATION, locationRequest);
 
         expect(store.state.localizationModule.location).toEqual(location);
     });

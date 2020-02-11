@@ -22,21 +22,24 @@ describe("AlgoliaGeocodingService", () => {
 
     it("should call for Algolia places api with the right url and the right payload", async () => {
         const coordinates = generateUserCoordinates();
+        const language = "en";
         const expectedParams = {
             ...ALGOLIA_PLACES_API_BASE_PARAMS,
+            language,
             aroundLatLng: `${coordinates.latitude},${coordinates.longitude}`
         };
 
-        await service.getAddress(coordinates);
+        await service.getAddress({ coordinates, language });
 
         expect(httpClient.post).toHaveBeenCalledWith(ALGOLIA_PLACES_API, expectedParams);
     });
 
     it("should return null if anything wrong happen with Algolia api", async () => {
         const coordinates = generateUserCoordinates();
+        const language = "en";
         httpClient.mockErroredResponse();
 
-        const res = await service.getAddress(coordinates);
+        const res = await service.getAddress({ coordinates, language });
 
         expect(res).toEqual(null);
     });
@@ -50,10 +53,11 @@ describe("AlgoliaGeocodingService", () => {
         };
 
         const coordinates = generateUserCoordinates();
+        const language = "en";
         const apiResponse = generateAlgoliaPlacesAPIResponse(expectedLocation);
         httpClient.mockSuccessfullResponse(apiResponse);
 
-        const res = await service.getAddress(coordinates);
+        const res = await service.getAddress({ coordinates, language });
 
         expect(res).toEqual(expectedLocation);
     });

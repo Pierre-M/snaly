@@ -1,7 +1,6 @@
 "use strict";
 
-import { GeocodingService, UserLocation } from "@/business/geocoding/GeocodingService";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { GeocodingService, GeocodingServiceRequest, UserLocation } from "@/business/geocoding/GeocodingService";
 import { Nullable } from "@/types/app";
 import { inject, injectable, singleton } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
@@ -12,8 +11,7 @@ export const ALGOLIA_PLACES_API: string = "https://places-dsn.algolia.net/1/plac
 export const ALGOLIA_PLACES_API_BASE_PARAMS = {
     query: "",
     type: "city",
-    hitsPerPage: 1,
-    language: "fr"
+    hitsPerPage: 1
 };
 
 @injectable()
@@ -21,9 +19,10 @@ export const ALGOLIA_PLACES_API_BASE_PARAMS = {
 export class AlgoliaGeocodingService implements GeocodingService {
     constructor(@inject(DIToken.HTTP_CLIENT) private httpClient: HttpClient) {}
 
-    async getAddress(coordinates: UserCoordinates): Promise<Nullable<UserLocation>> {
+    async getAddress({ coordinates, language }: GeocodingServiceRequest): Promise<Nullable<UserLocation>> {
         const [res] = await this.httpClient.post<any>(ALGOLIA_PLACES_API, {
             ...ALGOLIA_PLACES_API_BASE_PARAMS,
+            language,
             aroundLatLng: `${coordinates.latitude},${coordinates.longitude}`
         });
 
