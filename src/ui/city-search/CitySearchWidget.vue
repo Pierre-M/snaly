@@ -15,7 +15,7 @@ import CitySearchPanel from "@/ui/city-search/CitySearchPanel.vue";
 @Component({
     components: { CitySearchPanel, IconBtn }
 })
-export default class CitySearchOpenCta extends Vue {
+export default class CitySearchWidget extends Vue {
     @Action(UIModuleActions.OPEN_CITY_SEARCH)
     open!: () => void;
 }

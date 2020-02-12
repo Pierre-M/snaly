@@ -44,7 +44,8 @@ module.exports = {
         }
     },
     variants: {
-        scale: ["active"]
+        scale: ["active"],
+        borderWidth: ["last"]
     },
     plugins: [require("tailwindcss-filters")]
 };

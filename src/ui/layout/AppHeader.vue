@@ -9,7 +9,7 @@
             </p>
         </slide-y-up-transition>
         <div class="w-20 flex justify-end">
-            <city-search-open-cta />
+            <city-search-widget />
         </div>
     </div>
 </template>
@@ -19,10 +19,10 @@ import { Component, Vue } from "vue-property-decorator";
 import { Nullable } from "@/types/app";
 import { Getter } from "vuex-class";
 import SharingCta from "@/ui/core/fundamentals/SharingCta.vue";
-import CitySearchOpenCta from "@/ui/city-search/CitySearchOpenCta.vue";
+import CitySearchWidget from "@/ui/city-search/CitySearchWidget.vue";
 
 @Component({
-    components: { CitySearchOpenCta, SharingCta }
+    components: { CitySearchWidget, SharingCta }
 })
 export default class AppHeader extends Vue {
     @Getter("shortenedLocation")

@@ -17,7 +17,7 @@ export const getters: GetterTree<RootState, RootState> = {
         }
 
         return `${temperature(overview.temperatureOverview.current)} 📍 ${
-            location.city
+            location.name
         }, ${location.countryCode.toUpperCase()}`;
     }
 };

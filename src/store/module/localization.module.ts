@@ -6,15 +6,15 @@ import { ActionContext, Module } from "vuex";
 import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import { GeocodingService, UserLocation } from "@/business/geocoding/GeocodingService";
+import { City, CitySearchService } from "@/business/city-search/CitySearchService";
 
 const geolocationService = container.resolve<GeolocationService>(DIToken.GEOLOCATION_SERVICE);
-const geocodingService = container.resolve<GeocodingService>(DIToken.GEOCODING_SERVICE);
+const citySearchService = container.resolve<CitySearchService>(DIToken.CITY_SEARCH_SERVICE);
 
 export interface LocalizationModuleState {
     geolocationHasBeenRequested: boolean;
     coordinates: Nullable<UserCoordinates>;
-    location: Nullable<UserLocation>;
+    location: Nullable<City>;
 }
 
 export enum LocalizationModuleAction {
@@ -55,10 +55,7 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
         ) => {
             state.coordinates = coordinates;
         },
-        [LocalizationModuleMutation.UPDATE_LOCATION]: (
-            state: LocalizationModuleState,
-            location: Nullable<UserLocation>
-        ) => {
+        [LocalizationModuleMutation.UPDATE_LOCATION]: (state: LocalizationModuleState, location: Nullable<City>) => {
             state.location = location;
         }
     },
@@ -98,7 +95,7 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
                 return;
             }
 
-            const location = await geocodingService.getAddress({ coordinates, language });
+            const location = await citySearchService.getCityByCoordinates({ coordinates, language });
 
             if (!location) {
                 return;
@@ -113,7 +110,7 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
                 return null;
             }
 
-            return `${state.location.city}, ${state.location.countryCode.toLocaleUpperCase()}`;
+            return `${state.location.name}, ${state.location.countryCode.toLocaleUpperCase()}`;
         }
     }
 };

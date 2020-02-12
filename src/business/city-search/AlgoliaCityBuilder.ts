@@ -14,7 +14,7 @@ export class AlgoliaCityBuilder implements CityBuilder {
     build(data: any): Nullable<City> {
         try {
             return {
-                name: data.city[0] || data.locale_names[0],
+                name: data.city ? data.city[0] : data.locale_names[0],
                 country: data.country,
                 countryCode: data.country_code,
                 zipCode: data.postcode[0],

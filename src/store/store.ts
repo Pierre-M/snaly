@@ -26,6 +26,7 @@ import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import { UIModuleState, uiModule } from "@/store/module/ui.module";
 import { userPreferencesModule, UserPreferencesModuleState } from "@/store/module/userPreferences.module";
+import { citySearchModule, CitySearchModuleState } from "@/store/module/citySearch.module";
 
 Vue.use(Vuex);
 
@@ -35,6 +36,7 @@ export interface AppState {
     weatherModule: WeatherModuleState;
     uiModule: UIModuleState;
     userPreferencesModule: UserPreferencesModuleState;
+    citySearchModule: CitySearchModuleState;
 }
 
 export const store = new Vuex.Store({
@@ -47,7 +49,8 @@ export const store = new Vuex.Store({
         localizationModule,
         weatherModule,
         uiModule,
-        userPreferencesModule
+        userPreferencesModule,
+        citySearchModule
     }
 });
 

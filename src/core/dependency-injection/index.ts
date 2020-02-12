@@ -7,7 +7,6 @@ import { BrowserGeolocationService } from "@/business/geolocation/BrowserGeoloca
 import { BrowserScreenInspector } from "@/core/browser/BrowserScreenInspector";
 import { UnsplashImageService } from "@/core/image/UnsplashImageService";
 import { WallpaperService } from "@/ui/wallpaper/WallpaperService";
-import { AlgoliaGeocodingService } from "@/business/geocoding/AlgoliaGeocodingService";
 import { OWAWeatherService } from "@/business/weather/OWAWeatherService";
 import { MobileGestureService } from "@/core/hardware/MobileGestureService";
 import { MobileHapticFeedBackService } from "@/core/hardware/MobileHapticFeedBackService";
@@ -15,8 +14,9 @@ import { BrowserDevToolsLogger } from "@/business/easter-eggs/BrowserDevToolsLog
 import { SentryAlertingService } from "@/core/alerting/SentryAlertingService";
 import { WebpackEnvironmentService } from "@/core/env/WebpackEnvironmentService";
 import { BrowserSharingService } from "@/core/browser/BrowserSharingService";
-import { CityBuilder } from "@/business/city-search/CitySearchService";
+import { CityBuilder, CitySearchService } from "@/business/city-search/CitySearchService";
 import { AlgoliaCityBuilder } from "@/business/city-search/AlgoliaCityBuilder";
+import { AlgoliaCitySearchService } from "@/business/city-search/AlgoliaCitySearchService";
 
 container.register(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
@@ -28,10 +28,6 @@ container.register(DIToken.HTTP_CLIENT, {
 
 container.register(DIToken.GEOLOCATION_SERVICE, {
     useClass: BrowserGeolocationService
-});
-
-container.register(DIToken.GEOCODING_SERVICE, {
-    useClass: AlgoliaGeocodingService
 });
 
 container.register(DIToken.WALLPAPER_SERVICE, {
@@ -72,4 +68,8 @@ container.register(DIToken.SHARING_SERVICE, {
 
 container.register<CityBuilder>(DIToken.CITY_BUILDER, {
     useClass: AlgoliaCityBuilder
+});
+
+container.register<CitySearchService>(DIToken.CITY_SEARCH_SERVICE, {
+    useClass: AlgoliaCitySearchService
 });

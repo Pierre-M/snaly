@@ -16,10 +16,16 @@ export interface CitySearchServiceRequest {
     language: string;
 }
 
+export interface CitySearchGeocodingRequest {
+    coordinates: UserCoordinates;
+    language: string;
+}
+
 export interface CityBuilder {
     build(data: any): Nullable<City>;
 }
 
 export interface CitySearchService {
+    getCityByCoordinates(request: CitySearchGeocodingRequest): Promise<Nullable<City>>;
     getCities(request: CitySearchServiceRequest): Promise<City[]>;
 }
