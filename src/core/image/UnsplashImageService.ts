@@ -6,6 +6,8 @@ import { ContextualImage, ContextualImageRequest, ContextualImageService } from 
 import { inject, injectable, singleton } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { HttpClient } from "@/core/http/HttpClient";
+import { ScreenOrientation } from "@/core/browser/ScreenInspector";
+import { defaultLandscapeContent, defaultPortraitContent } from "@/core/image/UnsplashDefaultContent";
 
 // export for testing
 export const UNSPLASH_API_URL = "https://api.unsplash.com/search/photos";
@@ -30,18 +32,23 @@ export class UnsplashImageService implements ContextualImageService {
     constructor(@inject(DIToken.HTTP_CLIENT) private httpClient: HttpClient) {}
 
     async get(request: ContextualImageRequest) {
-        const [data] = await this.httpClient.get<any>(this.UNSPLASH_API_URL, this.buildImageRequest(request));
+        let item;
+        const [data, error] = await this.httpClient.get<any>(
+            this.UNSPLASH_API_URL,
+            UnsplashImageService.buildImageRequest(request)
+        );
 
-        if (!data) {
-            return null;
+        if (!data || error) {
+            item =
+                request.orientation === ScreenOrientation.LANDSCAPE ? defaultLandscapeContent : defaultPortraitContent;
+        } else {
+            item = this.getRandomImageAmongResults(data.results);
         }
 
-        const randomItem = this.getRandomImageAmongResults(data.results);
-
-        return UnsplashImageService.buildContextualImage(randomItem, request);
+        return UnsplashImageService.buildContextualImage(item, request);
     }
 
-    private buildImageRequest(request: ContextualImageRequest) {
+    private static buildImageRequest(request: ContextualImageRequest) {
         return {
             ...BASE_UNSPLASH_REQUEST,
             query: request.query,
