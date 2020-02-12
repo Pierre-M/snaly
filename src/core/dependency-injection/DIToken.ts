@@ -13,5 +13,6 @@ export enum DIToken {
     DEVTOOLS_LOGGER = "DevToolsLogger",
     ALERTING_SERVICE = "AlertingService",
     ENVIRONMENT_SERVICE = "EnvironmentService",
-    SHARING_SERVICE = "SharingService"
+    SHARING_SERVICE = "SharingService",
+    CITY_BUILDER = "CityBuilder"
 }

@@ -36,3 +36,9 @@ export function generateAlgoliaCityResultData({ incomplete, city }: AlgoliaGener
         }
     };
 }
+
+export function generateAlgoliaResults(params?: { count: number }) {
+    return {
+        hits: [...Array(params?.count || 5).keys()].map(() => generateAlgoliaCityResultData())
+    };
+}

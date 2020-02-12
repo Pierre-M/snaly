@@ -13,6 +13,7 @@ export interface City {
 
 export interface CitySearchServiceRequest {
     query: string;
+    language: string;
 }
 
 export interface CityBuilder {

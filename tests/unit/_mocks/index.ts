@@ -22,7 +22,10 @@ import { FakeHapticFeedbackService } from "./FakeHapticFeedbackService";
 import { HapticFeedbackService } from "@/core/hardware/HapticFeedbackService";
 import { FakeAlertingService } from "./FakeAlertingService";
 import { AlertingService } from "@/core/alerting/AlertingService";
+import { FakeHttpClient } from "./FakeHttpClient";
+import { HttpClient } from "@/core/http/HttpClient";
 
+export const fakeHttpClient = new FakeHttpClient();
 export const fakeWallpaperService = new FakeWallpaperService();
 export const fakeGeolocationService = new FakeGeolocationService();
 export const fakeWeatherService = new FakeWeatherService();
@@ -32,6 +35,10 @@ export const fakeDevToolsLogger = new FakeDevToolsLogger();
 export const fakeSharingService = new FakeSharingService();
 export const fakeHapticFeedbackService = new FakeHapticFeedbackService();
 export const fakeAlertingService = new FakeAlertingService();
+
+container.register<HttpClient>(DIToken.HTTP_CLIENT, {
+    useValue: fakeHttpClient
+});
 
 container.register<IWallpaperService>(DIToken.WALLPAPER_SERVICE, {
     useValue: fakeWallpaperService

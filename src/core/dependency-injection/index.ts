@@ -15,6 +15,8 @@ import { BrowserDevToolsLogger } from "@/business/easter-eggs/BrowserDevToolsLog
 import { SentryAlertingService } from "@/core/alerting/SentryAlertingService";
 import { WebpackEnvironmentService } from "@/core/env/WebpackEnvironmentService";
 import { BrowserSharingService } from "@/core/browser/BrowserSharingService";
+import { CityBuilder } from "@/business/city-search/CitySearchService";
+import { AlgoliaCityBuilder } from "@/business/city-search/AlgoliaCityBuilder";
 
 container.register(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
@@ -66,4 +68,8 @@ container.register(DIToken.ALERTING_SERVICE, {
 
 container.register(DIToken.SHARING_SERVICE, {
     useClass: BrowserSharingService
+});
+
+container.register<CityBuilder>(DIToken.CITY_BUILDER, {
+    useClass: AlgoliaCityBuilder
 });
