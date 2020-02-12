@@ -1,6 +1,5 @@
 "use strict";
 
-import { Nullable } from "@/types/app";
 import { ScreenOrientation } from "@/core/browser/ScreenInspector";
 
 type HexadecimalColor = string;
@@ -20,5 +19,5 @@ export interface ContextualImageRequest {
 }
 
 export interface ContextualImageService {
-    get(request: ContextualImageRequest): Promise<Nullable<ContextualImage>>;
+    get(request: ContextualImageRequest): Promise<ContextualImage>;
 }
