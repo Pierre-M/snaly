@@ -20,6 +20,8 @@ import { FakeSharingService } from "./FakeSharingService";
 import { SharingService } from "@/core/browser/SharingService";
 import { FakeHapticFeedbackService } from "./FakeHapticFeedbackService";
 import { HapticFeedbackService } from "@/core/hardware/HapticFeedbackService";
+import { FakeAlertingService } from "./FakeAlertingService";
+import { AlertingService } from "@/core/alerting/AlertingService";
 
 export const fakeWallpaperService = new FakeWallpaperService();
 export const fakeGeolocationService = new FakeGeolocationService();
@@ -29,6 +31,7 @@ export const fakeGeocodingService = new FakeGeocodingService();
 export const fakeDevToolsLogger = new FakeDevToolsLogger();
 export const fakeSharingService = new FakeSharingService();
 export const fakeHapticFeedbackService = new FakeHapticFeedbackService();
+export const fakeAlertingService = new FakeAlertingService();
 
 container.register<IWallpaperService>(DIToken.WALLPAPER_SERVICE, {
     useValue: fakeWallpaperService
@@ -64,4 +67,8 @@ container.register<SharingService>(DIToken.SHARING_SERVICE, {
 
 container.register<HapticFeedbackService>(DIToken.HAPTIC_FEEDBACK_SERVICE, {
     useValue: fakeHapticFeedbackService
+});
+
+container.register<AlertingService>(DIToken.ALERTING_SERVICE, {
+    useValue: fakeAlertingService
 });
