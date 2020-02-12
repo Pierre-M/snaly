@@ -24,6 +24,9 @@ import { FakeAlertingService } from "./FakeAlertingService";
 import { AlertingService } from "@/core/alerting/AlertingService";
 import { FakeHttpClient } from "./FakeHttpClient";
 import { HttpClient } from "@/core/http/HttpClient";
+import { FakeCitySearchService } from "./FakeCitySearchService";
+import { CitySearchService } from "@/business/city-search/CitySearchService";
+import { FakeCityBuilder } from "./FakeCityBuilder";
 
 export const fakeHttpClient = new FakeHttpClient();
 export const fakeWallpaperService = new FakeWallpaperService();
@@ -35,6 +38,8 @@ export const fakeDevToolsLogger = new FakeDevToolsLogger();
 export const fakeSharingService = new FakeSharingService();
 export const fakeHapticFeedbackService = new FakeHapticFeedbackService();
 export const fakeAlertingService = new FakeAlertingService();
+export const fakeCitySearchService = new FakeCitySearchService();
+export const fakeCityBuilder = new FakeCityBuilder();
 
 container.register<HttpClient>(DIToken.HTTP_CLIENT, {
     useValue: fakeHttpClient
@@ -78,4 +83,8 @@ container.register<HapticFeedbackService>(DIToken.HAPTIC_FEEDBACK_SERVICE, {
 
 container.register<AlertingService>(DIToken.ALERTING_SERVICE, {
     useValue: fakeAlertingService
+});
+
+container.register<CitySearchService>(DIToken.CITY_SEARCH_SERVICE, {
+    useValue: fakeCitySearchService
 });

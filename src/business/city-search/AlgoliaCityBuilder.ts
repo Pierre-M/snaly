@@ -2,10 +2,12 @@
 
 import { City, CityBuilder } from "@/business/city-search/CitySearchService";
 import { Nullable } from "@/types/app";
-import { inject } from "tsyringe";
+import { inject, injectable, singleton } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { AlertingService } from "@/core/alerting/AlertingService";
 
+@injectable()
+@singleton()
 export class AlgoliaCityBuilder implements CityBuilder {
     constructor(@inject(DIToken.ALERTING_SERVICE) private alertingService: AlertingService) {}
 

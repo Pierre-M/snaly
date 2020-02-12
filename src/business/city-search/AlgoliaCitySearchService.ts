@@ -32,6 +32,6 @@ export class AlgoliaCitySearchService implements CitySearchService {
             return [];
         }
 
-        return response.hits.map(this.cityBuilder.build);
+        return response.hits.map((hit: any) => this.cityBuilder.build(hit)).filter(Boolean);
     }
 }

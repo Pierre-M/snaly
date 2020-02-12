@@ -5,15 +5,14 @@ import {
     ALGOLIA_BASE_REQUEST,
     AlgoliaCitySearchService
 } from "@/business/city-search/AlgoliaCitySearchService";
-import { fakeHttpClient } from "../../_mocks";
+import { fakeCityBuilder, fakeHttpClient } from "../../_mocks";
 import { generateAlgoliaResults } from "../../_mocks/generators/AlgoliaDataGenerator";
-import { FakeCityBuilder } from "../../_mocks/FakeCityBuilder";
 
 let service: AlgoliaCitySearchService;
 
 describe("AlgoliaCitySearchService", () => {
     beforeEach(() => {
-        service = new AlgoliaCitySearchService(fakeHttpClient, new FakeCityBuilder());
+        service = new AlgoliaCitySearchService(fakeHttpClient, fakeCityBuilder);
         fakeHttpClient.mockSuccessfullResponse(generateAlgoliaResults());
     });
 
@@ -47,6 +46,14 @@ describe("AlgoliaCitySearchService", () => {
 
     it("should return an empty array in case of any issue with Algolia API", async () => {
         fakeHttpClient.mockErroredResponse();
+
+        const response = await service.getCities({ query: "Paris", language: "fr" });
+
+        expect(response).toEqual([]);
+    });
+
+    it("should exclude empty result entries", async () => {
+        fakeCityBuilder.result = null;
 
         const response = await service.getCities({ query: "Paris", language: "fr" });
 

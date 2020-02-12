@@ -37,8 +37,10 @@ export function generateAlgoliaCityResultData({ incomplete, city }: AlgoliaGener
     };
 }
 
-export function generateAlgoliaResults(params?: { count: number }) {
+export function generateAlgoliaResults(params?: { count?: number; incomplete?: boolean }) {
     return {
-        hits: [...Array(params?.count || 5).keys()].map(() => generateAlgoliaCityResultData())
+        hits: [...Array(params?.count || 5).keys()].map(() =>
+            generateAlgoliaCityResultData({ incomplete: params?.incomplete })
+        )
     };
 }
