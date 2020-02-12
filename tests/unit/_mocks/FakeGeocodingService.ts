@@ -1,7 +1,6 @@
 "use strict";
 
 import { GeocodingService, UserLocation } from "@/business/geocoding/GeocodingService";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
 
 export class FakeGeocodingService implements GeocodingService {
@@ -11,5 +10,5 @@ export class FakeGeocodingService implements GeocodingService {
 
     private _returnedValue: Nullable<UserLocation> = null;
 
-    getAddress = jest.fn((coordinates: UserCoordinates) => Promise.resolve(this._returnedValue));
+    getAddress = jest.fn(() => Promise.resolve(this._returnedValue));
 }

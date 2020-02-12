@@ -45,8 +45,6 @@ export default class WallpaperCompponent extends Vue {
 </script>
 
 <style lang="scss">
-@import "../../../node_modules/reset-css/reset.css";
-
 @keyframes imgAnim {
     from {
         opacity: 0;

@@ -37,9 +37,10 @@ describe("store", () => {
 
     it("should call for user location upon coordinates state change", async () => {
         const coordinates = generateUserCoordinates();
+        const language = (store.state as AppState).userPreferencesModule.local;
 
         await store.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
-        expect(store.dispatch).toHaveBeenCalledWith(LocalizationModuleAction.GET_LOCATION, coordinates);
+        expect(store.dispatch).toHaveBeenCalledWith(LocalizationModuleAction.GET_LOCATION, { coordinates, language });
     });
 
     it("should call for a new wallpaper upon weather overview state change", async () => {

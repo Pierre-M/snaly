@@ -1,6 +1,6 @@
 "use strict";
 
-import { uniqWith, isEqual } from "lodash";
+import { isEqual, uniqWith } from "lodash";
 import qs from "querystring";
 import { FakeHttpClient } from "../../_mocks/FakeHttpClient";
 import {
@@ -11,6 +11,8 @@ import {
 } from "@/core/image/UnsplashImageService";
 import { ContextualImageRequest } from "@/core/image/ContextualImageService";
 import { generateUnsplashResults } from "../../_mocks/UnsplashApiDataGenerator";
+import { ScreenOrientation } from "@/core/browser/ScreenInspector";
+import { defaultLandscapeContent, defaultPortraitContent } from "@/core/image/UnsplashDefaultContent";
 
 let httpClient: FakeHttpClient;
 let service: UnsplashImageService;
@@ -36,12 +38,22 @@ describe("UnsplashImageService", () => {
         expect(httpClient.get).toHaveBeenCalledWith(UNSPLASH_API_URL, expectedParams);
     });
 
-    it("it should return null if no data is returned by unsplash", async () => {
+    it("it should return right default landscape picture if unsplash API has any issue", async () => {
         httpClient.mockErroredResponse();
 
-        const res = await service.get({ query: "test" });
+        const res = await service.get({ query: "test", orientation: ScreenOrientation.LANDSCAPE });
 
-        expect(res).toEqual(null);
+        expect(res.color).toEqual(defaultLandscapeContent.color);
+        expect(res.src).toContain(defaultLandscapeContent.urls.raw);
+    });
+
+    it("it should return right default portrait picture if unsplash API has any issue", async () => {
+        httpClient.mockErroredResponse();
+
+        const res = await service.get({ query: "test", orientation: ScreenOrientation.PORTRAIT });
+
+        expect(res.color).toEqual(defaultPortraitContent.color);
+        expect(res.src).toContain(defaultPortraitContent.urls.raw);
     });
 
     it("it should pick random item among unsplash results", async () => {
