@@ -17,7 +17,7 @@ export class AlgoliaCityBuilder implements CityBuilder {
                 name: data.city ? data.city[0] : data.locale_names[0],
                 country: data.country,
                 countryCode: data.country_code,
-                zipCode: data.postcode[0],
+                zipCode: data.postcode ? data.postcode[0] : "",
                 coordinates: {
                     latitude: data._geoloc.lat,
                     longitude: data._geoloc.lng
