@@ -57,6 +57,8 @@ function setScreenSize(params: { width: number; height: number }) {
         value: params.height,
         writable: true
     });
+
+    inspector = new BrowserScreenInspector();
 }
 
 function setScreenOrientation(orientation: Nullable<string>) {

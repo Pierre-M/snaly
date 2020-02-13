@@ -1,10 +1,10 @@
 <template>
     <fade-transition>
-        <slide-y-down-transition v-show="shown" group tag="ul" class="bg-white text-gray-700 rounded-lg">
+        <slide-y-down-transition v-show="shown" group tag="ul" class="bg-white text-gray-700 rounded-lg overflow-auto">
             <li
                 v-for="city in results"
                 :key="city.name"
-                class="p-4 border-b last:border-b-0"
+                class="p-4 border-b last:border-b-0 cursor-pointer hover:bg-gray-100"
                 @click="triggerSelection(city)"
             >
                 {{ city.name }}

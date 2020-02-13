@@ -10,8 +10,6 @@ import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
 import { AppState } from "@/store/store";
 import { DevToolsLogger } from "@/business/easter-eggs/DevToolsLogger";
 import { City } from "@/business/city-search/CitySearchService";
-import { UIModuleActions } from "@/store/module/ui.module";
-import { CitySearchModuleAction } from "@/store/module/citySearch.module";
 
 const gestureService = container.resolve<GestureService>(DIToken.GESTURE_SERVICE);
 const devToolsLogger = container.resolve<DevToolsLogger>(DIToken.DEVTOOLS_LOGGER);
@@ -35,9 +33,7 @@ export const actions: ActionTree<RootState, RootState> = {
             });
         }
     },
-    [StoreAction.SELECT_CITY]: async ({ commit, dispatch }: ActionContext<RootState, RootState>, city: City) => {
+    [StoreAction.SELECT_CITY]: ({ commit, dispatch }: ActionContext<RootState, RootState>, city: City) => {
         commit(LocalizationModuleMutation.UPDATE_COORDINATES, city.coordinates);
-        dispatch(UIModuleActions.CLOSE_CITY_SEARCH);
-        dispatch(CitySearchModuleAction.RESET_CITIES);
     }
 };

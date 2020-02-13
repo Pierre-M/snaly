@@ -1,11 +1,14 @@
 <template>
-    <div>
-        <input
-            class="bg-transparent border-b border-white-20 placeholder-white focus:outline-none"
-            placeholder="Search for a city"
-            v-model="inputValue"
-            @input="triggerInput"
-        />
+    <div class="text-xl border-b border-white-20 focus-within:border-white transition-border duration-200 ease-in-out">
+        <label>
+            <input
+                class="py-2 w-full bg-transparent border-0 placeholder-20 focus:outline-none"
+                :placeholder="$t('citySearch.queryInputPlaceholder')"
+                :value="inputValue"
+                @input="triggerInput"
+            />
+            <span class="sr-only">{{ $t("citySearch.queryInputPlaceholder") }}</span>
+        </label>
     </div>
 </template>
 
@@ -26,7 +29,8 @@ export default class CitySearchInput extends Vue {
         this.inputValue = this.value;
     }
 
-    triggerInput() {
+    triggerInput(e: Event) {
+        this.inputValue = (e?.target as HTMLInputElement).value.trim();
         this.$emit("input", this.inputValue);
     }
 

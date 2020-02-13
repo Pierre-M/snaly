@@ -1,18 +1,35 @@
 <template>
     <portal to="citySearchContainer">
         <fade-transition :duration="150">
-            <section v-show="opened" class="fixed inset-0 bg-backdrop backdrop-blur text-white p-6">
-                <div class="m-auto w-full max-w-screen-xs">
-                    <slide-y-down-transition :duration="150">
-                        <header v-if="opened">
-                            <city-search-input v-model="query" v-debounce="() => getCities({ query })" />
+            <section v-show="opened" class="fixed inset-0 bg-backdrop backdrop-blur text-white p-6 flex flex-col">
+                <div class="m-auto w-full max-w-screen-xs flex-1 flex flex-col">
+                    <slide-y-up-transition :duration="150">
+                        <header v-if="opened" class="flex items-center">
+                            <city-search-input v-model="query" v-debounce="() => getCities({ query })" class="flex-1" />
+                            <request-geolocation-cta class="ml-2" @click="exitCitySearch" />
                         </header>
-                    </slide-y-down-transition>
+                    </slide-y-up-transition>
 
-                    <city-search-results :results="results" @select="selectCity" />
-
-                    <span v-show="loading">Loading...</span>
+                    <div class="relative flex-1 my-3">
+                        <city-search-results
+                            class="absolute inset-x-0 max-h-full"
+                            :results="results"
+                            @select="selectCity"
+                        />
+                    </div>
                 </div>
+
+                <slide-y-down-transition>
+                    <footer v-show="opened" class="flex justify-center">
+                        <icon-btn
+                            icon="close"
+                            :label="$t('citySearch.closeLabel')"
+                            :bordered="true"
+                            :quiet="true"
+                            @click="exitCitySearch"
+                        />
+                    </footer>
+                </slide-y-down-transition>
             </section>
         </fade-transition>
     </portal>
@@ -20,17 +37,20 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Action, Getter, State } from "vuex-class";
-import { UIModuleGetter } from "@/store/module/ui.module";
+import { Action, Getter, Mutation, State } from "vuex-class";
+import { UIModuleActions, UIModuleGetter } from "@/store/module/ui.module";
 import CitySearchInput from "@/ui/city-search/CitySearchInput.vue";
 import { CitySearchModuleAction } from "@/store/module/citySearch.module";
 import CitySearchResults from "@/ui/city-search/CitySearchResults.vue";
 import { AppState } from "@/store/store";
 import { City } from "@/business/city-search/CitySearchService";
-import { StoreAction } from "@/store/actions";
+import IconBtn from "@/ui/core/fundamentals/IconBtn.vue";
+import { LocalizationModuleMutation } from "@/store/module/localization.module";
+import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import RequestGeolocationCta from "@/ui/geolocation/RequestGeolocationCta.vue";
 
 @Component({
-    components: { CitySearchResults, CitySearchInput }
+    components: { RequestGeolocationCta, IconBtn, CitySearchResults, CitySearchInput }
 })
 export default class CitySearchPanel extends Vue {
     @Getter(UIModuleGetter.IS_CITY_SEARCH_OPENED)
@@ -45,10 +65,27 @@ export default class CitySearchPanel extends Vue {
     @Action(CitySearchModuleAction.GET_CITIES)
     getCities!: () => void;
 
-    @Action(StoreAction.SELECT_CITY)
-    selectCity!: (city: City) => void;
+    @Action(CitySearchModuleAction.RESET_CITIES)
+    resetCities!: () => void;
+
+    @Mutation(LocalizationModuleMutation.UPDATE_COORDINATES)
+    updateCoordinates!: (coords: UserCoordinates) => void;
+
+    @Action(UIModuleActions.CLOSE_CITY_SEARCH)
+    closePanel!: () => void;
 
     query: string = "";
+
+    selectCity(city: City) {
+        this.updateCoordinates(city.coordinates);
+        this.exitCitySearch();
+    }
+
+    exitCitySearch() {
+        this.query = "";
+        this.resetCities();
+        this.closePanel();
+    }
 }
 </script>
 

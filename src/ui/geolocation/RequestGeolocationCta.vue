@@ -1,5 +1,5 @@
 <template>
-    <icon-btn icon="geolocation" @click="requestGeolocation" :label="$t('request_geolocation_cta_label')" />
+    <icon-btn icon="geolocation" @click="triggerGeolocationRequested" :label="$t('request_geolocation_cta_label')" />
 </template>
 
 <script lang="ts">
@@ -11,8 +11,13 @@ import { LocalizationModuleAction } from "@/store/module/localization.module";
 @Component({
     components: { IconBtn }
 })
-export default class AllowUserGeolocationCta extends Vue {
+export default class RequestGeolocationCta extends Vue {
     @Action(LocalizationModuleAction.REQUEST_GEOLOCATION)
     requestGeolocation!: () => void;
+
+    triggerGeolocationRequested() {
+        this.requestGeolocation();
+        this.$emit("click");
+    }
 }
 </script>
