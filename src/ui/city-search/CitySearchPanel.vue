@@ -20,15 +20,14 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import { Action, Getter, Mutation, State } from "vuex-class";
-import { UIModuleActions, UIModuleGetter } from "@/store/module/ui.module";
+import { Action, Getter, State } from "vuex-class";
+import { UIModuleGetter } from "@/store/module/ui.module";
 import CitySearchInput from "@/ui/city-search/CitySearchInput.vue";
 import { CitySearchModuleAction } from "@/store/module/citySearch.module";
 import CitySearchResults from "@/ui/city-search/CitySearchResults.vue";
 import { AppState } from "@/store/store";
 import { City } from "@/business/city-search/CitySearchService";
-import { LocalizationModuleMutation } from "@/store/module/localization.module";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { StoreAction } from "@/store/actions";
 
 @Component({
     components: { CitySearchResults, CitySearchInput }
@@ -46,18 +45,10 @@ export default class CitySearchPanel extends Vue {
     @Action(CitySearchModuleAction.GET_CITIES)
     getCities!: () => void;
 
-    @Action(UIModuleActions.CLOSE_CITY_SEARCH)
-    closeSearchPanel!: () => void;
-
-    @Mutation(LocalizationModuleMutation.UPDATE_COORDINATES)
-    updateCoordinates!: (coordinates: UserCoordinates) => void;
+    @Action(StoreAction.SELECT_CITY)
+    selectCity!: (city: City) => void;
 
     query: string = "";
-
-    selectCity(city: City) {
-        this.updateCoordinates(city.coordinates);
-        this.closeSearchPanel();
-    }
 }
 </script>
 

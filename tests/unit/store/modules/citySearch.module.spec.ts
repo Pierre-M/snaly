@@ -5,6 +5,7 @@ import Vuex, { Store } from "vuex";
 import {
     citySearchModule,
     CitySearchModuleAction,
+    CitySearchModuleMutation,
     CitySearchModuleRequest,
     CitySearchModuleState
 } from "@/store/module/citySearch.module";
@@ -57,5 +58,12 @@ describe("Vuex store : citySearch module", () => {
         await store.dispatch(CitySearchModuleAction.GET_CITIES, { query: "Paris" });
 
         expect((store.state.citySearchModule as CitySearchModuleState).loading).toBe(false);
+    });
+
+    it("should be able to reset cities", async () => {
+        store.commit(CitySearchModuleMutation.UPDATE_RESULTS, [generateCity()]);
+        await store.dispatch(CitySearchModuleAction.RESET_CITIES);
+
+        expect((store.state.citySearchModule as CitySearchModuleState).results).toEqual([]);
     });
 });

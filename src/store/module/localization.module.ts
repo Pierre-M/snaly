@@ -24,8 +24,8 @@ export enum LocalizationModuleAction {
 }
 
 export const DEFAULT_COORDINATES: UserCoordinates = {
-    latitude: 48.864716,
-    longitude: 2.349014
+    latitude: 48.8546,
+    longitude: 2.3477
 };
 
 export enum LocalizationModuleMutation {

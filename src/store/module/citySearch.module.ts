@@ -15,7 +15,8 @@ export interface CitySearchModuleState {
 }
 
 export enum CitySearchModuleAction {
-    GET_CITIES = "getCities"
+    GET_CITIES = "getCities",
+    RESET_CITIES = "resetCities"
 }
 
 export enum CitySearchModuleMutation {
@@ -53,6 +54,9 @@ export const citySearchModule: Module<CitySearchModuleState, RootState> = {
 
             commit(CitySearchModuleMutation.UPDATE_RESULTS, results);
             commit(CitySearchModuleMutation.UPDATE_LOADING_STATE, false);
+        },
+        [CitySearchModuleAction.RESET_CITIES]: ({ commit }: ActionContext<CitySearchModuleState, RootState>) => {
+            commit(CitySearchModuleMutation.UPDATE_RESULTS, []);
         }
     }
 };

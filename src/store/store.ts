@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { StoreOptions } from "vuex";
 import { isEqual } from "lodash";
 import { RootState, state } from "@/store/state";
 import { mutations } from "@/store/mutations";
@@ -39,7 +39,7 @@ export interface AppState {
     citySearchModule: CitySearchModuleState;
 }
 
-export const store = new Vuex.Store({
+export const StoreConfiguration: StoreOptions<RootState> = {
     state,
     mutations,
     actions,
@@ -52,7 +52,9 @@ export const store = new Vuex.Store({
         userPreferencesModule,
         citySearchModule
     }
-});
+};
+
+export const store = new Vuex.Store(StoreConfiguration);
 
 store.watch(
     (state: RootState) => (state as AppState).localizationModule.coordinates,

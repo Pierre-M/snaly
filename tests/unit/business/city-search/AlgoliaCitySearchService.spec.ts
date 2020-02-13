@@ -1,9 +1,10 @@
 "use strict";
 
 import {
-    ALGOLIA_API,
+    ALGOLIA_SEARCH_API,
     ALGOLIA_BASE_REQUEST,
-    AlgoliaCitySearchService
+    AlgoliaCitySearchService,
+    ALGOLIA_REVERSE_GEOCODING_API
 } from "@/business/city-search/AlgoliaCitySearchService";
 import { fakeCityBuilder, fakeHttpClient } from "../../_mocks";
 import { generateAlgoliaResults } from "../../_mocks/generators/AlgoliaDataGenerator";
@@ -44,7 +45,7 @@ describe("AlgoliaCitySearchService", () => {
 
         await service.getCities({ query, language });
 
-        expect(fakeHttpClient.post).toHaveBeenCalledWith(ALGOLIA_API, expectedPayload);
+        expect(fakeHttpClient.post).toHaveBeenCalledWith(ALGOLIA_SEARCH_API, expectedPayload);
     });
 
     it("should return an empty array in case of any issue with Algolia API", async () => {
@@ -87,7 +88,6 @@ describe("AlgoliaCitySearchService", () => {
         const language = "fr";
 
         const expected = {
-            ...ALGOLIA_BASE_REQUEST,
             hitsPerPage: 1,
             language,
             aroundLatLng: `${coordinates.latitude},${coordinates.longitude}`
@@ -95,7 +95,7 @@ describe("AlgoliaCitySearchService", () => {
 
         await service.getCityByCoordinates({ coordinates, language });
 
-        expect(fakeHttpClient.post).toHaveBeenCalledWith(ALGOLIA_API, expected);
+        expect(fakeHttpClient.get).toHaveBeenCalledWith(ALGOLIA_REVERSE_GEOCODING_API, expected);
     });
 
     it("should return null if anything wrong happen with Algolia api", async () => {

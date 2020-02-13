@@ -12,7 +12,9 @@ import { DIToken } from "@/core/dependency-injection/DIToken";
 import { HttpClient } from "@/core/http/HttpClient";
 import { Nullable } from "@/types/app";
 
-export const ALGOLIA_API = "https://places-dsn.algolia.net/1/places/query";
+export const ALGOLIA_API = "https://places-dsn.algolia.net/1/places";
+export const ALGOLIA_SEARCH_API = `${ALGOLIA_API}/query`;
+export const ALGOLIA_REVERSE_GEOCODING_API = `https://places-dsn.algolia.net/1/places/reverse`;
 export const ALGOLIA_BASE_REQUEST = {
     type: "city",
     hitsPerPage: 10
@@ -26,8 +28,7 @@ export class AlgoliaCitySearchService implements CitySearchService {
     ) {}
 
     async getCityByCoordinates({ coordinates, language }: CitySearchGeocodingRequest): Promise<Nullable<City>> {
-        const [res] = await this.httpClient.post<any>(ALGOLIA_API, {
-            ...ALGOLIA_BASE_REQUEST,
+        const [res] = await this.httpClient.get<any>(ALGOLIA_REVERSE_GEOCODING_API, {
             hitsPerPage: 1,
             language: language,
             aroundLatLng: `${coordinates.latitude},${coordinates.longitude}`
@@ -45,7 +46,7 @@ export class AlgoliaCitySearchService implements CitySearchService {
             return [];
         }
 
-        const [response] = await this.httpClient.post<any>(ALGOLIA_API, {
+        const [response] = await this.httpClient.post<any>(ALGOLIA_SEARCH_API, {
             ...ALGOLIA_BASE_REQUEST,
             ...request
         });
