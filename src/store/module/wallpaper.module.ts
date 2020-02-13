@@ -13,19 +13,28 @@ const wallpaperService = container.resolve<IWallpaperService>(DIToken.WALLPAPER_
 
 export interface WallpaperModuleState {
     wallpaper: Nullable<ContextualImage>;
+    loading: boolean;
 }
 
 export enum WallpaperModuleAction {
     REFRESH_WALLPAPER = "refreshWallpaper"
 }
 
+export enum WallpaperModuleMutation {
+    UPDATE_LOADING_STATE = "UpdateWallpaperLoadingState"
+}
+
 export const wallpaperModule: Module<WallpaperModuleState, RootState> = {
     state: {
-        wallpaper: null
+        wallpaper: null,
+        loading: true
     },
     mutations: {
         updateWallpaper(state: WallpaperModuleState, wallpaper: Nullable<ContextualImage>) {
             state.wallpaper = wallpaper;
+        },
+        [WallpaperModuleMutation.UPDATE_LOADING_STATE]: (state: WallpaperModuleState, isLoading: boolean) => {
+            state.loading = isLoading;
         }
     },
     actions: {
@@ -37,9 +46,10 @@ export const wallpaperModule: Module<WallpaperModuleState, RootState> = {
                 return;
             }
 
+            commit(WallpaperModuleMutation.UPDATE_LOADING_STATE, true);
             const wallpaper = await wallpaperService.get(weatherOverview.description.text);
-
             commit("updateWallpaper", wallpaper);
+            commit(WallpaperModuleMutation.UPDATE_LOADING_STATE, false);
         }
     }
 };

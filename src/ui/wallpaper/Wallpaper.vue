@@ -4,9 +4,12 @@
             <div
                 ref="backgroundContainer"
                 aria-hidden="true"
-                class="fixed inset-0 opacity-90"
+                class="fixed inset-0 opacity-90 transition-bg duration-500 ease-in-out"
                 :style="`background-color: ${wallpaper.color}`"
             />
+            <fade-transition>
+                <div v-show="loading" class="fixed inset-0 backdrop-blur" />
+            </fade-transition>
         </div>
     </fade-transition>
 </template>
@@ -22,6 +25,9 @@ import { AppState } from "@/store/store";
 export default class WallpaperCompponent extends Vue {
     @State((state: AppState) => state.wallpaperModule.wallpaper)
     wallpaper!: Nullable<ContextualImage>;
+
+    @State((state: AppState) => state.wallpaperModule.loading)
+    loading!: boolean;
 
     @Watch("wallpaper", { immediate: true, deep: true })
     lazyLoadWallpaper() {

@@ -4,7 +4,6 @@ export enum DIToken {
     HTTP_CLIENT = "HttpClient",
     WEATHER_SERVICE = "CurrentWeatherService",
     GEOLOCATION_SERVICE = "GeolocationService",
-    GEOCODING_SERVICE = "GeocodingService",
     SCREEN_INSPECTOR = "ScreenInspector",
     CONTEXTUAL_IMAGE_SERVICE = "ContextualImageService",
     WALLPAPER_SERVICE = "WallpaperService",
@@ -13,5 +12,7 @@ export enum DIToken {
     DEVTOOLS_LOGGER = "DevToolsLogger",
     ALERTING_SERVICE = "AlertingService",
     ENVIRONMENT_SERVICE = "EnvironmentService",
-    SHARING_SERVICE = "SharingService"
+    SHARING_SERVICE = "SharingService",
+    CITY_BUILDER = "CityBuilder",
+    CITY_SEARCH_SERVICE = "CitySearchService"
 }

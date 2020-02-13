@@ -2,7 +2,7 @@
 
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
-import { fakeGeocodingService, fakeGeolocationService } from "../../_mocks";
+import { fakeCitySearchService, fakeGeolocationService } from "../../_mocks";
 import {
     DEFAULT_COORDINATES,
     localizationModule,
@@ -12,8 +12,8 @@ import {
     LocalizationModuleState
 } from "@/store/module/localization.module";
 import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
-import { generateUserLocation } from "../../_mocks/generators/LocalizationGenerator";
-import { UserLocation } from "@/business/geocoding/GeocodingService";
+import { generateCity } from "../../_mocks/generators/CityGenerator";
+import { City } from "@/business/city-search/CitySearchService";
 
 Vue.use(Vuex);
 
@@ -87,18 +87,18 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
 
         store.dispatch(LocalizationModuleAction.GET_LOCATION, { coordinates, language });
 
-        expect(fakeGeocodingService.getAddress).toHaveBeenCalledWith({ coordinates, language });
+        expect(fakeCitySearchService.getCityByCoordinates).toHaveBeenCalledWith({ coordinates, language });
     });
 
     it("should not call for geocodingService upon getLocation action if coordinates are null", () => {
         store.dispatch(LocalizationModuleAction.GET_LOCATION, null);
 
-        expect(fakeGeocodingService.getAddress).not.toHaveBeenCalled();
+        expect(fakeCitySearchService.getCityByCoordinates).not.toHaveBeenCalled();
     });
 
     it("should update state upon getLocationAction only when location is not null", async () => {
-        const location = generateUserLocation();
-        fakeGeocodingService.returnedValue = location;
+        const city = generateCity();
+        fakeCitySearchService.city = city;
 
         const locationRequest: LocalizationModuleAddressRequest = {
             coordinates: generateUserCoordinates(),
@@ -107,13 +107,13 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
 
         await store.dispatch(LocalizationModuleAction.GET_LOCATION, locationRequest);
 
-        expect(store.state.localizationModule.location).toEqual(location);
+        expect(store.state.localizationModule.location).toEqual(city);
 
-        fakeGeocodingService.returnedValue = null;
+        fakeCitySearchService.city = null;
 
         await store.dispatch(LocalizationModuleAction.GET_LOCATION, locationRequest);
 
-        expect(store.state.localizationModule.location).toEqual(location);
+        expect(store.state.localizationModule.location).toEqual(city);
     });
 
     it("should update geolocation request state and call for coordinates upon call on requestGeolocation action", async () => {
@@ -141,14 +141,18 @@ describe("Vuex store: LocalizationModule - getters", () => {
     });
 
     it("should return location with right format if location is set", async () => {
-        const location: UserLocation = {
-            city: "Paris",
+        const city: City = {
+            name: "Paris",
             country: "France",
             countryCode: "fr",
-            zipCode: "75001"
+            zipCode: "75001",
+            coordinates: {
+                latitude: 2,
+                longitude: 48
+            }
         };
 
-        await store.commit(LocalizationModuleMutation.UPDATE_LOCATION, location);
+        await store.commit(LocalizationModuleMutation.UPDATE_LOCATION, city);
 
         expect(store.getters.shortenedLocation).toEqual("Paris, FR");
     });

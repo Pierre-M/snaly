@@ -1,16 +1,16 @@
 "use strict";
 
 import { shallowMount } from "../../_utils";
-import AllowUserGeolocationCta from "@/ui/geolocation/AllowUserGeolocationCta.vue";
+import RequestGeolocationCta from "@/ui/geolocation/RequestGeolocationCta.vue";
 import IconBtn from "@/ui/core/fundamentals/IconBtn.vue";
 import { Wrapper } from "@vue/test-utils";
 import { LocalizationModuleAction } from "@/store/module/localization.module";
 
-let wrapper: Wrapper<AllowUserGeolocationCta>;
+let wrapper: Wrapper<RequestGeolocationCta>;
 
 describe("AllowUserGeolocationCta", () => {
     beforeEach(() => {
-        wrapper = shallowMount(AllowUserGeolocationCta);
+        wrapper = shallowMount(RequestGeolocationCta);
     });
 
     afterEach(() => {

@@ -38,12 +38,15 @@ module.exports = {
                 "1/8": "12.5%"
             },
             colors: {
-                "white-20": "rgba(255, 255, 255, .5)"
+                "white-20": "rgba(255, 255, 255, .5)",
+                backdrop: "rgba(0, 0, 0, .8)"
             }
         }
     },
     variants: {
-        scale: ["active"]
+        scale: ["active"],
+        borderWidth: ["last"],
+        borderColor: ["focus-within", "hover"]
     },
     plugins: [require("tailwindcss-filters")]
 };

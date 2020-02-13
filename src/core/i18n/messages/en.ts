@@ -26,5 +26,10 @@ export const en = {
     weather: {
         sunriseLabel: "Sunrise time",
         sunsetLabel: "Sunset time"
+    },
+    citySearch: {
+        openLabel: "Search for city",
+        closeLabel: "Exit city search",
+        queryInputPlaceholder: "Search for a city..."
     }
 };

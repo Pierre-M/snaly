@@ -2,7 +2,7 @@
 
 exports[`IconBtn should render given icon 1`] = `
 <button type="button" title="My label" aria-label="My label" class="icon-btn flex items-center justify-center p-0 outline-none border-0
-        focus:outline-none transform transition duration-200 ease-in-out active:scale-75">
+        focus:outline-none transform transition duration-200 ease-in-out active:scale-75 rounded-full">
   <icon-stub icon="my-icon" class="text-3xl"></icon-stub>
 </button>
 `;

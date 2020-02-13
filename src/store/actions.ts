@@ -5,13 +5,18 @@ import { RootState } from "./state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { GestureService } from "@/core/hardware/GestureService";
-import { LocalizationModuleAction } from "@/store/module/localization.module";
+import { LocalizationModuleAction, LocalizationModuleMutation } from "@/store/module/localization.module";
 import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
 import { AppState } from "@/store/store";
 import { DevToolsLogger } from "@/business/easter-eggs/DevToolsLogger";
+import { City } from "@/business/city-search/CitySearchService";
 
 const gestureService = container.resolve<GestureService>(DIToken.GESTURE_SERVICE);
 const devToolsLogger = container.resolve<DevToolsLogger>(DIToken.DEVTOOLS_LOGGER);
+
+export enum StoreAction {
+    SELECT_CITY = "StoreActionSelectCity"
+}
 
 export const actions: ActionTree<RootState, RootState> = {
     async init(context: ActionContext<RootState, RootState>) {
@@ -27,5 +32,8 @@ export const actions: ActionTree<RootState, RootState> = {
                 );
             });
         }
+    },
+    [StoreAction.SELECT_CITY]: ({ commit, dispatch }: ActionContext<RootState, RootState>, city: City) => {
+        commit(LocalizationModuleMutation.UPDATE_COORDINATES, city.coordinates);
     }
 };

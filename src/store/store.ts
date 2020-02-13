@@ -1,12 +1,17 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { StoreOptions } from "vuex";
 import { isEqual } from "lodash";
 import { RootState, state } from "@/store/state";
 import { mutations } from "@/store/mutations";
 import { actions } from "@/store/actions";
 import { getters } from "@/store/getters";
 
-import { wallpaperModule, WallpaperModuleAction, WallpaperModuleState } from "@/store/module/wallpaper.module";
+import {
+    wallpaperModule,
+    WallpaperModuleAction,
+    WallpaperModuleMutation,
+    WallpaperModuleState
+} from "@/store/module/wallpaper.module";
 
 import {
     localizationModule,
@@ -26,6 +31,7 @@ import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import { UIModuleState, uiModule } from "@/store/module/ui.module";
 import { userPreferencesModule, UserPreferencesModuleState } from "@/store/module/userPreferences.module";
+import { citySearchModule, CitySearchModuleState } from "@/store/module/citySearch.module";
 
 Vue.use(Vuex);
 
@@ -35,9 +41,10 @@ export interface AppState {
     weatherModule: WeatherModuleState;
     uiModule: UIModuleState;
     userPreferencesModule: UserPreferencesModuleState;
+    citySearchModule: CitySearchModuleState;
 }
 
-export const store = new Vuex.Store({
+export const StoreConfiguration: StoreOptions<RootState> = {
     state,
     mutations,
     actions,
@@ -47,9 +54,12 @@ export const store = new Vuex.Store({
         localizationModule,
         weatherModule,
         uiModule,
-        userPreferencesModule
+        userPreferencesModule,
+        citySearchModule
     }
-});
+};
+
+export const store = new Vuex.Store(StoreConfiguration);
 
 store.watch(
     (state: RootState) => (state as AppState).localizationModule.coordinates,
@@ -66,6 +76,7 @@ store.watch(
             language: (store.state as AppState).userPreferencesModule.local
         };
 
+        store.commit(WallpaperModuleMutation.UPDATE_LOADING_STATE, true);
         store.dispatch(WeatherModuleAction.GET_FORECAST, weatherRequest);
         store.dispatch(WeatherModuleAction.GET_CURRENT_WEATHER, weatherRequest);
         store.dispatch(LocalizationModuleAction.GET_LOCATION, addressRequest);

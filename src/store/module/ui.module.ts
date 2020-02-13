@@ -17,27 +17,33 @@ export interface UIModuleState {
     layout: typeof Vue;
     openedForecast: Nullable<WeatherDailyForecast>;
     canShare: boolean;
+    citySearchIsOpened: boolean;
 }
 
 export enum UIModuleMutations {
-    UPDATE_OPENED_DAILY_FORECAST = "updateOpenedDailyForecast"
+    UPDATE_OPENED_DAILY_FORECAST = "updateOpenedDailyForecast",
+    UPDATE_CITY_SEARCH_OPEN_STATE = "updateCitySearchOpenState"
 }
 
 export enum UIModuleActions {
     TOGGLE_DAILY_FORECAST = "toggleDailyForecast",
+    OPEN_CITY_SEARCH = "openCitySearch",
+    CLOSE_CITY_SEARCH = "closeCitySearch",
     SHARE = "shareSnaly"
 }
 
 export enum UIModuleGetter {
     OPENED_FORECAST = "openedForecast",
-    LAYOUT = "layout"
+    LAYOUT = "layout",
+    IS_CITY_SEARCH_OPENED = "isCitySearchOpened"
 }
 
 export const uiModule: Module<UIModuleState, RootState> = {
     state: {
         layout: DesktopLayout,
         openedForecast: null,
-        canShare: sharingService.canShare
+        canShare: sharingService.canShare,
+        citySearchIsOpened: false
     },
     mutations: {
         [UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST]: (
@@ -45,6 +51,9 @@ export const uiModule: Module<UIModuleState, RootState> = {
             forecast: Nullable<WeatherDailyForecast>
         ) => {
             state.openedForecast = forecast;
+        },
+        [UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE]: (state: UIModuleState, isOpened: boolean) => {
+            state.citySearchIsOpened = isOpened;
         }
     },
     actions: {
@@ -53,6 +62,12 @@ export const uiModule: Module<UIModuleState, RootState> = {
             forecast?: Nullable<WeatherDailyForecast>
         ) => {
             commit(UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST, forecast || null);
+        },
+        [UIModuleActions.OPEN_CITY_SEARCH]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
+            commit(UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE, true);
+        },
+        [UIModuleActions.CLOSE_CITY_SEARCH]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
+            commit(UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE, false);
         },
         [UIModuleActions.SHARE]: () => {
             const shareRequest: ShareRequest = {
@@ -70,6 +85,9 @@ export const uiModule: Module<UIModuleState, RootState> = {
         },
         [UIModuleGetter.LAYOUT]: (state: UIModuleState): typeof Vue => {
             return state.layout;
+        },
+        [UIModuleGetter.IS_CITY_SEARCH_OPENED]: (state: UIModuleState): boolean => {
+            return state.citySearchIsOpened;
         }
     }
 };

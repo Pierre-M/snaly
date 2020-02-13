@@ -1,9 +1,9 @@
 import Vue from "vue";
 import {
-    shallowMount as _shallowMount,
     createLocalVue,
-    VueClass,
+    shallowMount as _shallowMount,
     ThisTypedShallowMountOptions,
+    VueClass,
     Wrapper
 } from "@vue/test-utils";
 import simulant from "simulant";
@@ -23,7 +23,8 @@ export function shallowMount<V extends Vue>(
                 return key;
             },
             $store: {
-                dispatch: jest.fn()
+                dispatch: jest.fn(),
+                commit: jest.fn()
             }
         },
         ...options
