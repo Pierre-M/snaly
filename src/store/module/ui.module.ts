@@ -10,8 +10,10 @@ import { ShareRequest, SharingService } from "@/core/browser/SharingService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
+import { ShortcutService } from "@/core/browser/ShorcutService";
 
 const sharingService = container.resolve<SharingService>(DIToken.SHARING_SERVICE);
+const shortcutService = container.resolve<ShortcutService>(DIToken.SHORTCUT_SERVICE);
 
 export interface UIModuleState {
     layout: typeof Vue;
@@ -77,6 +79,18 @@ export const uiModule: Module<UIModuleState, RootState> = {
             };
 
             sharingService.share(shareRequest);
+        },
+        init({ dispatch }) {
+            shortcutService.register({
+                def: { key: "Escape" },
+                enabledOnInput: true,
+                action: () => dispatch(UIModuleActions.CLOSE_CITY_SEARCH)
+            });
+
+            shortcutService.register({
+                def: { key: "s" },
+                action: () => dispatch(UIModuleActions.OPEN_CITY_SEARCH)
+            });
         }
     },
     getters: {

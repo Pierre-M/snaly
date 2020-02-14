@@ -45,22 +45,6 @@ describe("KeyboardShortcutService", () => {
         expect(action).not.toHaveBeenCalled();
     });
 
-    it("should not execute action when user is pressing shift by default", () => {
-        service.register({ def: { key: "a" }, action });
-
-        triggerDOMEvent(document, "keyup", { key: "a", shiftKey: true });
-
-        expect(action).not.toHaveBeenCalled();
-    });
-
-    it("should not execute action when user is pressing meta by default", () => {
-        service.register({ def: { key: "a" }, action });
-
-        triggerDOMEvent(document, "keyup", { key: "a", metaKey: true });
-
-        expect(action).not.toHaveBeenCalled();
-    });
-
     it("should execute action when user is pressing ctrl key if configured", () => {
         service.register({ def: { key: "a", ctrl: true }, action });
 
@@ -69,19 +53,18 @@ describe("KeyboardShortcutService", () => {
         expect(action).toHaveBeenCalled();
     });
 
-    it("should execute action when user is pressing shift key if configured", () => {
-        service.register({ def: { key: "a", shift: true }, action });
+    it("should execute action when user is typing if configured", () => {
+        const input = document.createElement("input");
+        const select = document.createElement("select");
+        const textarea = document.createElement("textarea");
 
-        triggerDOMEvent(document, "keyup", { key: "a", shiftKey: true });
+        insertInDom(input, select, textarea);
+        service.register({ def: { key: "a" }, action, enabledOnInput: true });
 
-        expect(action).toHaveBeenCalled();
-    });
+        triggerDOMEvent(input, "keyup", { key: "a" });
+        triggerDOMEvent(select, "keyup", { key: "a" });
+        triggerDOMEvent(textarea, "keyup", { key: "a" });
 
-    it("should execute action when user is pressing meta key if configured", () => {
-        service.register({ def: { key: "a", meta: true }, action });
-
-        triggerDOMEvent(document, "keyup", { key: "a", metaKey: true });
-
-        expect(action).toHaveBeenCalled();
+        expect(action).toHaveBeenCalledTimes(3);
     });
 });
