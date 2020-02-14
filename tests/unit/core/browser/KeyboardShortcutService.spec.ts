@@ -2,6 +2,7 @@
 
 import { KeyboardShortcutService } from "@/core/browser/KeyboardShortcutService";
 import { clearDom, insertInDom, triggerDOMEvent } from "../../_utils";
+import { Shortcut } from "@/core/browser/ShorcutService";
 
 let service: KeyboardShortcutService;
 let action: () => void;
@@ -66,5 +67,25 @@ describe("KeyboardShortcutService", () => {
         triggerDOMEvent(textarea, "keyup", { key: "a" });
 
         expect(action).toHaveBeenCalledTimes(3);
+    });
+
+    it("should be able to retrieve registered shortcut with description", () => {
+        const shortcutWithoutDescription: Shortcut = {
+            def: { key: "a" },
+            action() {}
+        };
+
+        const shortcutWithDescription: Shortcut = {
+            def: { key: "a" },
+            description: "shortcut description",
+            action() {}
+        };
+
+        service.register(shortcutWithoutDescription);
+        service.register(shortcutWithDescription);
+
+        expect(service.shortcuts).toEqual([
+            { description: shortcutWithDescription.description, def: shortcutWithDescription.def }
+        ]);
     });
 });

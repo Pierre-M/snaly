@@ -52,8 +52,8 @@ export const StoreConfiguration: StoreOptions<RootState> = {
     modules: {
         wallpaperModule,
         localizationModule,
-        weatherModule,
         uiModule,
+        weatherModule,
         userPreferencesModule,
         citySearchModule
     }

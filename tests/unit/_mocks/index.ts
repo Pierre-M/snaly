@@ -39,6 +39,7 @@ export const fakeHapticFeedbackService = new FakeHapticFeedbackService();
 export const fakeAlertingService = new FakeAlertingService();
 export const fakeCitySearchService = new FakeCitySearchService();
 export const fakeCityBuilder = new FakeCityBuilder();
+export const fakeShortcutService = new FakeShortcutService();
 
 container.register<HttpClient>(DIToken.HTTP_CLIENT, {
     useValue: fakeHttpClient
@@ -85,5 +86,5 @@ container.register<CitySearchService>(DIToken.CITY_SEARCH_SERVICE, {
 });
 
 container.register<ShortcutService>(DIToken.SHORTCUT_SERVICE, {
-    useValue: new FakeShortcutService()
+    useValue: fakeShortcutService
 });

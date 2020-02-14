@@ -1,38 +1,18 @@
 <template>
-    <portal to="panelContainer">
-        <fade-transition :duration="150">
-            <backdrop-panel v-show="opened" class="flex flex-col">
-                <div class="m-auto w-full max-w-screen-xs flex-1 flex flex-col">
-                    <slide-y-up-transition :duration="150">
-                        <header v-if="opened" class="flex items-center">
-                            <city-search-input v-model="query" v-debounce="() => getCities({ query })" class="flex-1" />
-                            <request-geolocation-cta class="ml-2" @click="exitCitySearch" />
-                        </header>
-                    </slide-y-up-transition>
+    <backdrop-panel :show="opened" :close-label="$t('citySearch.closeLabel')" @close="exitCitySearch">
+        <div class="m-auto w-full h-full max-w-screen-xs flex flex-col">
+            <slide-y-up-transition :duration="150">
+                <header v-if="opened" class="flex items-center">
+                    <city-search-input v-model="query" v-debounce="() => getCities({ query })" class="flex-1" />
+                    <request-geolocation-cta class="ml-2" @click="exitCitySearch" />
+                </header>
+            </slide-y-up-transition>
 
-                    <div class="relative flex-1 my-3">
-                        <city-search-results
-                            class="absolute inset-x-0 max-h-full"
-                            :results="results"
-                            @select="selectCity"
-                        />
-                    </div>
-                </div>
-
-                <slide-y-down-transition>
-                    <footer v-show="opened" class="flex justify-center">
-                        <icon-btn
-                            icon="close"
-                            :label="$t('citySearch.closeLabel')"
-                            :bordered="true"
-                            :quiet="true"
-                            @click="exitCitySearch"
-                        />
-                    </footer>
-                </slide-y-down-transition>
-            </backdrop-panel>
-        </fade-transition>
-    </portal>
+            <div class="relative flex-1 my-3">
+                <city-search-results class="absolute inset-x-0 max-h-full" :results="results" @select="selectCity" />
+            </div>
+        </div>
+    </backdrop-panel>
 </template>
 
 <script lang="ts">

@@ -8,7 +8,7 @@ import { ShareRequest, SharingService } from "@/core/browser/SharingService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
-import { ShortcutService } from "@/core/browser/ShorcutService";
+import { Shortcut, ShortcutResume, ShortcutService } from "@/core/browser/ShorcutService";
 
 const sharingService = container.resolve<SharingService>(DIToken.SHARING_SERVICE);
 const shortcutService = container.resolve<ShortcutService>(DIToken.SHORTCUT_SERVICE);
@@ -18,12 +18,14 @@ export interface UIModuleState {
     canShare: boolean;
     citySearchIsOpened: boolean;
     sideNavIsOpened: boolean;
+    shortcuts: ShortcutResume[];
 }
 
 export enum UIModuleMutations {
     UPDATE_OPENED_DAILY_FORECAST = "updateOpenedDailyForecast",
     UPDATE_CITY_SEARCH_OPEN_STATE = "updateCitySearchOpenState",
-    UPDATE_SIDE_NAV_OPEN_STATE = "updateSideNavOpenState"
+    UPDATE_SIDE_NAV_OPEN_STATE = "updateSideNavOpenState",
+    UPDATE_SHORTCUTS = "UpdateShortcuts"
 }
 
 export enum UIModuleActions {
@@ -33,7 +35,8 @@ export enum UIModuleActions {
     OPEN_SIDE_NAV = "openSideNav",
     CLOSE_SIDE_NAV = "closeSideNav",
     TOGGLE_SIDE_NAV = "toggleSideNav",
-    SHARE = "shareSnaly"
+    SHARE = "shareSnaly",
+    REGISTER_SHORTCUT = "RegisterShortcut"
 }
 
 export enum UIModuleGetter {
@@ -47,7 +50,8 @@ export const uiModule: Module<UIModuleState, RootState> = {
         openedForecast: null,
         canShare: sharingService.canShare,
         citySearchIsOpened: false,
-        sideNavIsOpened: false
+        sideNavIsOpened: false,
+        shortcuts: []
     },
     mutations: {
         [UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST]: (
@@ -61,6 +65,9 @@ export const uiModule: Module<UIModuleState, RootState> = {
         },
         [UIModuleMutations.UPDATE_SIDE_NAV_OPEN_STATE]: (state: UIModuleState, isOpened: boolean) => {
             state.sideNavIsOpened = isOpened;
+        },
+        [UIModuleMutations.UPDATE_SHORTCUTS]: (state: UIModuleState, shortcuts: ShortcutResume[]) => {
+            state.shortcuts = shortcuts;
         }
     },
     actions: {
@@ -91,32 +98,38 @@ export const uiModule: Module<UIModuleState, RootState> = {
         [UIModuleActions.CLOSE_SIDE_NAV]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
             commit(UIModuleMutations.UPDATE_SIDE_NAV_OPEN_STATE, false);
         },
-        [UIModuleActions.CLOSE_SIDE_NAV]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
-            commit(UIModuleMutations.UPDATE_SIDE_NAV_OPEN_STATE, false);
-        },
         [UIModuleActions.TOGGLE_SIDE_NAV]: ({ commit, state }: ActionContext<UIModuleState, RootState>) => {
             commit(UIModuleMutations.UPDATE_SIDE_NAV_OPEN_STATE, !state.sideNavIsOpened);
         },
+        [UIModuleActions.REGISTER_SHORTCUT]: (
+            { commit, state }: ActionContext<UIModuleState, RootState>,
+            shortcut: Shortcut
+        ) => {
+            shortcutService.register(shortcut);
+            commit(UIModuleMutations.UPDATE_SHORTCUTS, shortcutService.shortcuts);
+        },
         init({ dispatch }) {
-            shortcutService.register({
-                def: { key: "Escape" },
-                enabledOnInput: true,
-                action: () => dispatch(UIModuleActions.CLOSE_CITY_SEARCH)
-            });
+            const shortcutsToRegister: Shortcut[] = [
+                {
+                    def: { key: "Escape" },
+                    enabledOnInput: true,
+                    action: () => dispatch(UIModuleActions.CLOSE_CITY_SEARCH),
+                    description: I18nService.$t("shortcuts.closeCitySearchPanel") as string
+                },
+                {
+                    def: { key: "s" },
+                    action: () => dispatch(UIModuleActions.OPEN_CITY_SEARCH),
+                    description: I18nService.$t("shortcuts.openCitySearchPanel") as string
+                },
+                {
+                    def: { key: "m" },
+                    action: () => dispatch(UIModuleActions.TOGGLE_SIDE_NAV),
+                    description: I18nService.$t("shortcuts.toggleNavigationPanel") as string
+                }
+            ];
 
-            shortcutService.register({
-                def: { key: "s" },
-                action: () => dispatch(UIModuleActions.OPEN_CITY_SEARCH)
-            });
-
-            shortcutService.register({
-                def: { key: "m" },
-                action: () => dispatch(UIModuleActions.TOGGLE_SIDE_NAV)
-            });
-
-            shortcutService.register({
-                def: { key: "Escape" },
-                action: () => dispatch(UIModuleActions.CLOSE_SIDE_NAV)
+            shortcutsToRegister.forEach(s => {
+                dispatch(UIModuleActions.REGISTER_SHORTCUT, s);
             });
         }
     },

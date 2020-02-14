@@ -35,10 +35,12 @@ Vue.filter("dayString", (value?: Date) => {
     return I18nService.$t(`days.${value.getDay()}`);
 });
 
-Vue.filter("time", (value?: Date) => {
+export function time(value?: Date) {
     if (!value) return;
 
     const pattern = I18nService.$t("date.pattern.time") as string;
 
     return format(value, pattern);
-});
+}
+
+Vue.filter("time", time);

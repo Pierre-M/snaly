@@ -12,8 +12,9 @@ import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
-import { ShortcutService } from "@/core/browser/ShorcutService";
+import { Shortcut } from "@/core/browser/ShorcutService";
 import { UIModuleActions } from "@/store/module/ui.module";
+import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
 
 export interface WeatherModuleState {
     current: Nullable<CurrentWeatherOverview>;
@@ -26,7 +27,6 @@ export interface WeatherModuleRequest {
 }
 
 const weatherService = container.resolve<WeatherService>(DIToken.WEATHER_SERVICE);
-const shortcutService = container.resolve<ShortcutService>(DIToken.SHORTCUT_SERVICE);
 
 export enum WeatherModuleAction {
     GET_CURRENT_WEATHER = "GetCurrentWeatherOverviewByCoordinates",
@@ -84,7 +84,7 @@ export const weatherModule: Module<WeatherModuleState, RootState> = {
         },
         init({ dispatch, state }) {
             [...Array(6).keys()].map(idx => {
-                shortcutService.register({
+                const shortcut: Shortcut = {
                     def: {
                         key: `${idx + 1}`
                     },
@@ -94,8 +94,11 @@ export const weatherModule: Module<WeatherModuleState, RootState> = {
                         if (!day) return;
 
                         dispatch(UIModuleActions.TOGGLE_DAILY_FORECAST, day);
-                    }
-                });
+                    },
+                    description: I18nService.$t("shortcuts.openForecast", [idx]) as string
+                };
+
+                dispatch(UIModuleActions.REGISTER_SHORTCUT, shortcut);
             });
         }
     }

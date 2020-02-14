@@ -50,6 +50,7 @@ module.exports = {
     variants: {
         scale: ["active"],
         borderWidth: ["last"],
+        margin: ["first"],
         borderColor: ["focus-within", "hover"]
     },
     plugins: [require("tailwindcss-filters")]

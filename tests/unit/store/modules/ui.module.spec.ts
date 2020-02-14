@@ -4,7 +4,9 @@ import Vue from "vue";
 import Vuex, { Store } from "vuex";
 import { uiModule, UIModuleActions, UIModuleGetter } from "@/store/module/ui.module";
 import { WeatherDailyForecast } from "@/business/weather/WeatherService";
-import { fakeSharingService } from "../../_mocks";
+import { fakeSharingService, fakeShortcutService } from "../../_mocks";
+import { Shortcut, ShortcutResume } from "@/core/browser/ShorcutService";
+import { AppState } from "@/store/store";
 
 Vue.use(Vuex);
 
@@ -73,5 +75,20 @@ describe("Vuex Store : UI Module", () => {
 
         store.dispatch(UIModuleActions.TOGGLE_SIDE_NAV);
         expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(false);
+    });
+
+    it("should be able register shortcuts", () => {
+        const fakeShortcut: Shortcut = { def: { key: "a" }, action: () => {} };
+        store.dispatch(UIModuleActions.REGISTER_SHORTCUT, fakeShortcut);
+        expect(fakeShortcutService.register).toHaveBeenCalledWith(fakeShortcut);
+    });
+
+    it("should be able to retrieve shortcuts", () => {
+        const fakeShortcut: Shortcut = { def: { key: "a" }, action: () => {} };
+        fakeShortcutService.shortcuts = [fakeShortcut] as ShortcutResume[];
+
+        store.dispatch(UIModuleActions.REGISTER_SHORTCUT, fakeShortcut);
+
+        expect((store.state as AppState).uiModule.shortcuts).toEqual([fakeShortcut]);
     });
 });

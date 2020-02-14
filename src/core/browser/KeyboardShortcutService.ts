@@ -1,11 +1,26 @@
 "use strict";
 
-import { Shortcut, ShortcutService } from "@/core/browser/ShorcutService";
+import { Shortcut, ShortcutResume, ShortcutService } from "@/core/browser/ShorcutService";
 import { singleton } from "tsyringe";
 
 @singleton()
 export class KeyboardShortcutService implements ShortcutService {
+    private _shortcuts: Shortcut[] = [];
+
+    get shortcuts(): ShortcutResume[] {
+        return this._shortcuts
+            .filter(s => !!s.description)
+            .map(s => {
+                return {
+                    description: s.description,
+                    def: s.def
+                };
+            });
+    }
+
     register(shortcut: Shortcut): void {
+        this._shortcuts.push(shortcut);
+
         document.addEventListener("keyup", (e: KeyboardEvent) => {
             if (KeyboardShortcutService.preventActionExecution(e, shortcut)) return;
 

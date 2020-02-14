@@ -2,18 +2,11 @@
     <div>
         <icon-btn :icon="icon" :label="label" @click="toggleSideNav" />
 
-        <portal to="panelContainer">
-            <fade-transition>
-                <backdrop-panel v-show="sideNavIsOpened">
-                    <sharing-cta />
-                    <section>
-                        <header>
-                            <h2 class="font-title text-4xl">Shortcuts</h2>
-                        </header>
-                    </section>
-                </backdrop-panel>
-            </fade-transition>
-        </portal>
+        <backdrop-panel :show="sideNavIsOpened" :close-label="$t('navPanel.closeLabel')" @close="closeSideNav">
+            <panel-section v-show="sideNavIsOpened" :title="$t('shortcuts.title')">
+                <shortcut-list-widget />
+            </panel-section>
+        </backdrop-panel>
     </div>
 </template>
 
@@ -24,12 +17,17 @@ import { Action, Getter } from "vuex-class";
 import { UIModuleActions, UIModuleGetter } from "@/store/module/ui.module";
 import BackdropPanel from "@/ui/layout/BackdropPanel.vue";
 import SharingCta from "@/ui/core/fundamentals/SharingCta.vue";
+import PanelSection from "@/ui/layout/PanelSection.vue";
+import ShortcutListWidget from "@/ui/shortcuts/ShortcutListWidget.vue";
 @Component({
-    components: { SharingCta, BackdropPanel, IconBtn }
+    components: { ShortcutListWidget, PanelSection, SharingCta, BackdropPanel, IconBtn }
 })
 export default class NavWidget extends Vue {
     @Action(UIModuleActions.TOGGLE_SIDE_NAV)
     toggleSideNav!: () => void;
+
+    @Action(UIModuleActions.CLOSE_SIDE_NAV)
+    closeSideNav!: () => void;
 
     @Getter(UIModuleGetter.IS_SIDE_NAV_OPENED)
     sideNavIsOpened!: boolean;
