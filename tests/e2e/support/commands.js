@@ -22,4 +22,6 @@
 //
 //
 // -- This is will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+Cypress.Commands.overwrite("visit", (originalFn, url) => {
+    originalFn(Cypress.env("baseUrl") + url);
+});

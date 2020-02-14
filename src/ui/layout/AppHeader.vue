@@ -4,7 +4,7 @@
             <sharing-cta />
         </div>
         <slide-y-up-transition>
-            <p v-if="title" class="text-2xl font-semibold">
+            <p v-if="title" class="text-2xl font-semibold" id="appTitle">
                 {{ title }}
             </p>
         </slide-y-up-transition>

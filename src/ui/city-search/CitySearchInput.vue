@@ -5,6 +5,7 @@
                 class="py-2 w-full bg-transparent border-0 placeholder-20 focus:outline-none"
                 :placeholder="$t('citySearch.queryInputPlaceholder')"
                 :value="inputValue"
+                id="citySearchQueryInput"
                 @input="triggerInput"
             />
             <span class="sr-only">{{ $t("citySearch.queryInputPlaceholder") }}</span>
