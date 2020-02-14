@@ -1,6 +1,6 @@
 <template>
     <div>
-        <icon-btn icon="search" :label="$t('citySearch.openLabel')" @click="open" />
+        <icon-btn icon="search" :label="$t('citySearch.openLabel')" @click="open" id="openCitySearch" />
         <city-search-panel />
     </div>
 </template>

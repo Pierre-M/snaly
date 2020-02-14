@@ -1,6 +1,12 @@
 <template>
     <fade-transition>
-        <slide-y-down-transition v-show="shown" group tag="ul" class="bg-white text-gray-700 rounded-lg overflow-auto">
+        <slide-y-down-transition
+            v-show="shown"
+            group
+            tag="ul"
+            class="bg-white text-gray-700 rounded-lg overflow-auto"
+            id="citySearchResults"
+        >
             <li
                 v-for="city in results"
                 :key="city.name"
