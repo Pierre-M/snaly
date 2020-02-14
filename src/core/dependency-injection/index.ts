@@ -17,6 +17,8 @@ import { BrowserSharingService } from "@/core/browser/BrowserSharingService";
 import { CityBuilder, CitySearchService } from "@/business/city-search/CitySearchService";
 import { AlgoliaCityBuilder } from "@/business/city-search/AlgoliaCityBuilder";
 import { AlgoliaCitySearchService } from "@/business/city-search/AlgoliaCitySearchService";
+import { ShortcutService } from "@/core/browser/ShorcutService";
+import { KeyboardShortcutService } from "@/core/browser/KeyboardShortcutService";
 
 container.register(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
@@ -72,4 +74,8 @@ container.register<CityBuilder>(DIToken.CITY_BUILDER, {
 
 container.register<CitySearchService>(DIToken.CITY_SEARCH_SERVICE, {
     useClass: AlgoliaCitySearchService
+});
+
+container.register<ShortcutService>(DIToken.SHORTCUT_SERVICE, {
+    useClass: KeyboardShortcutService
 });
