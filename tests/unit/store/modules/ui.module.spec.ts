@@ -5,7 +5,6 @@ import Vuex, { Store } from "vuex";
 import { uiModule, UIModuleActions, UIModuleGetter } from "@/store/module/ui.module";
 import { WeatherDailyForecast } from "@/business/weather/WeatherService";
 import { fakeSharingService } from "../../_mocks";
-import DesktopLayout from "@/ui/layout/DesktopLayout.vue";
 
 Vue.use(Vuex);
 
@@ -46,10 +45,6 @@ describe("Vuex Store : UI Module", () => {
         expect(fakeSharingService.share).toHaveBeenCalled();
     });
 
-    it("should return right value for layout getter", () => {
-        expect(store.getters[UIModuleGetter.LAYOUT]).toEqual(DesktopLayout);
-    });
-
     it("should be able to open city search", () => {
         store.dispatch(UIModuleActions.OPEN_CITY_SEARCH);
         expect(store.getters[UIModuleGetter.IS_CITY_SEARCH_OPENED]).toBe(true);
@@ -59,5 +54,24 @@ describe("Vuex Store : UI Module", () => {
         store.dispatch(UIModuleActions.OPEN_CITY_SEARCH);
         store.dispatch(UIModuleActions.CLOSE_CITY_SEARCH);
         expect(store.getters[UIModuleGetter.IS_CITY_SEARCH_OPENED]).toBe(false);
+    });
+
+    it("should be able to open side nav", () => {
+        store.dispatch(UIModuleActions.OPEN_SIDE_NAV);
+        expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(true);
+    });
+
+    it("should be able to close side nav", () => {
+        store.dispatch(UIModuleActions.OPEN_SIDE_NAV);
+        store.dispatch(UIModuleActions.CLOSE_SIDE_NAV);
+        expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(false);
+    });
+
+    it("should be able to toggle side nav", () => {
+        store.dispatch(UIModuleActions.TOGGLE_SIDE_NAV);
+        expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(true);
+
+        store.dispatch(UIModuleActions.TOGGLE_SIDE_NAV);
+        expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(false);
     });
 });

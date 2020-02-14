@@ -1,7 +1,7 @@
 <template>
-    <portal to="citySearchContainer">
+    <portal to="panelContainer">
         <fade-transition :duration="150">
-            <section v-show="opened" class="fixed inset-0 bg-backdrop backdrop-blur text-white p-6 flex flex-col">
+            <backdrop-panel v-show="opened" class="flex flex-col">
                 <div class="m-auto w-full max-w-screen-xs flex-1 flex flex-col">
                     <slide-y-up-transition :duration="150">
                         <header v-if="opened" class="flex items-center">
@@ -30,7 +30,7 @@
                         />
                     </footer>
                 </slide-y-down-transition>
-            </section>
+            </backdrop-panel>
         </fade-transition>
     </portal>
 </template>
@@ -48,9 +48,10 @@ import IconBtn from "@/ui/core/fundamentals/IconBtn.vue";
 import { LocalizationModuleMutation } from "@/store/module/localization.module";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import RequestGeolocationCta from "@/ui/geolocation/RequestGeolocationCta.vue";
+import BackdropPanel from "@/ui/layout/BackdropPanel.vue";
 
 @Component({
-    components: { RequestGeolocationCta, IconBtn, CitySearchResults, CitySearchInput }
+    components: { BackdropPanel, RequestGeolocationCta, IconBtn, CitySearchResults, CitySearchInput }
 })
 export default class CitySearchPanel extends Vue {
     @Getter(UIModuleGetter.IS_CITY_SEARCH_OPENED)
