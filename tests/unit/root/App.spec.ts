@@ -3,7 +3,8 @@
 import { shallowMount } from "@vue/test-utils";
 import App from "@/App.vue";
 import { Store } from "vuex";
-import DesktopLayout from "@/ui/layout/DesktopLayout.vue";
+import { GlobalGetter } from "@/store/getters";
+import { LocalizationModuleGetter } from "@/store/module/localization.module";
 
 let store: Store<any>;
 
@@ -12,8 +13,8 @@ describe("App root component", () => {
         store = ({
             dispatch: jest.fn(),
             getters: {
-                appTitle: "Initial title",
-                layout: DesktopLayout
+                [LocalizationModuleGetter.SHORTENED_LOCATION]: "Location",
+                [GlobalGetter.APP_TITLE]: "Initial title"
             }
         } as unknown) as Store<any>;
     });
