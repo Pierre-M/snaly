@@ -9,9 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: borales/actions-yarn@v2.0.0
-      with:
-        cmd: install
     - name: Waiting for 200 from the Netlify Preview
       uses: jakepartusch/wait-for-netlify-action@v1
       id: waitFor200
