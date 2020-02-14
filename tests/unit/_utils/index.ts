@@ -31,6 +31,16 @@ export function shallowMount<V extends Vue>(
     });
 }
 
-export function triggerDOMEvent(el: HTMLElement, event: string) {
-    simulant.fire(el, event);
+export function triggerDOMEvent(el: HTMLElement | Document, event: string, payload?: any) {
+    simulant.fire(el, event, { target: el, ctrlKey: false, shiftKey: false, metaKey: false, ...payload });
+}
+
+export function clearDom() {
+    document.body.innerHTML = "";
+}
+
+export function insertInDom(...elements: HTMLElement[]) {
+    elements.forEach(el => {
+        document.body.insertAdjacentElement("beforeend", el);
+    });
 }
