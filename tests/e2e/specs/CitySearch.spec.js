@@ -2,7 +2,7 @@
 
 describe("City Search Feature", () => {
     it("should be able to display temperature for searched city", () => {
-        cy.visit(Cypress.env("baseUrl"));
+        cy.visit("/");
         cy.get("#openCitySearch").click();
         cy.get("#citySearchQueryInput").type("Lyon");
         cy.get("#citySearchResults li:first-child").click();
