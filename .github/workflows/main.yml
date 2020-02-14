@@ -1,0 +1,29 @@
+name: E2E
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 12.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Install
+      run: npm ci
+    - name: Build
+      run: npm run build
+    - name: Waiting for 200 from the Netlify Preview
+      uses: jakepartusch/wait-for-netlify-action@v1
+      id: waitFor200
+      with:
+        max_timeout: 600
+        site_name: "snaly"
+    - name: Cypress E2E
+      uses: cypress-io/github-action@v1
+      with: 
+        env: baseUrl=${{ steps.waitFor200.outputs.url }}
