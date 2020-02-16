@@ -8,6 +8,7 @@ import {
 } from "@vue/test-utils";
 import simulant from "simulant";
 import Portal from "portal-vue";
+import { fakeStore } from "./FakeStore";
 
 const localVue = createLocalVue();
 localVue.use(Portal);
@@ -16,16 +17,15 @@ export function shallowMount<V extends Vue>(
     component: VueClass<V>,
     options?: ThisTypedShallowMountOptions<V>
 ): Wrapper<V> {
+    fakeStore.resetState();
+
     return _shallowMount(component, {
         localVue,
         mocks: {
             $t(key: string) {
                 return key;
             },
-            $store: {
-                dispatch: jest.fn(),
-                commit: jest.fn()
-            }
+            $store: fakeStore
         },
         ...options
     });

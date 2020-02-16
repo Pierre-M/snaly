@@ -2,6 +2,7 @@
     <portal to="panelContainer">
         <fade-transition :duration="150">
             <div
+                data-panel
                 v-show="isOpened"
                 class="fixed inset-0 backdrop-blur bg-backdrop text-white p-6 overflow-auto flex flex-col"
             >
@@ -20,7 +21,7 @@
                             :label="closeLabel"
                             :bordered="true"
                             :quiet="true"
-                            @click="handlePanelClosing()"
+                            @click="closePanel()"
                         />
                     </div>
                 </slide-y-down-transition>
@@ -60,10 +61,6 @@ export default class BackdropPanel extends Vue {
     @Watch("isOpened")
     triggerState(isOpened: boolean) {
         this.$emit(isOpened ? "opened" : "closed");
-    }
-
-    handlePanelClosing() {
-        this.closePanel();
     }
 }
 </script>

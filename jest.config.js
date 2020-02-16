@@ -5,7 +5,8 @@ module.exports = {
         `<rootDir>/src/App.vue`,
         `<rootDir>/src/core/**/*.ts`,
         `<rootDir>/src/store/**/*.ts`,
-        `<rootDir>/src/business/**/*.ts`
+        `<rootDir>/src/business/**/*.ts`,
+        `<rootDir>/src/ui/**/*.vue`
     ],
     setupFiles: [`<rootDir>/tests/unit/index.ts`]
 };
