@@ -11,6 +11,9 @@ let store: Store<any>;
 describe("App root component", () => {
     beforeEach(() => {
         store = ({
+            state: {
+                uiModule: { screen: {} }
+            },
             dispatch: jest.fn(),
             getters: {
                 [LocalizationModuleGetter.SHORTENED_LOCATION]: "Location",

@@ -29,6 +29,8 @@ import { ShortcutService } from "@/core/browser/ShorcutService";
 import { FakeShortcutService } from "./FakeShortcutService";
 import { FakeI18nService } from "./FakeI18nService";
 import { I18nService } from "@/core/i18n/I18nService";
+import { FakeScreenInspector } from "./FakeScreenInspector";
+import { ScreenInspector } from "@/core/browser/ScreenInspector";
 
 export const fakeHttpClient = new FakeHttpClient();
 export const fakeWallpaperService = new FakeWallpaperService();
@@ -43,6 +45,7 @@ export const fakeCitySearchService = new FakeCitySearchService();
 export const fakeCityBuilder = new FakeCityBuilder();
 export const fakeShortcutService = new FakeShortcutService();
 export const fakeI18nService = new FakeI18nService();
+export const fakeScreenInspector = new FakeScreenInspector();
 
 container.register<HttpClient>(DIToken.HTTP_CLIENT, {
     useValue: fakeHttpClient
@@ -94,4 +97,8 @@ container.register<ShortcutService>(DIToken.SHORTCUT_SERVICE, {
 
 container.register<I18nService>(DIToken.I18N_SERVICE, {
     useValue: fakeI18nService
+});
+
+container.register<ScreenInspector>(DIToken.SCREEN_INSPECTOR, {
+    useValue: fakeScreenInspector
 });
