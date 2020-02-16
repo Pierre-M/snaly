@@ -31,6 +31,8 @@ import { FakeI18nService } from "./FakeI18nService";
 import { I18nService } from "@/core/i18n/I18nService";
 import { FakeScreenInspector } from "./FakeScreenInspector";
 import { ScreenInspector } from "@/core/browser/ScreenInspector";
+import { FakeStorageService } from "./FakeStorageService";
+import { StorageService } from "@/core/storage/StorageService";
 
 export const fakeHttpClient = new FakeHttpClient();
 export const fakeWallpaperService = new FakeWallpaperService();
@@ -46,6 +48,7 @@ export const fakeCityBuilder = new FakeCityBuilder();
 export const fakeShortcutService = new FakeShortcutService();
 export const fakeI18nService = new FakeI18nService();
 export const fakeScreenInspector = new FakeScreenInspector();
+export const fakeStorageService = new FakeStorageService();
 
 container.register<HttpClient>(DIToken.HTTP_CLIENT, {
     useValue: fakeHttpClient
@@ -101,4 +104,8 @@ container.register<I18nService>(DIToken.I18N_SERVICE, {
 
 container.register<ScreenInspector>(DIToken.SCREEN_INSPECTOR, {
     useValue: fakeScreenInspector
+});
+
+container.register<StorageService>(DIToken.STORAGE_SERVICE, {
+    useValue: fakeStorageService
 });

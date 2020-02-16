@@ -3,12 +3,12 @@
 import { City } from "@/business/city-search/CitySearchService";
 import { ContextualImage } from "@/core/image/ContextualImageService";
 
-export interface FavoriteCity extends City {
+export interface FavoriteLocation extends City {
     img?: ContextualImage;
 }
 
 export interface FavoriteLocationsService {
-    locations: FavoriteCity[];
+    locations: FavoriteLocation[];
 
     add(city: City): void;
     remove(city: City): void;
