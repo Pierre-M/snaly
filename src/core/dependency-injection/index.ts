@@ -19,9 +19,15 @@ import { AlgoliaCityBuilder } from "@/business/city-search/AlgoliaCityBuilder";
 import { AlgoliaCitySearchService } from "@/business/city-search/AlgoliaCitySearchService";
 import { ShortcutService } from "@/core/browser/ShorcutService";
 import { KeyboardShortcutService } from "@/core/browser/KeyboardShortcutService";
+import { VueI18nService } from "@/ui/core/vue-plugins/I18nPlugin";
+import { I18nService } from "@/core/i18n/I18nService";
 
 container.register(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
+});
+
+container.register<I18nService>(DIToken.I18N_SERVICE, {
+    useClass: VueI18nService
 });
 
 container.register(DIToken.HTTP_CLIENT, {

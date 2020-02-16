@@ -34,6 +34,10 @@ export enum LocalizationModuleMutation {
     UPDATE_LOCATION = "updateLocation"
 }
 
+export enum LocalizationModuleGetter {
+    SHORTENED_LOCATION = "shortenedLocation"
+}
+
 export interface LocalizationModuleAddressRequest {
     coordinates: Nullable<UserCoordinates>;
     language: string;
@@ -105,7 +109,7 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
         }
     },
     getters: {
-        shortenedLocation(state: LocalizationModuleState): Nullable<string> {
+        [LocalizationModuleGetter.SHORTENED_LOCATION]: (state: LocalizationModuleState): Nullable<string> => {
             if (!state.location) {
                 return null;
             }

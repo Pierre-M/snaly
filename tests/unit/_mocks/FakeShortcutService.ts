@@ -1,7 +1,8 @@
 "use strict";
 
-import { Shortcut, ShortcutService } from "@/core/browser/ShorcutService";
+import { ShortcutResume, ShortcutService } from "@/core/browser/ShorcutService";
 
 export class FakeShortcutService implements ShortcutService {
-    register(shortcut: Shortcut): void {}
+    shortcuts: ShortcutResume[] = [];
+    register = jest.fn(() => {});
 }

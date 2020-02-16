@@ -1,51 +1,56 @@
 "use strict";
 
-import Vue from "vue";
 import { RootState } from "@/store/state";
 import { ActionContext, Module } from "vuex";
-import DesktopLayout from "@/ui/layout/DesktopLayout.vue";
 import { WeatherDailyForecast } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import { ShareRequest, SharingService } from "@/core/browser/SharingService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
-import { ShortcutService } from "@/core/browser/ShorcutService";
+import { Shortcut, ShortcutResume, ShortcutService } from "@/core/browser/ShorcutService";
+import { I18nService } from "@/core/i18n/I18nService";
 
 const sharingService = container.resolve<SharingService>(DIToken.SHARING_SERVICE);
 const shortcutService = container.resolve<ShortcutService>(DIToken.SHORTCUT_SERVICE);
+const i18nService = container.resolve<I18nService>(DIToken.I18N_SERVICE);
+
+export const CITY_SEARCH_WIDGET_ID = "citySearchPanel";
+export const NAV_WIDGET_ID = "navWidget";
 
 export interface UIModuleState {
-    layout: typeof Vue;
     openedForecast: Nullable<WeatherDailyForecast>;
     canShare: boolean;
-    citySearchIsOpened: boolean;
+    openedPanel: Nullable<string>;
+    shortcuts: ShortcutResume[];
 }
 
 export enum UIModuleMutations {
     UPDATE_OPENED_DAILY_FORECAST = "updateOpenedDailyForecast",
-    UPDATE_CITY_SEARCH_OPEN_STATE = "updateCitySearchOpenState"
+    UPDATE_SHORTCUTS = "UpdateShortcuts",
+    UPDATE_OPENED_PANEL = "UpdateOpenedPanel"
 }
 
 export enum UIModuleActions {
     TOGGLE_DAILY_FORECAST = "toggleDailyForecast",
     OPEN_CITY_SEARCH = "openCitySearch",
     CLOSE_CITY_SEARCH = "closeCitySearch",
-    SHARE = "shareSnaly"
+    TOGGLE_SIDE_NAV = "toggleSideNav",
+    SHARE = "shareSnaly",
+    REGISTER_SHORTCUT = "RegisterShortcut",
+    OPEN_PANEL = "OpenPanel",
+    CLOSE_PANEL = "ClosePanel"
 }
 
 export enum UIModuleGetter {
-    OPENED_FORECAST = "openedForecast",
-    LAYOUT = "layout",
-    IS_CITY_SEARCH_OPENED = "isCitySearchOpened"
+    OPENED_FORECAST = "openedForecast"
 }
 
 export const uiModule: Module<UIModuleState, RootState> = {
     state: {
-        layout: DesktopLayout,
         openedForecast: null,
         canShare: sharingService.canShare,
-        citySearchIsOpened: false
+        openedPanel: null,
+        shortcuts: []
     },
     mutations: {
         [UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST]: (
@@ -54,8 +59,11 @@ export const uiModule: Module<UIModuleState, RootState> = {
         ) => {
             state.openedForecast = forecast;
         },
-        [UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE]: (state: UIModuleState, isOpened: boolean) => {
-            state.citySearchIsOpened = isOpened;
+        [UIModuleMutations.UPDATE_SHORTCUTS]: (state: UIModuleState, shortcuts: ShortcutResume[]) => {
+            state.shortcuts = shortcuts;
+        },
+        [UIModuleMutations.UPDATE_OPENED_PANEL]: (state: UIModuleState, panelId: Nullable<string>) => {
+            state.openedPanel = panelId;
         }
     },
     actions: {
@@ -65,43 +73,59 @@ export const uiModule: Module<UIModuleState, RootState> = {
         ) => {
             commit(UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST, forecast || null);
         },
-        [UIModuleActions.OPEN_CITY_SEARCH]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
-            commit(UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE, true);
-        },
-        [UIModuleActions.CLOSE_CITY_SEARCH]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
-            commit(UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE, false);
-        },
         [UIModuleActions.SHARE]: () => {
             const shareRequest: ShareRequest = {
                 url: window.location.origin,
-                title: I18nService.$t("share.title") as string,
-                text: I18nService.$t("share.description") as string
+                title: i18nService.t("share.title"),
+                text: i18nService.t("share.description")
             };
 
             sharingService.share(shareRequest);
         },
+        [UIModuleActions.REGISTER_SHORTCUT]: (
+            { commit, state }: ActionContext<UIModuleState, RootState>,
+            shortcut: Shortcut
+        ) => {
+            shortcutService.register(shortcut);
+            commit(UIModuleMutations.UPDATE_SHORTCUTS, shortcutService.shortcuts);
+        },
+        [UIModuleActions.OPEN_PANEL]: (
+            { commit }: ActionContext<UIModuleState, RootState>,
+            panelId: Nullable<string>
+        ) => {
+            commit(UIModuleMutations.UPDATE_OPENED_PANEL, panelId);
+        },
+        [UIModuleActions.CLOSE_PANEL]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
+            commit(UIModuleMutations.UPDATE_OPENED_PANEL, null);
+        },
         init({ dispatch }) {
-            shortcutService.register({
-                def: { key: "Escape" },
-                enabledOnInput: true,
-                action: () => dispatch(UIModuleActions.CLOSE_CITY_SEARCH)
-            });
+            const shortcutsToRegister: Shortcut[] = [
+                {
+                    def: { key: "Escape" },
+                    enabledOnInput: true,
+                    action: () => dispatch(UIModuleActions.CLOSE_PANEL),
+                    description: i18nService.t("shortcuts.closeAnyPanel")
+                },
+                {
+                    def: { key: "s" },
+                    action: () => dispatch(UIModuleActions.OPEN_PANEL, CITY_SEARCH_WIDGET_ID),
+                    description: i18nService.t("shortcuts.openCitySearchPanel")
+                },
+                {
+                    def: { key: "m" },
+                    action: () => dispatch(UIModuleActions.OPEN_PANEL, NAV_WIDGET_ID),
+                    description: i18nService.t("shortcuts.openNavigationPanel")
+                }
+            ];
 
-            shortcutService.register({
-                def: { key: "s" },
-                action: () => dispatch(UIModuleActions.OPEN_CITY_SEARCH)
+            shortcutsToRegister.forEach(s => {
+                dispatch(UIModuleActions.REGISTER_SHORTCUT, s);
             });
         }
     },
     getters: {
         [UIModuleGetter.OPENED_FORECAST]: (state: UIModuleState): Nullable<WeatherDailyForecast> => {
             return state.openedForecast;
-        },
-        [UIModuleGetter.LAYOUT]: (state: UIModuleState): typeof Vue => {
-            return state.layout;
-        },
-        [UIModuleGetter.IS_CITY_SEARCH_OPENED]: (state: UIModuleState): boolean => {
-            return state.citySearchIsOpened;
         }
     }
 };

@@ -31,5 +31,17 @@ export const en = {
         openLabel: "Search for city",
         closeLabel: "Exit city search",
         queryInputPlaceholder: "Search for a city..."
+    },
+    navPanel: {
+        openLabel: "Open navigation panel",
+        closeLabel: "Exit navigation panel"
+    },
+    shortcuts: {
+        title: "Shortcuts",
+        closeAnyPanel: "Close opened panel",
+        openNavigationPanel: "Open/Close navigation panel",
+        openCitySearchPanel: "Open city search panel",
+        closeCitySearchPanel: "Close city search panel",
+        openForecast: "Open daily forecast n°{0}"
     }
 };

@@ -8,7 +8,8 @@ module.exports = {
         fontWeight: {
             light: 300,
             normal: 400,
-            semibold: 500
+            semibold: 500,
+            title: 900
         },
         opacity: {
             "0": "0",
@@ -40,12 +41,16 @@ module.exports = {
             colors: {
                 "white-20": "rgba(255, 255, 255, .5)",
                 backdrop: "rgba(0, 0, 0, .8)"
+            },
+            transitionProperty: {
+                position: "top, left, right, bottom"
             }
         }
     },
     variants: {
         scale: ["active"],
         borderWidth: ["last"],
+        margin: ["first"],
         borderColor: ["focus-within", "hover"]
     },
     plugins: [require("tailwindcss-filters")]

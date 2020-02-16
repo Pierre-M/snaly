@@ -4,8 +4,9 @@ import Vue from "vue";
 import Vuex, { Store } from "vuex";
 import { uiModule, UIModuleActions, UIModuleGetter } from "@/store/module/ui.module";
 import { WeatherDailyForecast } from "@/business/weather/WeatherService";
-import { fakeSharingService } from "../../_mocks";
-import DesktopLayout from "@/ui/layout/DesktopLayout.vue";
+import { fakeSharingService, fakeShortcutService } from "../../_mocks";
+import { Shortcut, ShortcutResume } from "@/core/browser/ShorcutService";
+import { AppState } from "@/store/store";
 
 Vue.use(Vuex);
 
@@ -46,18 +47,34 @@ describe("Vuex Store : UI Module", () => {
         expect(fakeSharingService.share).toHaveBeenCalled();
     });
 
-    it("should return right value for layout getter", () => {
-        expect(store.getters[UIModuleGetter.LAYOUT]).toEqual(DesktopLayout);
+    it("should be able register shortcuts", () => {
+        const fakeShortcut: Shortcut = { def: { key: "a" }, action: () => {} };
+        store.dispatch(UIModuleActions.REGISTER_SHORTCUT, fakeShortcut);
+        expect(fakeShortcutService.register).toHaveBeenCalledWith(fakeShortcut);
     });
 
-    it("should be able to open city search", () => {
-        store.dispatch(UIModuleActions.OPEN_CITY_SEARCH);
-        expect(store.getters[UIModuleGetter.IS_CITY_SEARCH_OPENED]).toBe(true);
+    it("should be able to retrieve shortcuts", () => {
+        const fakeShortcut: Shortcut = { def: { key: "a" }, action: () => {} };
+        fakeShortcutService.shortcuts = [fakeShortcut] as ShortcutResume[];
+
+        store.dispatch(UIModuleActions.REGISTER_SHORTCUT, fakeShortcut);
+
+        expect((store.state as AppState).uiModule.shortcuts).toEqual([fakeShortcut]);
     });
 
-    it("should be able to close city search", () => {
-        store.dispatch(UIModuleActions.OPEN_CITY_SEARCH);
-        store.dispatch(UIModuleActions.CLOSE_CITY_SEARCH);
-        expect(store.getters[UIModuleGetter.IS_CITY_SEARCH_OPENED]).toBe(false);
+    it("should be able to open panel based on panel id", () => {
+        const panelId = "myPanel";
+
+        store.dispatch(UIModuleActions.OPEN_PANEL, panelId);
+
+        expect((store.state as AppState).uiModule.openedPanel).toBe(panelId);
+    });
+
+    it("should be able to close panel", () => {
+        store.dispatch(UIModuleActions.OPEN_PANEL, "panelId");
+
+        store.dispatch(UIModuleActions.CLOSE_PANEL);
+
+        expect((store.state as AppState).uiModule.openedPanel).toEqual(null);
     });
 });
