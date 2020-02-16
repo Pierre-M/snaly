@@ -27,6 +27,8 @@ import { CitySearchService } from "@/business/city-search/CitySearchService";
 import { FakeCityBuilder } from "./FakeCityBuilder";
 import { ShortcutService } from "@/core/browser/ShorcutService";
 import { FakeShortcutService } from "./FakeShortcutService";
+import { FakeI18nService } from "./FakeI18nService";
+import { I18nService } from "@/core/i18n/I18nService";
 
 export const fakeHttpClient = new FakeHttpClient();
 export const fakeWallpaperService = new FakeWallpaperService();
@@ -40,6 +42,7 @@ export const fakeAlertingService = new FakeAlertingService();
 export const fakeCitySearchService = new FakeCitySearchService();
 export const fakeCityBuilder = new FakeCityBuilder();
 export const fakeShortcutService = new FakeShortcutService();
+export const fakeI18nService = new FakeI18nService();
 
 container.register<HttpClient>(DIToken.HTTP_CLIENT, {
     useValue: fakeHttpClient
@@ -87,4 +90,8 @@ container.register<CitySearchService>(DIToken.CITY_SEARCH_SERVICE, {
 
 container.register<ShortcutService>(DIToken.SHORTCUT_SERVICE, {
     useValue: fakeShortcutService
+});
+
+container.register<I18nService>(DIToken.I18N_SERVICE, {
+    useValue: fakeI18nService
 });

@@ -3,21 +3,33 @@
 import Vue from "vue";
 import VueI18n from "vue-i18n";
 import { messages } from "@/core/i18n/messages";
-import { container } from "tsyringe";
+import { inject, singleton } from "tsyringe";
 import { EnvironmentService } from "@/core/env/EnvironmentService";
 import { DIToken } from "@/core/dependency-injection/DIToken";
+import { I18nService } from "@/core/i18n/I18nService";
 
 Vue.use(VueI18n);
 
-const envService = container.resolve<EnvironmentService>(DIToken.ENVIRONMENT_SERVICE);
+@singleton()
+export class VueI18nService implements I18nService {
+    get i18nPlugin(): VueI18n {
+        return this._i18nPlugin;
+    }
 
-export const I18nPlugin = new VueI18n({
-    locale: "en",
-    fallbackLocale: "en",
-    silentFallbackWarn: envService.isProduction,
-    messages
-});
+    constructor(@inject(DIToken.ENVIRONMENT_SERVICE) private envService: EnvironmentService) {}
 
-export const I18nService = new Vue({
-    i18n: I18nPlugin
-});
+    private _i18nPlugin: VueI18n = new VueI18n({
+        locale: "en",
+        fallbackLocale: "en",
+        silentFallbackWarn: this.envService.isProduction,
+        messages
+    });
+
+    private vueInstance: Vue = new Vue({
+        i18n: this._i18nPlugin
+    });
+
+    t(key: string, ...args: any[]): string {
+        return this.vueInstance.$t(key, args) as string;
+    }
+}

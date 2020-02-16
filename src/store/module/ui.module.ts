@@ -7,11 +7,12 @@ import { Nullable } from "@/types/app";
 import { ShareRequest, SharingService } from "@/core/browser/SharingService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
 import { Shortcut, ShortcutResume, ShortcutService } from "@/core/browser/ShorcutService";
+import { I18nService } from "@/core/i18n/I18nService";
 
 const sharingService = container.resolve<SharingService>(DIToken.SHARING_SERVICE);
 const shortcutService = container.resolve<ShortcutService>(DIToken.SHORTCUT_SERVICE);
+const i18nService = container.resolve<I18nService>(DIToken.I18N_SERVICE);
 
 export interface UIModuleState {
     openedForecast: Nullable<WeatherDailyForecast>;
@@ -86,8 +87,8 @@ export const uiModule: Module<UIModuleState, RootState> = {
         [UIModuleActions.SHARE]: () => {
             const shareRequest: ShareRequest = {
                 url: window.location.origin,
-                title: I18nService.$t("share.title") as string,
-                text: I18nService.$t("share.description") as string
+                title: i18nService.t("share.title"),
+                text: i18nService.t("share.description")
             };
 
             sharingService.share(shareRequest);
@@ -114,17 +115,17 @@ export const uiModule: Module<UIModuleState, RootState> = {
                     def: { key: "Escape" },
                     enabledOnInput: true,
                     action: () => dispatch(UIModuleActions.CLOSE_CITY_SEARCH),
-                    description: I18nService.$t("shortcuts.closeCitySearchPanel") as string
+                    description: i18nService.t("shortcuts.closeCitySearchPanel")
                 },
                 {
                     def: { key: "s" },
                     action: () => dispatch(UIModuleActions.OPEN_CITY_SEARCH),
-                    description: I18nService.$t("shortcuts.openCitySearchPanel") as string
+                    description: i18nService.t("shortcuts.openCitySearchPanel")
                 },
                 {
                     def: { key: "m" },
                     action: () => dispatch(UIModuleActions.TOGGLE_SIDE_NAV),
-                    description: I18nService.$t("shortcuts.toggleNavigationPanel") as string
+                    description: i18nService.t("shortcuts.toggleNavigationPanel")
                 }
             ];
 

@@ -14,7 +14,9 @@ import { DIToken } from "@/core/dependency-injection/DIToken";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { Shortcut } from "@/core/browser/ShorcutService";
 import { UIModuleActions } from "@/store/module/ui.module";
-import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
+import { I18nService } from "@/core/i18n/I18nService";
+
+const i18nService = container.resolve<I18nService>(DIToken.I18N_SERVICE);
 
 export interface WeatherModuleState {
     current: Nullable<CurrentWeatherOverview>;
@@ -95,7 +97,7 @@ export const weatherModule: Module<WeatherModuleState, RootState> = {
 
                         dispatch(UIModuleActions.TOGGLE_DAILY_FORECAST, day);
                     },
-                    description: I18nService.$t("shortcuts.openForecast", [idx]) as string
+                    description: i18nService.t("shortcuts.openForecast", idx)
                 };
 
                 dispatch(UIModuleActions.REGISTER_SHORTCUT, shortcut);

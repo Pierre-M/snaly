@@ -5,13 +5,20 @@ import isToday from "date-fns/isToday";
 import isTomorrow from "date-fns/isTomorrow";
 import format from "date-fns/format";
 import { TemperatureUnit } from "@/business/weather/WeatherService";
-import { I18nService } from "@/ui/core/vue-plugins/I18nPlugin";
+import { container } from "tsyringe";
+import { I18nService } from "@/core/i18n/I18nService";
+import { DIToken } from "@/core/dependency-injection/DIToken";
+
+const i18nService = container.resolve<I18nService>(DIToken.I18N_SERVICE);
 
 interface TemperatureFilterParams {
     unit: TemperatureUnit;
 }
 
-export function temperature(value?: number, { unit }: TemperatureFilterParams = { unit: TemperatureUnit.CELSIUS }) {
+export function temperature(
+    value?: number,
+    { unit }: TemperatureFilterParams = { unit: TemperatureUnit.CELSIUS }
+): string {
     if (!value) {
         return "";
     }
@@ -21,24 +28,24 @@ export function temperature(value?: number, { unit }: TemperatureFilterParams = 
 
 Vue.filter("temperature", temperature);
 
-Vue.filter("dayString", (value?: Date) => {
+Vue.filter("dayString", (value?: Date): string => {
     if (!value) return "";
 
     if (isToday(value)) {
-        return I18nService.$t("days.today");
+        return i18nService.t("days.today");
     }
 
     if (isTomorrow(value)) {
-        return I18nService.$t("days.tomorrow");
+        return i18nService.t("days.tomorrow");
     }
 
-    return I18nService.$t(`days.${value.getDay()}`);
+    return i18nService.t(`days.${value.getDay()}`);
 });
 
-export function time(value?: Date) {
-    if (!value) return;
+export function time(value?: Date): string {
+    if (!value) return "";
 
-    const pattern = I18nService.$t("date.pattern.time") as string;
+    const pattern = i18nService.t("date.pattern.time");
 
     return format(value, pattern);
 }
