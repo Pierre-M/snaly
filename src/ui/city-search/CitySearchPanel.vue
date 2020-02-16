@@ -1,12 +1,10 @@
 <template>
-    <backdrop-panel :show="opened" :close-label="$t('citySearch.closeLabel')" @close="exitCitySearch">
+    <backdrop-panel :id="id" :close-label="$t('citySearch.closeLabel')" @closed="exitCitySearch">
         <div class="m-auto w-full h-full max-w-screen-xs flex flex-col">
-            <slide-y-up-transition :duration="150">
-                <header v-if="opened" class="flex items-center">
-                    <city-search-input v-model="query" v-debounce="() => getCities({ query })" class="flex-1" />
-                    <request-geolocation-cta class="ml-2" @click="exitCitySearch" />
-                </header>
-            </slide-y-up-transition>
+            <header class="flex items-center">
+                <city-search-input v-model="query" v-debounce="() => getCities({ query })" class="flex-1" />
+                <request-geolocation-cta class="ml-2" @click="exitCitySearch" />
+            </header>
 
             <div class="relative flex-1 my-3">
                 <city-search-results class="absolute inset-x-0 max-h-full" :results="results" @select="selectCity" />
@@ -16,9 +14,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { Action, Getter, Mutation, State } from "vuex-class";
-import { UIModuleActions, UIModuleGetter } from "@/store/module/ui.module";
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { Action, Mutation, State } from "vuex-class";
+import { UIModuleActions } from "@/store/module/ui.module";
 import CitySearchInput from "@/ui/city-search/CitySearchInput.vue";
 import { CitySearchModuleAction } from "@/store/module/citySearch.module";
 import CitySearchResults from "@/ui/city-search/CitySearchResults.vue";
@@ -34,8 +32,8 @@ import BackdropPanel from "@/ui/layout/BackdropPanel.vue";
     components: { BackdropPanel, RequestGeolocationCta, IconBtn, CitySearchResults, CitySearchInput }
 })
 export default class CitySearchPanel extends Vue {
-    @Getter(UIModuleGetter.IS_CITY_SEARCH_OPENED)
-    opened!: boolean;
+    @Prop({ type: String, required: true })
+    id!: string;
 
     @State(state => (state as AppState).citySearchModule.loading)
     loading!: boolean;
@@ -49,11 +47,11 @@ export default class CitySearchPanel extends Vue {
     @Action(CitySearchModuleAction.RESET_CITIES)
     resetCities!: () => void;
 
+    @Action(UIModuleActions.CLOSE_PANEL)
+    closePanel!: () => void;
+
     @Mutation(LocalizationModuleMutation.UPDATE_COORDINATES)
     updateCoordinates!: (coords: UserCoordinates) => void;
-
-    @Action(UIModuleActions.CLOSE_CITY_SEARCH)
-    closePanel!: () => void;
 
     query: string = "";
 

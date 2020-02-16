@@ -33,11 +33,13 @@ export const en = {
         queryInputPlaceholder: "Search for a city..."
     },
     navPanel: {
+        openLabel: "Open navigation panel",
         closeLabel: "Exit navigation panel"
     },
     shortcuts: {
         title: "Shortcuts",
-        toggleNavigationPanel: "Open/Close navigation panel",
+        closeAnyPanel: "Close opened panel",
+        openNavigationPanel: "Open/Close navigation panel",
         openCitySearchPanel: "Open city search panel",
         closeCitySearchPanel: "Close city search panel",
         openForecast: "Open daily forecast n°{0}"

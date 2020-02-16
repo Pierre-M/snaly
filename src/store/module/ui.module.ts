@@ -14,44 +14,42 @@ const sharingService = container.resolve<SharingService>(DIToken.SHARING_SERVICE
 const shortcutService = container.resolve<ShortcutService>(DIToken.SHORTCUT_SERVICE);
 const i18nService = container.resolve<I18nService>(DIToken.I18N_SERVICE);
 
+export const CITY_SEARCH_WIDGET_ID = "citySearchPanel";
+export const NAV_WIDGET_ID = "navWidget";
+
 export interface UIModuleState {
     openedForecast: Nullable<WeatherDailyForecast>;
     canShare: boolean;
-    citySearchIsOpened: boolean;
-    sideNavIsOpened: boolean;
+    openedPanel: Nullable<string>;
     shortcuts: ShortcutResume[];
 }
 
 export enum UIModuleMutations {
     UPDATE_OPENED_DAILY_FORECAST = "updateOpenedDailyForecast",
-    UPDATE_CITY_SEARCH_OPEN_STATE = "updateCitySearchOpenState",
-    UPDATE_SIDE_NAV_OPEN_STATE = "updateSideNavOpenState",
-    UPDATE_SHORTCUTS = "UpdateShortcuts"
+    UPDATE_SHORTCUTS = "UpdateShortcuts",
+    UPDATE_OPENED_PANEL = "UpdateOpenedPanel"
 }
 
 export enum UIModuleActions {
     TOGGLE_DAILY_FORECAST = "toggleDailyForecast",
     OPEN_CITY_SEARCH = "openCitySearch",
     CLOSE_CITY_SEARCH = "closeCitySearch",
-    OPEN_SIDE_NAV = "openSideNav",
-    CLOSE_SIDE_NAV = "closeSideNav",
     TOGGLE_SIDE_NAV = "toggleSideNav",
     SHARE = "shareSnaly",
-    REGISTER_SHORTCUT = "RegisterShortcut"
+    REGISTER_SHORTCUT = "RegisterShortcut",
+    OPEN_PANEL = "OpenPanel",
+    CLOSE_PANEL = "ClosePanel"
 }
 
 export enum UIModuleGetter {
-    OPENED_FORECAST = "openedForecast",
-    IS_CITY_SEARCH_OPENED = "isCitySearchOpened",
-    IS_SIDE_NAV_OPENED = "isSideNavOpened"
+    OPENED_FORECAST = "openedForecast"
 }
 
 export const uiModule: Module<UIModuleState, RootState> = {
     state: {
         openedForecast: null,
         canShare: sharingService.canShare,
-        citySearchIsOpened: false,
-        sideNavIsOpened: false,
+        openedPanel: null,
         shortcuts: []
     },
     mutations: {
@@ -61,14 +59,11 @@ export const uiModule: Module<UIModuleState, RootState> = {
         ) => {
             state.openedForecast = forecast;
         },
-        [UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE]: (state: UIModuleState, isOpened: boolean) => {
-            state.citySearchIsOpened = isOpened;
-        },
-        [UIModuleMutations.UPDATE_SIDE_NAV_OPEN_STATE]: (state: UIModuleState, isOpened: boolean) => {
-            state.sideNavIsOpened = isOpened;
-        },
         [UIModuleMutations.UPDATE_SHORTCUTS]: (state: UIModuleState, shortcuts: ShortcutResume[]) => {
             state.shortcuts = shortcuts;
+        },
+        [UIModuleMutations.UPDATE_OPENED_PANEL]: (state: UIModuleState, panelId: Nullable<string>) => {
+            state.openedPanel = panelId;
         }
     },
     actions: {
@@ -77,12 +72,6 @@ export const uiModule: Module<UIModuleState, RootState> = {
             forecast?: Nullable<WeatherDailyForecast>
         ) => {
             commit(UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST, forecast || null);
-        },
-        [UIModuleActions.OPEN_CITY_SEARCH]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
-            commit(UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE, true);
-        },
-        [UIModuleActions.CLOSE_CITY_SEARCH]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
-            commit(UIModuleMutations.UPDATE_CITY_SEARCH_OPEN_STATE, false);
         },
         [UIModuleActions.SHARE]: () => {
             const shareRequest: ShareRequest = {
@@ -93,15 +82,6 @@ export const uiModule: Module<UIModuleState, RootState> = {
 
             sharingService.share(shareRequest);
         },
-        [UIModuleActions.OPEN_SIDE_NAV]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
-            commit(UIModuleMutations.UPDATE_SIDE_NAV_OPEN_STATE, true);
-        },
-        [UIModuleActions.CLOSE_SIDE_NAV]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
-            commit(UIModuleMutations.UPDATE_SIDE_NAV_OPEN_STATE, false);
-        },
-        [UIModuleActions.TOGGLE_SIDE_NAV]: ({ commit, state }: ActionContext<UIModuleState, RootState>) => {
-            commit(UIModuleMutations.UPDATE_SIDE_NAV_OPEN_STATE, !state.sideNavIsOpened);
-        },
         [UIModuleActions.REGISTER_SHORTCUT]: (
             { commit, state }: ActionContext<UIModuleState, RootState>,
             shortcut: Shortcut
@@ -109,23 +89,32 @@ export const uiModule: Module<UIModuleState, RootState> = {
             shortcutService.register(shortcut);
             commit(UIModuleMutations.UPDATE_SHORTCUTS, shortcutService.shortcuts);
         },
+        [UIModuleActions.OPEN_PANEL]: (
+            { commit }: ActionContext<UIModuleState, RootState>,
+            panelId: Nullable<string>
+        ) => {
+            commit(UIModuleMutations.UPDATE_OPENED_PANEL, panelId);
+        },
+        [UIModuleActions.CLOSE_PANEL]: ({ commit }: ActionContext<UIModuleState, RootState>) => {
+            commit(UIModuleMutations.UPDATE_OPENED_PANEL, null);
+        },
         init({ dispatch }) {
             const shortcutsToRegister: Shortcut[] = [
                 {
                     def: { key: "Escape" },
                     enabledOnInput: true,
-                    action: () => dispatch(UIModuleActions.CLOSE_CITY_SEARCH),
-                    description: i18nService.t("shortcuts.closeCitySearchPanel")
+                    action: () => dispatch(UIModuleActions.CLOSE_PANEL),
+                    description: i18nService.t("shortcuts.closeAnyPanel")
                 },
                 {
                     def: { key: "s" },
-                    action: () => dispatch(UIModuleActions.OPEN_CITY_SEARCH),
+                    action: () => dispatch(UIModuleActions.OPEN_PANEL, CITY_SEARCH_WIDGET_ID),
                     description: i18nService.t("shortcuts.openCitySearchPanel")
                 },
                 {
                     def: { key: "m" },
-                    action: () => dispatch(UIModuleActions.TOGGLE_SIDE_NAV),
-                    description: i18nService.t("shortcuts.toggleNavigationPanel")
+                    action: () => dispatch(UIModuleActions.OPEN_PANEL, NAV_WIDGET_ID),
+                    description: i18nService.t("shortcuts.openNavigationPanel")
                 }
             ];
 
@@ -137,12 +126,6 @@ export const uiModule: Module<UIModuleState, RootState> = {
     getters: {
         [UIModuleGetter.OPENED_FORECAST]: (state: UIModuleState): Nullable<WeatherDailyForecast> => {
             return state.openedForecast;
-        },
-        [UIModuleGetter.IS_CITY_SEARCH_OPENED]: (state: UIModuleState): boolean => {
-            return state.citySearchIsOpened;
-        },
-        [UIModuleGetter.IS_SIDE_NAV_OPENED]: (state: UIModuleState): boolean => {
-            return state.sideNavIsOpened;
         }
     }
 };

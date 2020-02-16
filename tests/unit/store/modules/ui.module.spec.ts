@@ -47,36 +47,6 @@ describe("Vuex Store : UI Module", () => {
         expect(fakeSharingService.share).toHaveBeenCalled();
     });
 
-    it("should be able to open city search", () => {
-        store.dispatch(UIModuleActions.OPEN_CITY_SEARCH);
-        expect(store.getters[UIModuleGetter.IS_CITY_SEARCH_OPENED]).toBe(true);
-    });
-
-    it("should be able to close city search", () => {
-        store.dispatch(UIModuleActions.OPEN_CITY_SEARCH);
-        store.dispatch(UIModuleActions.CLOSE_CITY_SEARCH);
-        expect(store.getters[UIModuleGetter.IS_CITY_SEARCH_OPENED]).toBe(false);
-    });
-
-    it("should be able to open side nav", () => {
-        store.dispatch(UIModuleActions.OPEN_SIDE_NAV);
-        expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(true);
-    });
-
-    it("should be able to close side nav", () => {
-        store.dispatch(UIModuleActions.OPEN_SIDE_NAV);
-        store.dispatch(UIModuleActions.CLOSE_SIDE_NAV);
-        expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(false);
-    });
-
-    it("should be able to toggle side nav", () => {
-        store.dispatch(UIModuleActions.TOGGLE_SIDE_NAV);
-        expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(true);
-
-        store.dispatch(UIModuleActions.TOGGLE_SIDE_NAV);
-        expect(store.getters[UIModuleGetter.IS_SIDE_NAV_OPENED]).toBe(false);
-    });
-
     it("should be able register shortcuts", () => {
         const fakeShortcut: Shortcut = { def: { key: "a" }, action: () => {} };
         store.dispatch(UIModuleActions.REGISTER_SHORTCUT, fakeShortcut);
@@ -90,5 +60,21 @@ describe("Vuex Store : UI Module", () => {
         store.dispatch(UIModuleActions.REGISTER_SHORTCUT, fakeShortcut);
 
         expect((store.state as AppState).uiModule.shortcuts).toEqual([fakeShortcut]);
+    });
+
+    it("should be able to open panel based on panel id", () => {
+        const panelId = "myPanel";
+
+        store.dispatch(UIModuleActions.OPEN_PANEL, panelId);
+
+        expect((store.state as AppState).uiModule.openedPanel).toBe(panelId);
+    });
+
+    it("should be able to close panel", () => {
+        store.dispatch(UIModuleActions.OPEN_PANEL, "panelId");
+
+        store.dispatch(UIModuleActions.CLOSE_PANEL);
+
+        expect((store.state as AppState).uiModule.openedPanel).toEqual(null);
     });
 });

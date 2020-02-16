@@ -12,11 +12,6 @@ import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
-import { Shortcut } from "@/core/browser/ShorcutService";
-import { UIModuleActions } from "@/store/module/ui.module";
-import { I18nService } from "@/core/i18n/I18nService";
-
-const i18nService = container.resolve<I18nService>(DIToken.I18N_SERVICE);
 
 export interface WeatherModuleState {
     current: Nullable<CurrentWeatherOverview>;
@@ -83,25 +78,6 @@ export const weatherModule: Module<WeatherModuleState, RootState> = {
             const weatherForecast = await weatherService.getDailyForecasts({ coordinates, unit });
 
             commit(WeatherModuleMutation.UPDATE_FORECAST, weatherForecast);
-        },
-        init({ dispatch, state }) {
-            [...Array(6).keys()].map(idx => {
-                const shortcut: Shortcut = {
-                    def: {
-                        key: `${idx + 1}`
-                    },
-                    action(): void {
-                        const day = state.days ? state.days[idx] : null;
-
-                        if (!day) return;
-
-                        dispatch(UIModuleActions.TOGGLE_DAILY_FORECAST, day);
-                    },
-                    description: i18nService.t("shortcuts.openForecast", idx)
-                };
-
-                dispatch(UIModuleActions.REGISTER_SHORTCUT, shortcut);
-            });
         }
     }
 };
