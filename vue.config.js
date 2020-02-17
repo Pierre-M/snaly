@@ -2,8 +2,7 @@
 
 module.exports = {
     devServer: {
-        disableHostCheck: true,
-        https: true
+        disableHostCheck: true
     },
 
     pwa: {
