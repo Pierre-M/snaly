@@ -21,6 +21,10 @@ import { ShortcutService } from "@/core/browser/ShorcutService";
 import { KeyboardShortcutService } from "@/core/browser/KeyboardShortcutService";
 import { VueI18nService } from "@/ui/core/vue-plugins/I18nPlugin";
 import { I18nService } from "@/core/i18n/I18nService";
+import { FavoriteLocationsService } from "@/business/favorite-locations/FavoriteLocationsService";
+import { StoredFavoriteLocationService } from "@/business/favorite-locations/StoredFavoriteLocationService";
+import { StorageService } from "@/core/storage/StorageService";
+import { LocalStorageService } from "@/core/storage/LocalStorageService";
 
 container.register(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
@@ -84,4 +88,12 @@ container.register<CitySearchService>(DIToken.CITY_SEARCH_SERVICE, {
 
 container.register<ShortcutService>(DIToken.SHORTCUT_SERVICE, {
     useClass: KeyboardShortcutService
+});
+
+container.register<StorageService>(DIToken.STORAGE_SERVICE, {
+    useClass: LocalStorageService
+});
+
+container.register<FavoriteLocationsService>(DIToken.FAVORITE_LOCATIONS_SERVICE, {
+    useClass: StoredFavoriteLocationService
 });

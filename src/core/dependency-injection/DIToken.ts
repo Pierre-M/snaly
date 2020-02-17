@@ -17,5 +17,6 @@ export enum DIToken {
     CITY_SEARCH_SERVICE = "CitySearchService",
     SHORTCUT_SERVICE = "ShortcutService",
     I18N_SERVICE = "I18nService",
-    STORAGE_SERVICE = "StorageService"
+    STORAGE_SERVICE = "StorageService",
+    FAVORITE_LOCATIONS_SERVICE = "FavoriteLocationsService"
 }

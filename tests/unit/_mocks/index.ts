@@ -33,6 +33,8 @@ import { FakeScreenInspector } from "./FakeScreenInspector";
 import { ScreenInspector } from "@/core/browser/ScreenInspector";
 import { FakeStorageService } from "./FakeStorageService";
 import { StorageService } from "@/core/storage/StorageService";
+import { FakeFavoriteLocationsService } from "./FakeFavoriteLocationsService";
+import { FavoriteLocationsService } from "@/business/favorite-locations/FavoriteLocationsService";
 
 export const fakeHttpClient = new FakeHttpClient();
 export const fakeWallpaperService = new FakeWallpaperService();
@@ -49,6 +51,7 @@ export const fakeShortcutService = new FakeShortcutService();
 export const fakeI18nService = new FakeI18nService();
 export const fakeScreenInspector = new FakeScreenInspector();
 export const fakeStorageService = new FakeStorageService();
+export const fakeFavoriteLocationsService = new FakeFavoriteLocationsService();
 
 container.register<HttpClient>(DIToken.HTTP_CLIENT, {
     useValue: fakeHttpClient
@@ -108,4 +111,8 @@ container.register<ScreenInspector>(DIToken.SCREEN_INSPECTOR, {
 
 container.register<StorageService>(DIToken.STORAGE_SERVICE, {
     useValue: fakeStorageService
+});
+
+container.register<FavoriteLocationsService>(DIToken.FAVORITE_LOCATIONS_SERVICE, {
+    useValue: fakeFavoriteLocationsService
 });

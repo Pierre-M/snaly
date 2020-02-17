@@ -1,11 +1,12 @@
 "use strict";
 
 import { store } from "@/store/store";
-import { DEFAULT_APP_TITLE } from "@/store/getters";
+import { DEFAULT_APP_TITLE, GlobalGetter } from "@/store/getters";
 import { LocalizationModuleMutation } from "@/store/module/localization.module";
 import { WeatherModuleMutation } from "@/store/module/weather.module";
 import { generateCurrentWeatherOverview } from "../_mocks/generators/WeatherGenerator";
 import { generateCity } from "../_mocks/generators/CityGenerator";
+import { UserPreferencesModuleMutation } from "@/store/module/userPreferences.module";
 
 describe("Store getters", () => {
     beforeEach(async () => {
@@ -34,5 +35,26 @@ describe("Store getters", () => {
         await store.commit(LocalizationModuleMutation.UPDATE_LOCATION, location);
 
         expect(store.getters.appTitle).toBe(expected);
+    });
+
+    it("should return false for IS_CURRENT_LOCATION_FAVORITE if current location is null", () => {
+        store.commit(LocalizationModuleMutation.UPDATE_LOCATION, null);
+
+        expect(store.getters[GlobalGetter.IS_CURRENT_LOCATION_FAVORITE]).toBe(false);
+    });
+
+    it("should return false for IS_CURRENT_LOCATION_FAVORITE if current location is not in stored favorite locations", () => {
+        store.commit(LocalizationModuleMutation.UPDATE_LOCATION, generateCity());
+        store.commit(UserPreferencesModuleMutation.UPDATE_FAVORITE_LOCATIONS, []);
+
+        expect(store.getters[GlobalGetter.IS_CURRENT_LOCATION_FAVORITE]).toBe(false);
+    });
+
+    it("should return true for IS_CURRENT_LOCATION_FAVORITE if current location is in stored favorite locations", () => {
+        const city = generateCity();
+        store.commit(LocalizationModuleMutation.UPDATE_LOCATION, city);
+        store.commit(UserPreferencesModuleMutation.UPDATE_FAVORITE_LOCATIONS, [city]);
+
+        expect(store.getters[GlobalGetter.IS_CURRENT_LOCATION_FAVORITE]).toBe(true);
     });
 });
