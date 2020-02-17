@@ -8,7 +8,11 @@
 
             <div class="relative flex-1 my-3">
                 <fade-transition>
-                    <favorite-location-list-widget v-show="displayFavoriteLocations" class="mt-10" />
+                    <favorite-location-list-widget
+                        v-show="displayFavoriteLocations"
+                        @select="selectCity"
+                        class="mt-10"
+                    />
                 </fade-transition>
                 <city-search-results
                     class="absolute inset-x-0 top-0 max-h-full"

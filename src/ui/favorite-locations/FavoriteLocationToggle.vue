@@ -1,5 +1,11 @@
 <template>
-    <icon-btn v-show="displayToggle" @click="toggle" :icon="icon" :label="label" />
+    <icon-btn
+        v-show="displayToggle"
+        @click="toggle"
+        :icon="icon"
+        :label="label"
+        :class="{ 'opacity-40': !alreadyStored }"
+    />
 </template>
 
 <script lang="ts">
@@ -32,7 +38,7 @@ export default class FavoriteLocationToggle extends Vue {
         return !!this.favoriteLocations.find(l => isEqual(this.location.coordinates, l.coordinates));
     }
 
-    toggle() {
+    toggle(e: Event) {
         if (!this.location) return;
 
         if (this.alreadyStored) {
@@ -41,6 +47,7 @@ export default class FavoriteLocationToggle extends Vue {
         }
 
         this.addToFavorite(this.location);
+        this.$emit("click", e);
     }
 
     get displayToggle(): boolean {
