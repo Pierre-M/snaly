@@ -7,35 +7,27 @@ import { fakeStore } from "../../_utils/FakeStore";
 import IconBtn from "@/ui/core/fundamentals/IconBtn.vue";
 import { generateCity } from "../../_mocks/generators/CityGenerator";
 import { UserPreferencesModuleAction } from "@/store/module/userPreferences.module";
-import { GlobalGetter } from "@/store/getters";
+import { City } from "@/business/city-search/CitySearchService";
 
 let wrapper: Wrapper<FavoriteLocationToggle>;
+let city: City;
 
 describe("FavoriteLocationToggle", () => {
     beforeEach(() => {
-        wrapper = shallowMount(FavoriteLocationToggle);
+        city = generateCity();
+        wrapper = shallowMount(FavoriteLocationToggle, {
+            propsData: {
+                location: city
+            }
+        });
     });
 
     afterEach(() => {
         jest.clearAllMocks();
     });
 
-    it("should not be visible if current location is null", () => {
-        fakeStore.state.localizationModule.location = null;
-
-        expect(wrapper.find(IconBtn).isVisible()).toBe(false);
-    });
-
-    it("should be visible if current location is not null", () => {
-        fakeStore.state.localizationModule.location = generateCity();
-
-        expect(wrapper.find(IconBtn).isVisible()).toBe(true);
-    });
-
     it("should call for favorite location addition upon click if current location is not already stored as favorite", () => {
-        const city = generateCity();
-        fakeStore.state.localizationModule.location = city;
-        fakeStore.getters[GlobalGetter.IS_CURRENT_LOCATION_FAVORITE] = false;
+        fakeStore.state.userPreferencesModule.favoriteLocations = [];
 
         wrapper.find(IconBtn).vm.$emit("click");
 
@@ -43,9 +35,7 @@ describe("FavoriteLocationToggle", () => {
     });
 
     it("should call for favorite location removal upon click if current location is already stored as favorite", () => {
-        const city = generateCity();
-        fakeStore.state.localizationModule.location = city;
-        fakeStore.getters[GlobalGetter.IS_CURRENT_LOCATION_FAVORITE] = true;
+        fakeStore.state.userPreferencesModule.favoriteLocations = [city];
 
         wrapper.find(IconBtn).vm.$emit("click");
 

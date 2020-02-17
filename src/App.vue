@@ -7,7 +7,7 @@
             <slide-y-up-transition slot="title">
                 <p v-if="currentLocation" class="flex items-center text-2xl font-semibold" id="appTitle">
                     {{ currentLocation | location }}
-                    <favorite-location-toggle class="ml-2" />
+                    <favorite-location-toggle :location="currentLocation" class="ml-2" />
                 </p>
             </slide-y-up-transition>
             <city-search-widget slot="header-r-actions" />

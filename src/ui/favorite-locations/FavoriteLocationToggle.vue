@@ -3,21 +3,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { Action, State } from "vuex-class";
+import { isEqual } from "lodash";
 import IconBtn from "../core/fundamentals/IconBtn.vue";
-import { Action, Getter, State } from "vuex-class";
-import { AppState } from "@/store/store";
-import { Nullable } from "@/types/app";
 import { City } from "@/business/city-search/CitySearchService";
 import { UserPreferencesModuleAction } from "@/store/module/userPreferences.module";
-import { GlobalGetter } from "@/store/getters";
+import { AppState } from "@/store/store";
+import { FavoriteLocation } from "@/business/favorite-locations/FavoriteLocationsService";
 
 @Component({
     components: { IconBtn }
 })
 export default class FavoriteLocationToggle extends Vue {
-    @State((state: AppState) => state.localizationModule.location)
-    currentLocation!: Nullable<City>;
+    @Prop({ type: Object, required: true })
+    location!: City;
+
+    @State((state: AppState) => state.userPreferencesModule.favoriteLocations)
+    favoriteLocations!: FavoriteLocation[];
 
     @Action(UserPreferencesModuleAction.ADD_FAVORITE_LOCATION)
     addToFavorite!: (city: City) => void;
@@ -25,34 +28,35 @@ export default class FavoriteLocationToggle extends Vue {
     @Action(UserPreferencesModuleAction.REMOVE_FAVORITE_LOCATION)
     removeFromFavorite!: (city: City) => void;
 
-    @Getter(GlobalGetter.IS_CURRENT_LOCATION_FAVORITE)
-    hasToBeRemoved!: boolean;
+    get alreadyStored(): boolean {
+        return !!this.favoriteLocations.find(l => isEqual(this.location.coordinates, l.coordinates));
+    }
 
     toggle() {
-        if (!this.currentLocation) return;
+        if (!this.location) return;
 
-        if (this.hasToBeRemoved) {
-            this.removeFromFavorite(this.currentLocation);
+        if (this.alreadyStored) {
+            this.removeFromFavorite(this.location);
             return;
         }
 
-        this.addToFavorite(this.currentLocation);
+        this.addToFavorite(this.location);
     }
 
     get displayToggle(): boolean {
-        return !!this.currentLocation;
+        return !!this.location;
     }
 
     get icon(): string {
-        return this.hasToBeRemoved ? "star_full" : "star";
+        return this.alreadyStored ? "star_full" : "star";
     }
 
     get label() {
-        const currentLocationName = this.currentLocation?.name;
+        const locationName = this.location?.name;
 
-        return this.hasToBeRemoved
-            ? this.$t("favoriteLocations.remove", [currentLocationName])
-            : this.$t("favoriteLocations.add", [currentLocationName]);
+        return this.alreadyStored
+            ? this.$t("favoriteLocations.remove", [locationName])
+            : this.$t("favoriteLocations.add", [locationName]);
     }
 }
 </script>

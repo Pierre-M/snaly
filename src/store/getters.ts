@@ -1,6 +1,5 @@
 "use strict";
 
-import { isEqual } from "lodash";
 import { GetterTree } from "vuex";
 import { AppState } from "@/store/store";
 import { RootState } from "@/store/state";
@@ -9,8 +8,7 @@ import { location, temperature } from "@/ui/core/vue-filters";
 export const DEFAULT_APP_TITLE = "Snaly";
 
 export enum GlobalGetter {
-    APP_TITLE = "appTitle",
-    IS_CURRENT_LOCATION_FAVORITE = "isCurrentLocationFavorite"
+    APP_TITLE = "appTitle"
 }
 
 export const getters: GetterTree<RootState, RootState> = {
@@ -23,13 +21,5 @@ export const getters: GetterTree<RootState, RootState> = {
         }
 
         return `${temperature(overview.temperatureOverview.current)} 📍 ${location(currentLocation)}`;
-    },
-    [GlobalGetter.IS_CURRENT_LOCATION_FAVORITE]: (state: RootState) => {
-        const currentLocation = (state as AppState).localizationModule.location;
-        const favoriteLocations = (state as AppState).userPreferencesModule.favoriteLocations;
-
-        if (!currentLocation) return false;
-
-        return !!favoriteLocations.find(l => isEqual(l.coordinates, currentLocation.coordinates));
     }
 };
