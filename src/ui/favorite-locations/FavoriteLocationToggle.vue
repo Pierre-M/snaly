@@ -1,5 +1,6 @@
 <template>
     <icon-btn
+        data-favorite-location-toggle
         v-show="displayToggle"
         @click="toggle"
         :icon="icon"

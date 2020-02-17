@@ -1,5 +1,5 @@
 <template>
-    <panel-section title="Your favorite locations">
+    <panel-section title="Your favorite locations" id="favoriteLocationsList">
         <fade-transition :duration="150" group tag="ul">
             <li class=" w-full mt-4 first:mt-0" v-for="location in favoriteLocations" :key="location.name">
                 <favorite-location-widget @click="triggerSelect(location)" :location="location" />
