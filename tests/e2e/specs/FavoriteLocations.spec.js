@@ -24,7 +24,7 @@ describe("Favorite locations Feature", () => {
         cy.visit("/");
         cy.get("#openCitySearch").click();
         cy.get("#citySearchQueryInput").type("Lyon");
-        cy.get("#citySearchResults li:first-child [data-favorite-location-toggle]").click();
+        cy.get("#citySearchResults > li > [data-favorite-location-toggle]").click();
 
         cy.reload();
 
@@ -33,7 +33,7 @@ describe("Favorite locations Feature", () => {
         cy.get("#favoriteLocationsList li").should("contains.text", "Lyon");
 
         cy.get("#citySearchQueryInput").type("Lyon");
-        cy.get("#citySearchResults li:first-child [data-favorite-location-toggle]").click();
+        cy.get("#citySearchResults > li > [data-favorite-location-toggle]").click();
 
         cy.reload();
 
