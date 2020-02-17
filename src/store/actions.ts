@@ -20,7 +20,7 @@ export enum StoreAction {
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-    async init(context: ActionContext<RootState, RootState>) {
+    [StoreAction.INIT]: async (context: ActionContext<RootState, RootState>) => {
         await context.dispatch(LocalizationModuleAction.GET_COORDINATES);
 
         devToolsLogger.displayWelcomeMessage();
