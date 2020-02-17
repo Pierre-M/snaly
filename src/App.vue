@@ -5,8 +5,9 @@
             <sharing-cta slot="header-l-actions" />
             <nav-widget v-if="displayNavWidget" slot="header-l-actions" />
             <slide-y-up-transition slot="title">
-                <p v-if="location" class="text-2xl font-semibold" id="appTitle">
+                <p v-if="location" class="flex items-center text-2xl font-semibold" id="appTitle">
                     {{ location }}
+                    <favorite-location-toggle class="ml-2" />
                 </p>
             </slide-y-up-transition>
             <city-search-widget slot="header-r-actions" />
@@ -32,9 +33,11 @@ import { LocalizationModuleGetter } from "@/store/module/localization.module";
 import NavWidget from "@/ui/layout/NavWidget.vue";
 import { AppState } from "@/store/store";
 import SharingCta from "@/ui/core/fundamentals/SharingCta.vue";
+import FavoriteLocationToggle from "@/ui/favorite-locations/FavoriteLocationToggle.vue";
 
 @Component({
     components: {
+        FavoriteLocationToggle,
         SharingCta,
         NavWidget,
         CitySearchWidget,
