@@ -8,7 +8,7 @@ import {
 } from "@/business/location-search/AlgoliaLocationSearchService";
 import { fakeCityBuilder, fakeHttpClient } from "../../_mocks";
 import { generateAlgoliaResults } from "../../_mocks/generators/AlgoliaDataGenerator";
-import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
+import { generateCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 
 let service: AlgoliaLocationSearchService;
 
@@ -84,7 +84,7 @@ describe("AlgoliaCitySearchService", () => {
     });
 
     it("should call for Algolia API with right url and payload for geocoding request", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         const language = "fr";
 
         const expected = {
@@ -99,7 +99,7 @@ describe("AlgoliaCitySearchService", () => {
     });
 
     it("should return null if anything wrong happen with Algolia api", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         const language = "en";
         fakeHttpClient.mockErroredResponse();
 
@@ -109,7 +109,7 @@ describe("AlgoliaCitySearchService", () => {
     });
 
     it("should return built city", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         const language = "en";
 
         const res = await service.getLocationByCoordinates({ coordinates, language });

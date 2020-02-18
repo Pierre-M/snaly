@@ -4,7 +4,6 @@ import { WeatherOverview, WeatherOverviewBuilder } from "@/business/weather/Weat
 import { Nullable } from "@/types/app";
 
 export class FakeWeatherOverviewBuilder implements WeatherOverviewBuilder {
-    build(data: any): Nullable<WeatherOverview> {
-        return null;
-    }
+    returnedValue: Nullable<WeatherOverview> = null;
+    build = jest.fn(() => this.returnedValue);
 }

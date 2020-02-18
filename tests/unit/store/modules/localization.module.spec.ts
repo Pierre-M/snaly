@@ -11,7 +11,7 @@ import {
     LocalizationModuleMutation,
     LocalizationModuleState
 } from "@/store/module/localization.module";
-import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
+import { generateCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 import { generateCity } from "../../_mocks/generators/CityGenerator";
 import { Location } from "@/business/location-search/LocationSearchService";
 
@@ -59,7 +59,7 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
     });
 
     it("should update coordinates state only when received coordinates are not null", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         fakeGeolocationService.setReturnedValue(coordinates);
         await store.commit(LocalizationModuleMutation.UPDATE_GEOLOCATION_AUTH, true);
 
@@ -82,7 +82,7 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
     });
 
     it("should call for geocodingService with right coordinates and language upon getLocation action", () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         const language = "fr";
 
         store.dispatch(LocalizationModuleAction.GET_LOCATION, { coordinates, language });
@@ -101,7 +101,7 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
         fakeCitySearchService.city = city;
 
         const locationRequest: LocalizationModuleAddressRequest = {
-            coordinates: generateUserCoordinates(),
+            coordinates: generateCoordinates(),
             language: "fr"
         };
 
