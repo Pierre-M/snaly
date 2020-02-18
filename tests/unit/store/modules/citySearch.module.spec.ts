@@ -32,7 +32,7 @@ describe("Vuex store : citySearch module", () => {
 
         await store.dispatch(CitySearchModuleAction.GET_CITIES, request);
 
-        expect(fakeCitySearchService.getCities).toHaveBeenCalledWith({ query: "Paris", language: "fr" });
+        expect(fakeCitySearchService.getLocations).toHaveBeenCalledWith({ query: "Paris", language: "fr" });
     });
 
     it("should update state with retrieved results", async () => {

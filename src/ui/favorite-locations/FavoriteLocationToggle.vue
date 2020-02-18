@@ -14,7 +14,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { Action, State } from "vuex-class";
 import { isEqual } from "lodash";
 import IconBtn from "../core/fundamentals/IconBtn.vue";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 import { UserPreferencesModuleAction } from "@/store/module/userPreferences.module";
 import { AppState } from "@/store/store";
 import { FavoriteLocation } from "@/business/favorite-locations/FavoriteLocationsService";
@@ -24,19 +24,19 @@ import { FavoriteLocation } from "@/business/favorite-locations/FavoriteLocation
 })
 export default class FavoriteLocationToggle extends Vue {
     @Prop({ type: Object, required: true })
-    location!: City;
+    location!: Location;
 
     @State((state: AppState) => state.userPreferencesModule.favoriteLocations)
     favoriteLocations!: FavoriteLocation[];
 
     @Action(UserPreferencesModuleAction.ADD_FAVORITE_LOCATION)
-    addToFavorite!: (city: City) => void;
+    addToFavorite!: (city: Location) => void;
 
     @Action(UserPreferencesModuleAction.REMOVE_FAVORITE_LOCATION)
-    removeFromFavorite!: (city: City) => void;
+    removeFromFavorite!: (city: Location) => void;
 
     get alreadyStored(): boolean {
-        return !!this.favoriteLocations.find(l => isEqual(this.location.coordinates, l.coordinates));
+        return !!this.favoriteLocations.find(l => isEqual(this.location.name, l.name));
     }
 
     toggle(e: Event) {

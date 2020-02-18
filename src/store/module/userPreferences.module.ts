@@ -7,7 +7,7 @@ import { FavoriteLocation, FavoriteLocationsService } from "@/business/favorite-
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { container } from "tsyringe";
 import { StoreAction } from "@/store/actions";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 
 const favoriteLocationsService = container.resolve<FavoriteLocationsService>(DIToken.FAVORITE_LOCATIONS_SERVICE);
 
@@ -47,7 +47,7 @@ export const userPreferencesModule: Module<UserPreferencesModuleState, RootState
         },
         [UserPreferencesModuleAction.ADD_FAVORITE_LOCATION]: (
             { commit }: ActionContext<UserPreferencesModuleState, RootState>,
-            city: City
+            city: Location
         ) => {
             favoriteLocationsService.add(city);
 
@@ -55,7 +55,7 @@ export const userPreferencesModule: Module<UserPreferencesModuleState, RootState
         },
         [UserPreferencesModuleAction.REMOVE_FAVORITE_LOCATION]: (
             { commit }: ActionContext<UserPreferencesModuleState, RootState>,
-            city: City
+            city: Location
         ) => {
             favoriteLocationsService.remove(city);
 

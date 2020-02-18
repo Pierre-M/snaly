@@ -2,11 +2,11 @@
 
 import { Nullable } from "@/types/app";
 
-export interface UserCoordinates {
+export interface LocationCoordinates {
     latitude: number;
     longitude: number;
 }
 
 export interface GeolocationService {
-    getCoordinates(): Promise<Nullable<UserCoordinates>>;
+    getCoordinates(): Promise<Nullable<LocationCoordinates>>;
 }

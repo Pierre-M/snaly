@@ -1,20 +1,20 @@
 "use strict";
 
-import { GeolocationService, UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { GeolocationService, LocationCoordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
 import { ActionContext, Module } from "vuex";
 import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import { City, CitySearchService } from "@/business/city-search/CitySearchService";
+import { Location, LocationSearchService } from "@/business/location-search/LocationSearchService";
 
 const geolocationService = container.resolve<GeolocationService>(DIToken.GEOLOCATION_SERVICE);
-const citySearchService = container.resolve<CitySearchService>(DIToken.CITY_SEARCH_SERVICE);
+const citySearchService = container.resolve<LocationSearchService>(DIToken.CITY_SEARCH_SERVICE);
 
 export interface LocalizationModuleState {
     geolocationHasBeenRequested: boolean;
-    coordinates: Nullable<UserCoordinates>;
-    location: Nullable<City>;
+    coordinates: Nullable<LocationCoordinates>;
+    location: Nullable<Location>;
 }
 
 export enum LocalizationModuleAction {
@@ -23,7 +23,7 @@ export enum LocalizationModuleAction {
     GET_LOCATION = "getLocation"
 }
 
-export const DEFAULT_COORDINATES: UserCoordinates = {
+export const DEFAULT_COORDINATES: LocationCoordinates = {
     latitude: 48.8546,
     longitude: 2.3477
 };
@@ -39,7 +39,7 @@ export enum LocalizationModuleGetter {
 }
 
 export interface LocalizationModuleAddressRequest {
-    coordinates: Nullable<UserCoordinates>;
+    coordinates: Nullable<LocationCoordinates>;
     language: string;
 }
 
@@ -55,11 +55,14 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
         },
         [LocalizationModuleMutation.UPDATE_COORDINATES]: (
             state: LocalizationModuleState,
-            coordinates: Nullable<UserCoordinates>
+            coordinates: Nullable<LocationCoordinates>
         ) => {
             state.coordinates = coordinates;
         },
-        [LocalizationModuleMutation.UPDATE_LOCATION]: (state: LocalizationModuleState, location: Nullable<City>) => {
+        [LocalizationModuleMutation.UPDATE_LOCATION]: (
+            state: LocalizationModuleState,
+            location: Nullable<Location>
+        ) => {
             state.location = location;
         }
     },
@@ -99,7 +102,7 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
                 return;
             }
 
-            const location = await citySearchService.getCityByCoordinates({ coordinates, language });
+            const location = await citySearchService.getLocationByCoordinates({ coordinates, language });
 
             if (!location) {
                 return;

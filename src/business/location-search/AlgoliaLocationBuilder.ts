@@ -1,6 +1,6 @@
 "use strict";
 
-import { City, CityBuilder } from "@/business/city-search/CitySearchService";
+import { Location, LocationBuilder } from "@/business/location-search/LocationSearchService";
 import { Nullable } from "@/types/app";
 import { inject, injectable, singleton } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
@@ -8,10 +8,10 @@ import { AlertingService } from "@/core/alerting/AlertingService";
 
 @injectable()
 @singleton()
-export class AlgoliaCityBuilder implements CityBuilder {
+export class AlgoliaLocationBuilder implements LocationBuilder {
     constructor(@inject(DIToken.ALERTING_SERVICE) private alertingService: AlertingService) {}
 
-    build(data: any): Nullable<City> {
+    build(data: any): Nullable<Location> {
         try {
             return {
                 name: data.city ? data.city[0] : data.locale_names[0],

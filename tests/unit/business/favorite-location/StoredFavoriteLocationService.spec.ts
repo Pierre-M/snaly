@@ -6,7 +6,6 @@ import {
 } from "@/business/favorite-locations/StoredFavoriteLocationService";
 import { fakeStorageService } from "../../_mocks";
 import { generateCity } from "../../_mocks/generators/CityGenerator";
-import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 
 let service: StoredFavoriteLocationService;
 
@@ -28,8 +27,8 @@ describe("StoredFavoriteLocationService", () => {
     });
 
     it("should handle Nth city addition", () => {
-        const alreadyStoredLocation = generateCity();
-        const newCity = generateCity();
+        const alreadyStoredLocation = generateCity({ name: "Paris" });
+        const newCity = generateCity({ name: "Lille" });
 
         fakeStorageService.returnedValue = [alreadyStoredLocation];
 
@@ -51,10 +50,9 @@ describe("StoredFavoriteLocationService", () => {
         expect(res).toEqual([city1, city2]);
     });
 
-    it("should not add location if there is already a saved location with the same coordinates", () => {
-        const coordinates = generateUserCoordinates();
-        const city1 = generateCity({ name: "Paris", coordinates });
-        const city2 = generateCity({ name: "Lille", coordinates });
+    it("should not add location if there is already a saved location with the same name", () => {
+        const city1 = generateCity({ name: "Paris" });
+        const city2 = generateCity({ name: "Paris" });
 
         fakeStorageService.returnedValue = [city1];
 
@@ -64,11 +62,10 @@ describe("StoredFavoriteLocationService", () => {
     });
 
     it("should be able to remove a stored location", () => {
-        const coordinates = generateUserCoordinates();
-        const city1 = generateCity({ coordinates });
-        const city2 = generateCity();
+        const city1 = generateCity({ name: "Paris" });
+        const city2 = generateCity({ name: "Lille" });
         const stored = [city1, city2];
-        const toBeRemoved = generateCity({ coordinates });
+        const toBeRemoved = generateCity({ name: "Paris" });
 
         fakeStorageService.returnedValue = stored;
 

@@ -3,18 +3,18 @@
 import {
     ALGOLIA_SEARCH_API,
     ALGOLIA_BASE_REQUEST,
-    AlgoliaCitySearchService,
+    AlgoliaLocationSearchService,
     ALGOLIA_REVERSE_GEOCODING_API
-} from "@/business/city-search/AlgoliaCitySearchService";
+} from "@/business/location-search/AlgoliaLocationSearchService";
 import { fakeCityBuilder, fakeHttpClient } from "../../_mocks";
 import { generateAlgoliaResults } from "../../_mocks/generators/AlgoliaDataGenerator";
 import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 
-let service: AlgoliaCitySearchService;
+let service: AlgoliaLocationSearchService;
 
 describe("AlgoliaCitySearchService", () => {
     beforeEach(() => {
-        service = new AlgoliaCitySearchService(fakeHttpClient, fakeCityBuilder);
+        service = new AlgoliaLocationSearchService(fakeHttpClient, fakeCityBuilder);
         fakeHttpClient.mockSuccessfullResponse(generateAlgoliaResults());
     });
 
@@ -23,13 +23,13 @@ describe("AlgoliaCitySearchService", () => {
     });
 
     it("should not call for Algolia API for empty query", async () => {
-        await service.getCities({ query: "", language: "fr" });
+        await service.getLocations({ query: "", language: "fr" });
 
         expect(fakeHttpClient.post).not.toHaveBeenCalled();
     });
 
     it("should return empty array for empty query", async () => {
-        const res = await service.getCities({ query: "", language: "fr" });
+        const res = await service.getLocations({ query: "", language: "fr" });
 
         expect(res).toEqual([]);
     });
@@ -43,7 +43,7 @@ describe("AlgoliaCitySearchService", () => {
             language
         };
 
-        await service.getCities({ query, language });
+        await service.getLocations({ query, language });
 
         expect(fakeHttpClient.post).toHaveBeenCalledWith(ALGOLIA_SEARCH_API, expectedPayload);
     });
@@ -51,7 +51,7 @@ describe("AlgoliaCitySearchService", () => {
     it("should return an empty array in case of any issue with Algolia API", async () => {
         fakeHttpClient.mockErroredResponse();
 
-        const response = await service.getCities({ query: "Paris", language: "fr" });
+        const response = await service.getLocations({ query: "Paris", language: "fr" });
 
         expect(response).toEqual([]);
     });
@@ -59,7 +59,7 @@ describe("AlgoliaCitySearchService", () => {
     it("should exclude empty result entries", async () => {
         fakeCityBuilder.result = null;
 
-        const response = await service.getCities({ query: "Paris", language: "fr" });
+        const response = await service.getLocations({ query: "Paris", language: "fr" });
 
         expect(response).toEqual([]);
     });
@@ -78,7 +78,7 @@ describe("AlgoliaCitySearchService", () => {
 
         fakeCityBuilder.result = uniqResult;
 
-        const response = await service.getCities({ query: "Paris", language: "fr" });
+        const response = await service.getLocations({ query: "Paris", language: "fr" });
 
         expect(response).toEqual([uniqResult]);
     });
@@ -93,7 +93,7 @@ describe("AlgoliaCitySearchService", () => {
             aroundLatLng: `${coordinates.latitude},${coordinates.longitude}`
         };
 
-        await service.getCityByCoordinates({ coordinates, language });
+        await service.getLocationByCoordinates({ coordinates, language });
 
         expect(fakeHttpClient.get).toHaveBeenCalledWith(ALGOLIA_REVERSE_GEOCODING_API, expected);
     });
@@ -103,7 +103,7 @@ describe("AlgoliaCitySearchService", () => {
         const language = "en";
         fakeHttpClient.mockErroredResponse();
 
-        const res = await service.getCityByCoordinates({ coordinates, language });
+        const res = await service.getLocationByCoordinates({ coordinates, language });
 
         expect(res).toEqual(null);
     });
@@ -112,7 +112,7 @@ describe("AlgoliaCitySearchService", () => {
         const coordinates = generateUserCoordinates();
         const language = "en";
 
-        const res = await service.getCityByCoordinates({ coordinates, language });
+        const res = await service.getLocationByCoordinates({ coordinates, language });
 
         expect(res).not.toEqual(null);
     });

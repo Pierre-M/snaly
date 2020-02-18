@@ -23,7 +23,7 @@ import { AlertingService } from "@/core/alerting/AlertingService";
 import { FakeHttpClient } from "./FakeHttpClient";
 import { HttpClient } from "@/core/http/HttpClient";
 import { FakeCitySearchService } from "./FakeCitySearchService";
-import { CitySearchService } from "@/business/city-search/CitySearchService";
+import { LocationSearchService } from "@/business/location-search/LocationSearchService";
 import { FakeCityBuilder } from "./FakeCityBuilder";
 import { ShortcutService } from "@/core/browser/ShorcutService";
 import { FakeShortcutService } from "./FakeShortcutService";
@@ -93,7 +93,7 @@ container.register<AlertingService>(DIToken.ALERTING_SERVICE, {
     useValue: fakeAlertingService
 });
 
-container.register<CitySearchService>(DIToken.CITY_SEARCH_SERVICE, {
+container.register<LocationSearchService>(DIToken.CITY_SEARCH_SERVICE, {
     useValue: fakeCitySearchService
 });
 

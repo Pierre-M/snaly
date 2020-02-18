@@ -1,8 +1,8 @@
 "use strict";
 
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { LocationCoordinates } from "@/business/geolocation/GeolocationService";
 
-export function generateUserCoordinates(): UserCoordinates {
+export function generateUserCoordinates(): LocationCoordinates {
     return {
         latitude: Math.random() * 180 - 90,
         longitude: Math.random() * 360 - 180

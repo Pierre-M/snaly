@@ -14,9 +14,9 @@ import { BrowserDevToolsLogger } from "@/business/easter-eggs/BrowserDevToolsLog
 import { SentryAlertingService } from "@/core/alerting/SentryAlertingService";
 import { WebpackEnvironmentService } from "@/core/env/WebpackEnvironmentService";
 import { BrowserSharingService } from "@/core/browser/BrowserSharingService";
-import { CityBuilder, CitySearchService } from "@/business/city-search/CitySearchService";
-import { AlgoliaCityBuilder } from "@/business/city-search/AlgoliaCityBuilder";
-import { AlgoliaCitySearchService } from "@/business/city-search/AlgoliaCitySearchService";
+import { LocationBuilder, LocationSearchService } from "@/business/location-search/LocationSearchService";
+import { AlgoliaLocationBuilder } from "@/business/location-search/AlgoliaLocationBuilder";
+import { AlgoliaLocationSearchService } from "@/business/location-search/AlgoliaLocationSearchService";
 import { ShortcutService } from "@/core/browser/ShorcutService";
 import { KeyboardShortcutService } from "@/core/browser/KeyboardShortcutService";
 import { VueI18nService } from "@/ui/core/vue-plugins/I18nPlugin";
@@ -78,12 +78,12 @@ container.register(DIToken.SHARING_SERVICE, {
     useClass: BrowserSharingService
 });
 
-container.register<CityBuilder>(DIToken.CITY_BUILDER, {
-    useClass: AlgoliaCityBuilder
+container.register<LocationBuilder>(DIToken.CITY_BUILDER, {
+    useClass: AlgoliaLocationBuilder
 });
 
-container.register<CitySearchService>(DIToken.CITY_SEARCH_SERVICE, {
-    useClass: AlgoliaCitySearchService
+container.register<LocationSearchService>(DIToken.CITY_SEARCH_SERVICE, {
+    useClass: AlgoliaLocationSearchService
 });
 
 container.register<ShortcutService>(DIToken.SHORTCUT_SERVICE, {

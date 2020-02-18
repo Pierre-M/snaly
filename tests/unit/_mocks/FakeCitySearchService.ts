@@ -1,19 +1,19 @@
 "use strict";
 
-import { City, CitySearchService } from "@/business/city-search/CitySearchService";
+import { Location, LocationSearchService } from "@/business/location-search/LocationSearchService";
 import { Nullable } from "@/types/app";
 
-export class FakeCitySearchService implements CitySearchService {
-    set city(value: City | null) {
+export class FakeCitySearchService implements LocationSearchService {
+    set city(value: Location | null) {
         this._city = value;
     }
-    set results(value: City[]) {
+    set results(value: Location[]) {
         this._results = value;
     }
 
-    private _results: City[] = [];
-    private _city: Nullable<City> = null;
+    private _results: Location[] = [];
+    private _city: Nullable<Location> = null;
 
-    getCityByCoordinates = jest.fn(() => Promise.resolve(this._city));
-    getCities = jest.fn(() => Promise.resolve(this._results));
+    getLocationByCoordinates = jest.fn(() => Promise.resolve(this._city));
+    getLocations = jest.fn(() => Promise.resolve(this._results));
 }

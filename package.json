@@ -7,7 +7,7 @@
     "build": "yarn test:unit && gulp build-icon-font && vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
-    "test": "yarn test:unit & yarn test:e2e",
+    "test": "yarn test:unit & yarn test:e2e --headless",
     "lint": "vue-cli-service lint",
     "lighthouse": "mkdirp lighthouse && lighthouse https://pierre-m.github.io/snaly --quiet --view --output html --output-path ./lighthouse/report.html",
     "lighthouse:clean": "rm -rf lighthouse",
@@ -77,7 +77,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint && yarn test:unit && yarn test:e2e --headless"
+      "pre-commit": "yarn lint && yarn:test"
     }
   }
 }

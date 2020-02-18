@@ -1,9 +1,9 @@
 "use strict";
 
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 import { generateUserCoordinates } from "./UserCoordinatesGenerator";
 
-export function generateCity(params?: Partial<City>): City {
+export function generateCity(params?: Partial<Location>): Location {
     return {
         name: "Paris",
         countryCode: "fr",

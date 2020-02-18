@@ -1,17 +1,17 @@
 "use strict";
 
-import { City, CitySearchService } from "@/business/city-search/CitySearchService";
+import { Location, LocationSearchService } from "@/business/location-search/LocationSearchService";
 import { ActionContext, Module } from "vuex";
 import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { AppState } from "@/store/store";
 
-const citySearchService = container.resolve<CitySearchService>(DIToken.CITY_SEARCH_SERVICE);
+const citySearchService = container.resolve<LocationSearchService>(DIToken.CITY_SEARCH_SERVICE);
 
 export interface CitySearchModuleState {
     loading: boolean;
-    results: City[];
+    results: Location[];
 }
 
 export enum CitySearchModuleAction {
@@ -34,7 +34,7 @@ export const citySearchModule: Module<CitySearchModuleState, RootState> = {
         results: []
     },
     mutations: {
-        [CitySearchModuleMutation.UPDATE_RESULTS]: (state: CitySearchModuleState, results: City[]) => {
+        [CitySearchModuleMutation.UPDATE_RESULTS]: (state: CitySearchModuleState, results: Location[]) => {
             state.results = results;
         },
         [CitySearchModuleMutation.UPDATE_LOADING_STATE]: (state: CitySearchModuleState, isLoading: boolean) => {
@@ -47,7 +47,7 @@ export const citySearchModule: Module<CitySearchModuleState, RootState> = {
             request: CitySearchModuleRequest
         ) => {
             commit(CitySearchModuleMutation.UPDATE_LOADING_STATE, true);
-            const results = await citySearchService.getCities({
+            const results = await citySearchService.getLocations({
                 query: request.query,
                 language: (rootState as AppState).userPreferencesModule.local
             });
