@@ -1,15 +1,15 @@
 "use strict";
 
-import { AlgoliaCityBuilder } from "@/business/city-search/AlgoliaCityBuilder";
+import { AlgoliaLocationBuilder } from "@/business/location-search/AlgoliaLocationBuilder";
 import { fakeAlertingService } from "../../_mocks";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 import { generateAlgoliaCityResultData } from "../../_mocks/generators/AlgoliaDataGenerator";
 
-let builder: AlgoliaCityBuilder;
+let builder: AlgoliaLocationBuilder;
 
 describe("AlgoliaCityBuilder", () => {
     beforeEach(() => {
-        builder = new AlgoliaCityBuilder(fakeAlertingService);
+        builder = new AlgoliaLocationBuilder(fakeAlertingService);
     });
 
     afterEach(() => {
@@ -17,7 +17,7 @@ describe("AlgoliaCityBuilder", () => {
     });
 
     it("should return right city given Algolia data", () => {
-        const expected: City = {
+        const expected: Location = {
             name: "Paris",
             country: "France",
             countryCode: "fr",

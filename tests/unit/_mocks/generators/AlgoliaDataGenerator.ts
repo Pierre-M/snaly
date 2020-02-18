@@ -1,10 +1,10 @@
 "use strict";
 
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 
 export interface AlgoliaGeneratorParams {
     incomplete?: boolean;
-    city?: Partial<City>;
+    city?: Partial<Location>;
 }
 
 export function generateAlgoliaCityResultData({ incomplete, city }: AlgoliaGeneratorParams = {}) {

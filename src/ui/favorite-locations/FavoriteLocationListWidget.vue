@@ -15,7 +15,7 @@ import { AppState } from "@/store/store";
 import { FavoriteLocation } from "@/business/favorite-locations/FavoriteLocationsService";
 import PanelSection from "@/ui/layout/PanelSection.vue";
 import FavoriteLocationWidget from "@/ui/favorite-locations/FavoriteLocationWidget.vue";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 @Component({
     components: { FavoriteLocationWidget, PanelSection }
 })
@@ -23,7 +23,7 @@ export default class FavoriteLocationListWidget extends Vue {
     @State((state: AppState) => state.userPreferencesModule.favoriteLocations)
     favoriteLocations!: FavoriteLocation[];
 
-    triggerSelect(city: City) {
+    triggerSelect(city: Location) {
         this.$emit("select", city);
     }
 }

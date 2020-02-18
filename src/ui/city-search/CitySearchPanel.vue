@@ -32,10 +32,10 @@ import CitySearchInput from "@/ui/city-search/CitySearchInput.vue";
 import { CitySearchModuleAction } from "@/store/module/citySearch.module";
 import CitySearchResults from "@/ui/city-search/CitySearchResults.vue";
 import { AppState } from "@/store/store";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 import IconBtn from "@/ui/core/fundamentals/IconBtn.vue";
 import { LocalizationModuleMutation } from "@/store/module/localization.module";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { LocationCoordinates } from "@/business/geolocation/GeolocationService";
 import RequestGeolocationCta from "@/ui/geolocation/RequestGeolocationCta.vue";
 import BackdropPanel from "@/ui/layout/BackdropPanel.vue";
 import FavoriteLocationListWidget from "@/ui/favorite-locations/FavoriteLocationListWidget.vue";
@@ -58,7 +58,7 @@ export default class CitySearchPanel extends Vue {
     loading!: boolean;
 
     @State(state => (state as AppState).citySearchModule.results)
-    results!: City[];
+    results!: Location[];
 
     @Action(CitySearchModuleAction.GET_CITIES)
     getCities!: () => void;
@@ -70,7 +70,7 @@ export default class CitySearchPanel extends Vue {
     closePanel!: () => void;
 
     @Mutation(LocalizationModuleMutation.UPDATE_COORDINATES)
-    updateCoordinates!: (coords: UserCoordinates) => void;
+    updateCoordinates!: (coords: LocationCoordinates) => void;
 
     query: string = "";
 
@@ -78,7 +78,7 @@ export default class CitySearchPanel extends Vue {
         return !this.results.length;
     }
 
-    selectCity(city: City) {
+    selectCity(city: Location) {
         this.updateCoordinates(city.coordinates);
         this.exitCitySearch();
     }

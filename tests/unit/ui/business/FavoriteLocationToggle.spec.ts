@@ -7,10 +7,10 @@ import { fakeStore } from "../../_utils/FakeStore";
 import IconBtn from "@/ui/core/fundamentals/IconBtn.vue";
 import { generateCity } from "../../_mocks/generators/CityGenerator";
 import { UserPreferencesModuleAction } from "@/store/module/userPreferences.module";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 
 let wrapper: Wrapper<FavoriteLocationToggle>;
-let city: City;
+let city: Location;
 
 describe("FavoriteLocationToggle", () => {
     beforeEach(() => {

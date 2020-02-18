@@ -1,13 +1,11 @@
 "use strict";
 
 import {
-    WeatherService,
     CurrentWeatherOverview,
-    WeatherForecastEntry,
     WeatherDailyForecast,
-    WeatherServiceRequest
+    WeatherForecastEntry,
+    WeatherService
 } from "@/business/weather/WeatherService";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
 
 export class FakeWeatherService implements WeatherService {
@@ -25,19 +23,19 @@ export class FakeWeatherService implements WeatherService {
     private _dailyForecastsValue: Nullable<WeatherDailyForecast[]> = null;
 
     getCurrentWeather = jest.fn(
-        (params: WeatherServiceRequest): Promise<Nullable<CurrentWeatherOverview>> => {
+        (): Promise<Nullable<CurrentWeatherOverview>> => {
             return Promise.resolve(this._currentOverviewValue);
         }
     );
 
     getHourlyForecastByCoordinates = jest.fn(
-        (coordinates: UserCoordinates): Promise<Nullable<WeatherForecastEntry[]>> => {
+        (): Promise<Nullable<WeatherForecastEntry[]>> => {
             return Promise.resolve(this._hourlyForecastValue);
         }
     );
 
     getDailyForecasts = jest.fn(
-        (params: WeatherServiceRequest): Promise<Nullable<WeatherDailyForecast[]>> => {
+        (): Promise<Nullable<WeatherDailyForecast[]>> => {
             return Promise.resolve(this._dailyForecastsValue);
         }
     );

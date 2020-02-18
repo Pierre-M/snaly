@@ -8,7 +8,7 @@ import { TemperatureUnit } from "@/business/weather/WeatherService";
 import { container } from "tsyringe";
 import { I18nService } from "@/core/i18n/I18nService";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 
 const i18nService = container.resolve<I18nService>(DIToken.I18N_SERVICE);
 
@@ -53,7 +53,7 @@ export function time(value?: Date): string {
 
 Vue.filter("time", time);
 
-export function location(city: City): string {
+export function location(city: Location): string {
     if (!city) return "";
 
     return `${city.name}, ${city.countryCode.toLocaleUpperCase()}`;

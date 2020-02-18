@@ -8,7 +8,6 @@ import {
     WeatherService,
     WeatherServiceRequest
 } from "@/business/weather/WeatherService";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import { OWACurrentWeatherOverviewBuilder } from "@/business/weather/OWAWeatherOverviewBuilder";
 import { inject, injectable } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";

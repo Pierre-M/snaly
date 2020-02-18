@@ -22,20 +22,20 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 import FavoriteLocationToggle from "@/ui/favorite-locations/FavoriteLocationToggle.vue";
 @Component({
     components: { FavoriteLocationToggle }
 })
 export default class CitySearchResults extends Vue {
     @Prop({ type: Array, required: true })
-    results!: City[];
+    results!: Location[];
 
     get shown(): boolean {
         return !!this.results.length;
     }
 
-    triggerSelection(selection: City) {
+    triggerSelection(selection: Location) {
         this.$emit("select", selection);
     }
 }

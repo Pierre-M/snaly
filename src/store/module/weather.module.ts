@@ -11,7 +11,7 @@ import { Nullable } from "@/types/app";
 import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { LocationCoordinates } from "@/business/geolocation/GeolocationService";
 
 export interface WeatherModuleState {
     current: Nullable<CurrentWeatherOverview>;
@@ -19,7 +19,7 @@ export interface WeatherModuleState {
 }
 
 export interface WeatherModuleRequest {
-    coordinates: Nullable<UserCoordinates>;
+    coordinates: Nullable<LocationCoordinates>;
     unit: TemperatureUnit;
 }
 

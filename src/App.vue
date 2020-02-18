@@ -34,7 +34,7 @@ import { AppState } from "@/store/store";
 import SharingCta from "@/ui/core/fundamentals/SharingCta.vue";
 import FavoriteLocationToggle from "@/ui/favorite-locations/FavoriteLocationToggle.vue";
 import { Nullable } from "@/types/app";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 import { StoreAction } from "@/store/actions";
 
 @Component({
@@ -56,7 +56,7 @@ export default class App extends Vue {
     appTitle!: string;
 
     @State((state: AppState) => state.localizationModule.location)
-    currentLocation!: Nullable<City>;
+    currentLocation!: Nullable<Location>;
 
     @State((state: AppState) => state.uiModule.screen.hasTouchSupport)
     hasTouchSupport!: boolean;

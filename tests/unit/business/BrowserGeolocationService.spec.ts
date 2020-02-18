@@ -3,7 +3,7 @@
 import { BrowserGeolocationService } from "@/business/geolocation/BrowserGeolocationService";
 import { generateUserCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
 import { Nullable } from "@/types/app";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { LocationCoordinates } from "@/business/geolocation/GeolocationService";
 
 let service: BrowserGeolocationService;
 
@@ -34,7 +34,7 @@ describe("BrowserGeolocationService", () => {
     });
 });
 
-function mockGeolocationApi(coordinates?: Nullable<UserCoordinates>) {
+function mockGeolocationApi(coordinates?: Nullable<LocationCoordinates>) {
     Object.defineProperty(window.navigator, "geolocation", {
         value: {
             getCurrentPosition: jest.fn((success: (c: Coordinates) => void, callback: (any: any) => void) => {

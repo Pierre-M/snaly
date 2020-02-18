@@ -1,7 +1,7 @@
 "use strict";
 
 import { FavoriteLocation, FavoriteLocationsService } from "@/business/favorite-locations/FavoriteLocationsService";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 import { inject, singleton } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { StorageService } from "@/core/storage/StorageService";
@@ -17,7 +17,7 @@ export class StoredFavoriteLocationService implements FavoriteLocationsService {
         return this.storageService.get<FavoriteLocation[]>(FAVORITE_CITIES_STORAGE_KEY) || [];
     }
 
-    add(city: City): void {
+    add(city: Location): void {
         if (this.locationIsAlreadyStored(city, this.locations)) {
             return;
         }
@@ -27,12 +27,12 @@ export class StoredFavoriteLocationService implements FavoriteLocationsService {
         this.storageService.set<FavoriteLocation[]>(FAVORITE_CITIES_STORAGE_KEY, [...storedLocations, city]);
     }
 
-    remove(city: City): void {
+    remove(city: Location): void {
         const filteredLocations = this.locations.filter(l => l.name !== city.name);
         this.storageService.set<FavoriteLocation[]>(FAVORITE_CITIES_STORAGE_KEY, filteredLocations);
     }
 
-    private locationIsAlreadyStored(city: City, favorites: FavoriteLocation[]): boolean {
+    private locationIsAlreadyStored(city: Location, favorites: FavoriteLocation[]): boolean {
         return !!favorites.find(f => f.name === city.name);
     }
 }

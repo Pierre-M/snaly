@@ -1,12 +1,12 @@
 "use strict";
 
 import {
-    City,
-    CityBuilder,
-    CitySearchGeocodingRequest,
-    CitySearchService,
-    CitySearchServiceRequest
-} from "@/business/city-search/CitySearchService";
+    Location,
+    LocationBuilder,
+    LocationSearchGeocodingRequest,
+    LocationSearchService,
+    LocationSearchServiceRequest
+} from "@/business/location-search/LocationSearchService";
 import { inject, singleton } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { HttpClient } from "@/core/http/HttpClient";
@@ -21,13 +21,16 @@ export const ALGOLIA_BASE_REQUEST = {
 };
 
 @singleton()
-export class AlgoliaCitySearchService implements CitySearchService {
+export class AlgoliaLocationSearchService implements LocationSearchService {
     constructor(
         @inject(DIToken.HTTP_CLIENT) private httpClient: HttpClient,
-        @inject(DIToken.CITY_BUILDER) private cityBuilder: CityBuilder
+        @inject(DIToken.CITY_BUILDER) private cityBuilder: LocationBuilder
     ) {}
 
-    async getCityByCoordinates({ coordinates, language }: CitySearchGeocodingRequest): Promise<Nullable<City>> {
+    async getLocationByCoordinates({
+        coordinates,
+        language
+    }: LocationSearchGeocodingRequest): Promise<Nullable<Location>> {
         const [res] = await this.httpClient.get<any>(ALGOLIA_REVERSE_GEOCODING_API, {
             hitsPerPage: 1,
             language: language,
@@ -41,7 +44,7 @@ export class AlgoliaCitySearchService implements CitySearchService {
         return this.cityBuilder.build(res.hits[0]);
     }
 
-    async getCities(request: CitySearchServiceRequest): Promise<City[]> {
+    async getLocations(request: LocationSearchServiceRequest): Promise<Location[]> {
         if (!request.query) {
             return [];
         }
@@ -58,16 +61,16 @@ export class AlgoliaCitySearchService implements CitySearchService {
         return response.hits
             .map((hit: any) => this.cityBuilder.build(hit))
             .filter(Boolean)
-            .reduce((cities: City[], city: City) => {
-                const isDoubled = !!cities.find(c => {
-                    return c.name === city.name && c.countryCode === city.countryCode;
+            .reduce((locations: Location[], location: Location) => {
+                const isDoubled = !!locations.find(c => {
+                    return c.name === location.name && c.countryCode === location.countryCode;
                 });
 
                 if (isDoubled) {
-                    return cities;
+                    return locations;
                 }
 
-                return [...cities, city];
+                return [...locations, location];
             }, []);
     }
 }

@@ -9,7 +9,7 @@ import { LocalizationModuleAction, LocalizationModuleMutation } from "@/store/mo
 import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
 import { AppState } from "@/store/store";
 import { DevToolsLogger } from "@/business/easter-eggs/DevToolsLogger";
-import { City } from "@/business/city-search/CitySearchService";
+import { Location } from "@/business/location-search/LocationSearchService";
 
 const gestureService = container.resolve<GestureService>(DIToken.GESTURE_SERVICE);
 const devToolsLogger = container.resolve<DevToolsLogger>(DIToken.DEVTOOLS_LOGGER);
@@ -34,7 +34,7 @@ export const actions: ActionTree<RootState, RootState> = {
             });
         }
     },
-    [StoreAction.SELECT_CITY]: ({ commit, dispatch }: ActionContext<RootState, RootState>, city: City) => {
+    [StoreAction.SELECT_CITY]: ({ commit, dispatch }: ActionContext<RootState, RootState>, city: Location) => {
         commit(LocalizationModuleMutation.UPDATE_COORDINATES, city.coordinates);
     }
 };

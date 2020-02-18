@@ -26,7 +26,7 @@ import {
     WeatherModuleRequest,
     WeatherModuleState
 } from "@/store/module/weather.module";
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { LocationCoordinates } from "@/business/geolocation/GeolocationService";
 import { CurrentWeatherOverview } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
 import { UIModuleState, uiModule } from "@/store/module/ui.module";
@@ -63,7 +63,7 @@ export const store = new Vuex.Store(StoreConfiguration);
 
 store.watch(
     (state: RootState) => (state as AppState).localizationModule.coordinates,
-    (newCoordinates: Nullable<UserCoordinates>, oldCoordinates: Nullable<UserCoordinates>) => {
+    (newCoordinates: Nullable<LocationCoordinates>, oldCoordinates: Nullable<LocationCoordinates>) => {
         if (isEqual(newCoordinates, oldCoordinates)) return;
 
         const weatherRequest: WeatherModuleRequest = {

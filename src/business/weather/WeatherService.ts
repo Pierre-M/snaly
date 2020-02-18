@@ -1,6 +1,6 @@
 "use strict";
 
-import { UserCoordinates } from "@/business/geolocation/GeolocationService";
+import { LocationCoordinates } from "@/business/geolocation/GeolocationService";
 import { Nullable } from "@/types/app";
 
 export enum TemperatureUnit {
@@ -55,7 +55,7 @@ export interface WeatherDailyForecast {
 }
 
 export interface WeatherServiceRequest {
-    coordinates: UserCoordinates;
+    coordinates: LocationCoordinates;
     unit: TemperatureUnit;
 }
 
