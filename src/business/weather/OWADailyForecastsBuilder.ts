@@ -6,7 +6,7 @@ import {
     WeatherDailyForecast,
     WeatherDailyForecastsBuilder,
     WeatherDescription,
-    WeatherOverview,
+    WeatherForecastEntry,
     WeatherOverviewBuilder
 } from "@/business/weather/WeatherService";
 import { weatherIconService } from "@/business/weather/WeatherIconService";
@@ -22,7 +22,22 @@ export class OWADailyForecastsBuilder implements WeatherDailyForecastsBuilder {
         const forecastsByDate = this.groupForecastsByDate(forecasts);
 
         return Object.keys(forecastsByDate).map(date => {
-            const forecasts = forecastsByDate[date];
+            const forecast: WeatherForecastEntry[] = forecastsByDate[date].reduce(
+                (forecast: WeatherForecastEntry[], current: any) => {
+                    const overview = this.weatherOverviewBuilder.build(current, params);
+
+                    if (!overview) return forecast;
+
+                    return [
+                        ...forecast,
+                        {
+                            date: new Date(current.dt * 1000),
+                            overview
+                        }
+                    ];
+                },
+                []
+            );
 
             return {
                 date: new Date(parseInt(date, 10)),
@@ -33,12 +48,7 @@ export class OWADailyForecastsBuilder implements WeatherDailyForecastsBuilder {
                     unit: params.unit
                 },
                 description: OWADailyForecastsBuilder.computeAverageDescription(forecasts),
-                forecast: forecasts.map(entry => {
-                    return {
-                        date: new Date(entry.dt * 1000),
-                        overview: this.weatherOverviewBuilder.build(entry, params) as WeatherOverview
-                    };
-                })
+                forecast
             };
         });
     }
