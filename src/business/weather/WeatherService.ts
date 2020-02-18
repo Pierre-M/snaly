@@ -36,6 +36,7 @@ export interface SunCycle {
 export interface WeatherOverview {
     temperatureOverview: TemperatureOverview;
     description: WeatherDescription;
+    suncycle?: SunCycle;
 }
 
 export interface CurrentWeatherOverview extends WeatherOverview {
@@ -59,7 +60,19 @@ export interface WeatherServiceRequest {
     unit: TemperatureUnit;
 }
 
+export interface WeatherBuilderParams {
+    unit: TemperatureUnit;
+}
+
+export interface WeatherDailyForecastsBuilder {
+    build(data: any[], params: WeatherBuilderParams): WeatherDailyForecast[];
+}
+
+export interface WeatherOverviewBuilder {
+    build(data: any, params: WeatherBuilderParams): Nullable<WeatherOverview>;
+}
+
 export interface WeatherService {
-    getCurrentWeather(params: WeatherServiceRequest): Promise<Nullable<CurrentWeatherOverview>>;
+    getCurrentWeather(params: WeatherServiceRequest): Promise<Nullable<WeatherOverview>>;
     getDailyForecasts(params: WeatherServiceRequest): Promise<Nullable<WeatherDailyForecast[]>>;
 }

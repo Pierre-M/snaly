@@ -25,6 +25,8 @@ import { FavoriteLocationsService } from "@/business/favorite-locations/Favorite
 import { StoredFavoriteLocationService } from "@/business/favorite-locations/StoredFavoriteLocationService";
 import { StorageService } from "@/core/storage/StorageService";
 import { LocalStorageService } from "@/core/storage/LocalStorageService";
+import { OWAWeatherOverviewBuilder } from "@/business/weather/OWAWeatherOverviewBuilder";
+import { OWADailyForecastsBuilder } from "@/business/weather/OWADailyForecastsBuilder";
 
 container.register(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
@@ -52,6 +54,14 @@ container.register(DIToken.SCREEN_INSPECTOR, {
 
 container.register(DIToken.CONTEXTUAL_IMAGE_SERVICE, {
     useClass: UnsplashImageService
+});
+
+container.register(DIToken.WEATHER_OVERVIEW_BUILDER, {
+    useClass: OWAWeatherOverviewBuilder
+});
+
+container.register(DIToken.WEATHER_FORECASTS_BUILDER, {
+    useClass: OWADailyForecastsBuilder
 });
 
 container.register(DIToken.WEATHER_SERVICE, {

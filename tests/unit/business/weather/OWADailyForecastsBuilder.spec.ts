@@ -1,10 +1,17 @@
 "use strict";
 
 import { generateHourlyForecastData } from "../../_mocks/generators/WeatherGenerator";
-import { owaDailyForecastsBuilder } from "@/business/weather/OWADailyForecastsBuilder";
+import { OWADailyForecastsBuilder } from "@/business/weather/OWADailyForecastsBuilder";
 import { TemperatureUnit } from "@/business/weather/WeatherService";
+import { fakeWeatherOverviewBuilder } from "../../_mocks";
+
+let builder: OWADailyForecastsBuilder;
 
 describe("OWADailyForecastsBuilder", () => {
+    beforeEach(() => {
+        builder = new OWADailyForecastsBuilder(fakeWeatherOverviewBuilder);
+    });
+
     it("should return on entry per day", () => {
         const fakeForecasts = [
             generateHourlyForecastData({ date: new Date("2020-01-01") }),
@@ -15,7 +22,9 @@ describe("OWADailyForecastsBuilder", () => {
             generateHourlyForecastData({ date: new Date("2020-01-15") })
         ];
 
-        const res = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const res = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(res.length).toBe(5);
     });
@@ -25,7 +34,9 @@ describe("OWADailyForecastsBuilder", () => {
 
         const fakeForecasts = dates.map(d => generateHourlyForecastData({ date: d }));
 
-        const res = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const res = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(res.map(entry => entry.date)).toEqual(dates);
     });
@@ -38,7 +49,9 @@ describe("OWADailyForecastsBuilder", () => {
             generateHourlyForecastData({ temp: 0 })
         ];
 
-        const [daily] = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const [daily] = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(daily.temperatureRange.average).toBe(15);
     });
@@ -51,7 +64,9 @@ describe("OWADailyForecastsBuilder", () => {
             generateHourlyForecastData({ minTemp: 0 })
         ];
 
-        const [daily] = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const [daily] = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(daily.temperatureRange.min).toBe(-5);
     });
@@ -64,7 +79,9 @@ describe("OWADailyForecastsBuilder", () => {
             generateHourlyForecastData({ maxTemp: -5 })
         ];
 
-        const [daily] = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const [daily] = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(daily.temperatureRange.max).toBe(15);
     });
@@ -72,7 +89,9 @@ describe("OWADailyForecastsBuilder", () => {
     it("should set right temperature unit based on given parameters", () => {
         const fakeForecasts = [generateHourlyForecastData()];
 
-        const [daily] = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const [daily] = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(daily.temperatureRange.unit).toBe(TemperatureUnit.CELSIUS);
     });
@@ -84,7 +103,9 @@ describe("OWADailyForecastsBuilder", () => {
             generateHourlyForecastData({ description: "clear" })
         ];
 
-        const [daily] = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const [daily] = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(daily.description.text).toBe("clear");
     });
@@ -96,7 +117,9 @@ describe("OWADailyForecastsBuilder", () => {
             generateHourlyForecastData({ date: new Date("2020-01-02") })
         ];
 
-        const [d1, d2] = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const [d1, d2] = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(d1.forecast.length).toBe(2);
         expect(d2.forecast.length).toBe(1);
@@ -112,7 +135,9 @@ describe("OWADailyForecastsBuilder", () => {
             generateHourlyForecastData({ date: d2 })
         ];
 
-        const [entry1, entry2] = owaDailyForecastsBuilder.build(fakeForecasts, { unit: TemperatureUnit.CELSIUS });
+        const [entry1, entry2] = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
 
         expect(entry1.forecast.length).toBe(2);
         expect(entry2.forecast.length).toBe(1);

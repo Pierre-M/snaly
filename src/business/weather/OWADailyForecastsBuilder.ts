@@ -2,14 +2,23 @@
 
 import { chain, groupBy, last } from "lodash";
 import {
-    OWACurrentWeatherBuilderParams,
-    OWAWeatherOverviewBuilder
-} from "@/business/weather/OWAWeatherOverviewBuilder";
-import { WeatherDailyForecast, WeatherDescription } from "@/business/weather/WeatherService";
+    WeatherBuilderParams,
+    WeatherDailyForecast,
+    WeatherDailyForecastsBuilder,
+    WeatherDescription,
+    WeatherOverview,
+    WeatherOverviewBuilder
+} from "@/business/weather/WeatherService";
 import { weatherIconService } from "@/business/weather/WeatherIconService";
+import { inject, injectable, singleton } from "tsyringe";
+import { DIToken } from "@/core/dependency-injection/DIToken";
 
-class OWADailyForecastsBuilder {
-    build(forecasts: any[], params: OWACurrentWeatherBuilderParams): WeatherDailyForecast[] {
+@injectable()
+@singleton()
+export class OWADailyForecastsBuilder implements WeatherDailyForecastsBuilder {
+    constructor(@inject(DIToken.WEATHER_OVERVIEW_BUILDER) private weatherOverviewBuilder: WeatherOverviewBuilder) {}
+
+    build(forecasts: any[], params: WeatherBuilderParams): WeatherDailyForecast[] {
         const forecastsByDate = this.groupForecastsByDate(forecasts);
 
         return Object.keys(forecastsByDate).map(date => {
@@ -27,7 +36,7 @@ class OWADailyForecastsBuilder {
                 forecast: forecasts.map(entry => {
                     return {
                         date: new Date(entry.dt * 1000),
-                        overview: OWAWeatherOverviewBuilder(entry, params)
+                        overview: this.weatherOverviewBuilder.build(entry, params) as WeatherOverview
                     };
                 })
             };
@@ -76,5 +85,3 @@ class OWADailyForecastsBuilder {
             .value() as string;
     }
 }
-
-export const owaDailyForecastsBuilder = new OWADailyForecastsBuilder();

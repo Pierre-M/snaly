@@ -7,7 +7,11 @@ import { FakeWallpaperService } from "./FakeWallpaperService";
 import { FakeGeolocationService } from "./FakeGeolocationService";
 import { GeolocationService } from "@/business/geolocation/GeolocationService";
 import { FakeWeatherService } from "./FakeWeatherService";
-import { WeatherService } from "@/business/weather/WeatherService";
+import {
+    WeatherDailyForecastsBuilder,
+    WeatherOverviewBuilder,
+    WeatherService
+} from "@/business/weather/WeatherService";
 import { FakeGestureService } from "./FakeGestureService";
 import { GestureService } from "@/core/hardware/GestureService";
 import { FakeDevToolsLogger } from "./FakeDevToolsLogger";
@@ -35,6 +39,8 @@ import { FakeStorageService } from "./FakeStorageService";
 import { StorageService } from "@/core/storage/StorageService";
 import { FakeFavoriteLocationsService } from "./FakeFavoriteLocationsService";
 import { FavoriteLocationsService } from "@/business/favorite-locations/FavoriteLocationsService";
+import { FakeWeatherOverviewBuilder } from "./FakeWeatherOverviewBuilder";
+import { FakeWeatherForecastsBuilder } from "./FakeWeatherForecastsBuilder";
 
 export const fakeHttpClient = new FakeHttpClient();
 export const fakeWallpaperService = new FakeWallpaperService();
@@ -52,6 +58,8 @@ export const fakeI18nService = new FakeI18nService();
 export const fakeScreenInspector = new FakeScreenInspector();
 export const fakeStorageService = new FakeStorageService();
 export const fakeFavoriteLocationsService = new FakeFavoriteLocationsService();
+export const fakeWeatherOverviewBuilder = new FakeWeatherOverviewBuilder();
+export const fakeWeatherForecastsBuilder = new FakeWeatherForecastsBuilder();
 
 container.register<HttpClient>(DIToken.HTTP_CLIENT, {
     useValue: fakeHttpClient
@@ -63,6 +71,14 @@ container.register<IWallpaperService>(DIToken.WALLPAPER_SERVICE, {
 
 container.register<GeolocationService>(DIToken.GEOLOCATION_SERVICE, {
     useValue: fakeGeolocationService
+});
+
+container.register<WeatherOverviewBuilder>(DIToken.WEATHER_OVERVIEW_BUILDER, {
+    useValue: fakeWeatherOverviewBuilder
+});
+
+container.register<WeatherDailyForecastsBuilder>(DIToken.WEATHER_FORECASTS_BUILDER, {
+    useValue: fakeWeatherForecastsBuilder
 });
 
 container.register<WeatherService>(DIToken.WEATHER_SERVICE, {
