@@ -25,4 +25,13 @@ export class BrowserScreenInspector implements ScreenInspector {
     get dpr(): number {
         return Math.ceil(window.devicePixelRatio);
     }
+
+    get hasTouchSupport(): boolean {
+        try {
+            document.createEvent("TouchEvent");
+            return true;
+        } catch (err) {
+            return false;
+        }
+    }
 }

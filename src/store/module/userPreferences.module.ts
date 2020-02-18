@@ -2,16 +2,64 @@
 
 import { TemperatureUnit } from "@/business/weather/WeatherService";
 import { RootState } from "@/store/state";
-import { Module } from "vuex";
+import { ActionContext, Module } from "vuex";
+import { FavoriteLocation, FavoriteLocationsService } from "@/business/favorite-locations/FavoriteLocationsService";
+import { DIToken } from "@/core/dependency-injection/DIToken";
+import { container } from "tsyringe";
+import { StoreAction } from "@/store/actions";
+import { City } from "@/business/city-search/CitySearchService";
+
+const favoriteLocationsService = container.resolve<FavoriteLocationsService>(DIToken.FAVORITE_LOCATIONS_SERVICE);
 
 export interface UserPreferencesModuleState {
     temperatureUnit: TemperatureUnit;
     local: string;
+    favoriteLocations: FavoriteLocation[];
+}
+
+export enum UserPreferencesModuleMutation {
+    UPDATE_FAVORITE_LOCATIONS = "UpdateFavoriteLocations"
+}
+
+export enum UserPreferencesModuleAction {
+    ADD_FAVORITE_LOCATION = "AddFavoriteLocation",
+    REMOVE_FAVORITE_LOCATION = "RemoveFavoriteLocation"
 }
 
 export const userPreferencesModule: Module<UserPreferencesModuleState, RootState> = {
     state: {
         temperatureUnit: TemperatureUnit.CELSIUS,
-        local: "en"
+        local: "en",
+        favoriteLocations: []
+    },
+    mutations: {
+        [UserPreferencesModuleMutation.UPDATE_FAVORITE_LOCATIONS]: (
+            state: UserPreferencesModuleState,
+            locations: FavoriteLocation[]
+        ) => {
+            state.favoriteLocations = locations;
+        }
+    },
+    actions: {
+        [StoreAction.INIT]: ({ commit }: ActionContext<UserPreferencesModuleState, RootState>) => {
+            const storedLocations = favoriteLocationsService.locations;
+            commit(UserPreferencesModuleMutation.UPDATE_FAVORITE_LOCATIONS, storedLocations);
+        },
+        [UserPreferencesModuleAction.ADD_FAVORITE_LOCATION]: (
+            { commit }: ActionContext<UserPreferencesModuleState, RootState>,
+            city: City
+        ) => {
+            favoriteLocationsService.add(city);
+
+            commit(UserPreferencesModuleMutation.UPDATE_FAVORITE_LOCATIONS, favoriteLocationsService.locations);
+        },
+        [UserPreferencesModuleAction.REMOVE_FAVORITE_LOCATION]: (
+            { commit }: ActionContext<UserPreferencesModuleState, RootState>,
+            city: City
+        ) => {
+            favoriteLocationsService.remove(city);
+
+            commit(UserPreferencesModuleMutation.UPDATE_FAVORITE_LOCATIONS, favoriteLocationsService.locations);
+        }
     }
 };

@@ -7,7 +7,18 @@
             </header>
 
             <div class="relative flex-1 my-3">
-                <city-search-results class="absolute inset-x-0 max-h-full" :results="results" @select="selectCity" />
+                <fade-transition>
+                    <favorite-location-list-widget
+                        v-show="displayFavoriteLocations"
+                        @select="selectCity"
+                        class="mt-10"
+                    />
+                </fade-transition>
+                <city-search-results
+                    class="absolute inset-x-0 top-0 max-h-full"
+                    :results="results"
+                    @select="selectCity"
+                />
             </div>
         </div>
     </backdrop-panel>
@@ -27,9 +38,17 @@ import { LocalizationModuleMutation } from "@/store/module/localization.module";
 import { UserCoordinates } from "@/business/geolocation/GeolocationService";
 import RequestGeolocationCta from "@/ui/geolocation/RequestGeolocationCta.vue";
 import BackdropPanel from "@/ui/layout/BackdropPanel.vue";
+import FavoriteLocationListWidget from "@/ui/favorite-locations/FavoriteLocationListWidget.vue";
 
 @Component({
-    components: { BackdropPanel, RequestGeolocationCta, IconBtn, CitySearchResults, CitySearchInput }
+    components: {
+        FavoriteLocationListWidget,
+        BackdropPanel,
+        RequestGeolocationCta,
+        IconBtn,
+        CitySearchResults,
+        CitySearchInput
+    }
 })
 export default class CitySearchPanel extends Vue {
     @Prop({ type: String, required: true })
@@ -54,6 +73,10 @@ export default class CitySearchPanel extends Vue {
     updateCoordinates!: (coords: UserCoordinates) => void;
 
     query: string = "";
+
+    get displayFavoriteLocations(): boolean {
+        return !this.results.length;
+    }
 
     selectCity(city: City) {
         this.updateCoordinates(city.coordinates);

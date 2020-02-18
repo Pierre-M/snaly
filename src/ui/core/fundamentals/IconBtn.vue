@@ -1,7 +1,7 @@
 <template>
     <button
         type="button"
-        class="icon-btn flex items-center justify-center p-0 outline-none border-0
+        class="flex items-center justify-center p-0 outline-none border-0
             focus:outline-none transform transition duration-200 ease-in-out active:scale-75 rounded-full"
         :class="{
             'border-2 border-white p-2': bordered,

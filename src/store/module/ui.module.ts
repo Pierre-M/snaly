@@ -9,10 +9,12 @@ import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { Shortcut, ShortcutResume, ShortcutService } from "@/core/browser/ShorcutService";
 import { I18nService } from "@/core/i18n/I18nService";
+import { ScreenInspector } from "@/core/browser/ScreenInspector";
 
 const sharingService = container.resolve<SharingService>(DIToken.SHARING_SERVICE);
 const shortcutService = container.resolve<ShortcutService>(DIToken.SHORTCUT_SERVICE);
 const i18nService = container.resolve<I18nService>(DIToken.I18N_SERVICE);
+const screenInspectorService = container.resolve<ScreenInspector>(DIToken.SCREEN_INSPECTOR);
 
 export const CITY_SEARCH_WIDGET_ID = "citySearchPanel";
 export const NAV_WIDGET_ID = "navWidget";
@@ -22,6 +24,7 @@ export interface UIModuleState {
     canShare: boolean;
     openedPanel: Nullable<string>;
     shortcuts: ShortcutResume[];
+    screen: ScreenInspector;
 }
 
 export enum UIModuleMutations {
@@ -32,9 +35,6 @@ export enum UIModuleMutations {
 
 export enum UIModuleActions {
     TOGGLE_DAILY_FORECAST = "toggleDailyForecast",
-    OPEN_CITY_SEARCH = "openCitySearch",
-    CLOSE_CITY_SEARCH = "closeCitySearch",
-    TOGGLE_SIDE_NAV = "toggleSideNav",
     SHARE = "shareSnaly",
     REGISTER_SHORTCUT = "RegisterShortcut",
     OPEN_PANEL = "OpenPanel",
@@ -50,7 +50,8 @@ export const uiModule: Module<UIModuleState, RootState> = {
         openedForecast: null,
         canShare: sharingService.canShare,
         openedPanel: null,
-        shortcuts: []
+        shortcuts: [],
+        screen: screenInspectorService
     },
     mutations: {
         [UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST]: (

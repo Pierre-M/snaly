@@ -43,5 +43,9 @@ export const en = {
         openCitySearchPanel: "Open city search panel",
         closeCitySearchPanel: "Close city search panel",
         openForecast: "Open daily forecast n°{0}"
+    },
+    favoriteLocations: {
+        add: "Add {0} to your favorite locations",
+        remove: "Remove {0} from your favorite locations"
     }
 };

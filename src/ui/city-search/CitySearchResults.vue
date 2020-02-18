@@ -10,10 +10,11 @@
             <li
                 v-for="city in results"
                 :key="city.name"
-                class="p-4 border-b last:border-b-0 cursor-pointer hover:bg-gray-100"
+                class="flex items-center justify-between p-4 border-b last:border-b-0 cursor-pointer hover:bg-gray-100"
                 @click="triggerSelection(city)"
             >
                 {{ city.name }}
+                <favorite-location-toggle :location="city" @click.stop />
             </li>
         </slide-y-down-transition>
     </fade-transition>
@@ -22,8 +23,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { City } from "@/business/city-search/CitySearchService";
-
-@Component
+import FavoriteLocationToggle from "@/ui/favorite-locations/FavoriteLocationToggle.vue";
+@Component({
+    components: { FavoriteLocationToggle }
+})
 export default class CitySearchResults extends Vue {
     @Prop({ type: Array, required: true })
     results!: City[];

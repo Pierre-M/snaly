@@ -15,11 +15,12 @@ const gestureService = container.resolve<GestureService>(DIToken.GESTURE_SERVICE
 const devToolsLogger = container.resolve<DevToolsLogger>(DIToken.DEVTOOLS_LOGGER);
 
 export enum StoreAction {
+    INIT = "init",
     SELECT_CITY = "StoreActionSelectCity"
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-    async init(context: ActionContext<RootState, RootState>) {
+    [StoreAction.INIT]: async (context: ActionContext<RootState, RootState>) => {
         await context.dispatch(LocalizationModuleAction.GET_COORDINATES);
 
         devToolsLogger.displayWelcomeMessage();

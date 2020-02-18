@@ -1,7 +1,7 @@
 <template>
     <section>
         <header class="mb-6">
-            <h2 class="font-title text-3xl">{{ title }}</h2>
+            <h2 class="font-light text-4xl text-gray-500">{{ title }}</h2>
         </header>
 
         <slot />

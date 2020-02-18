@@ -14,4 +14,5 @@ export interface ScreenInspector {
     orientation: ScreenOrientation;
     size: ScreenSize;
     dpr: number;
+    hasTouchSupport: boolean;
 }
