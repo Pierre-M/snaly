@@ -36,7 +36,7 @@ export default class FavoriteLocationToggle extends Vue {
     removeFromFavorite!: (city: City) => void;
 
     get alreadyStored(): boolean {
-        return !!this.favoriteLocations.find(l => isEqual(this.location.coordinates, l.coordinates));
+        return !!this.favoriteLocations.find(l => isEqual(this.location.name, l.name));
     }
 
     toggle(e: Event) {

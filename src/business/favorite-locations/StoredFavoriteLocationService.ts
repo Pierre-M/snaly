@@ -1,6 +1,5 @@
 "use strict";
 
-import { isEqual } from "lodash";
 import { FavoriteLocation, FavoriteLocationsService } from "@/business/favorite-locations/FavoriteLocationsService";
 import { City } from "@/business/city-search/CitySearchService";
 import { inject, singleton } from "tsyringe";
@@ -29,11 +28,11 @@ export class StoredFavoriteLocationService implements FavoriteLocationsService {
     }
 
     remove(city: City): void {
-        const filteredLocations = this.locations.filter(l => !isEqual(city.coordinates, l.coordinates));
+        const filteredLocations = this.locations.filter(l => l.name !== city.name);
         this.storageService.set<FavoriteLocation[]>(FAVORITE_CITIES_STORAGE_KEY, filteredLocations);
     }
 
     private locationIsAlreadyStored(city: City, favorites: FavoriteLocation[]): boolean {
-        return !!favorites.find(f => isEqual(f.coordinates, city.coordinates));
+        return !!favorites.find(f => f.name === city.name);
     }
 }
