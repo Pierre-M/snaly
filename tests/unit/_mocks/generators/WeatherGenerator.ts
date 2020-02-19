@@ -1,6 +1,7 @@
 "use strict";
 
 import { CurrentWeatherOverview, WeatherDailyForecast } from "@/business/weather/WeatherService";
+import { Nullable } from "@/types/app";
 
 export function generateCurrentWeatherOverview(): CurrentWeatherOverview {
     return ({
@@ -65,5 +66,27 @@ export function generateHourlyForecastData(params: HourlyForecastGeneratorParams
             pod: "n"
         },
         dt_txt: "2019-03-27 18:00:00"
+    };
+}
+
+export function generateOWAWeatherOverviewData(params: { sunrise?: Nullable<number>; incomplete?: boolean } = {}) {
+    if (params.incomplete) return {};
+
+    const sunrise = params.sunrise || params.sunrise === null ? params.sunrise : 1582095184;
+
+    return {
+        coord: { lon: 2.35, lat: 48.85 },
+        weather: [{ id: 803, main: "Clouds", description: "broken clouds", icon: "04d" }],
+        base: "stations",
+        main: { temp: 5.45, feels_like: 1.69, temp_min: 4.44, temp_max: 6.11, pressure: 1025, humidity: 93 },
+        visibility: 10000,
+        wind: { speed: 3.6, deg: 250 },
+        clouds: { all: 75 },
+        dt: 1582101910,
+        sys: { type: 1, id: 6550, country: "FR", sunrise, sunset: 1582132574 },
+        timezone: 3600,
+        id: 2988507,
+        name: "Paris",
+        cod: 200
     };
 }
