@@ -2,7 +2,7 @@
 
 import { generateHourlyForecastData } from "../../_mocks/generators/WeatherGenerator";
 import { OWADailyForecastsBuilder } from "@/business/weather/OWADailyForecastsBuilder";
-import { TemperatureUnit } from "@/business/weather/WeatherService";
+import { TemperatureUnit, WeatherOverview } from "@/business/weather/WeatherService";
 import { fakeWeatherOverviewBuilder } from "../../_mocks";
 
 let builder: OWADailyForecastsBuilder;
@@ -111,6 +111,7 @@ describe("OWADailyForecastsBuilder", () => {
     });
 
     it("should return right forecast entries for each day", () => {
+        fakeWeatherOverviewBuilder.returnedValue = {} as WeatherOverview;
         const fakeForecasts = [
             generateHourlyForecastData({ date: new Date("2020-01-01") }),
             generateHourlyForecastData({ date: new Date("2020-01-01") }),
@@ -125,21 +126,18 @@ describe("OWADailyForecastsBuilder", () => {
         expect(d2.forecast.length).toBe(1);
     });
 
-    it("should return right forecast entries for each day", () => {
-        const d1 = new Date("2020-01-01");
-        const d2 = new Date("2020-01-02");
+    it("should only return non null forecast entries for each day", () => {
+        fakeWeatherOverviewBuilder.returnedValue = null;
 
         const fakeForecasts = [
-            generateHourlyForecastData({ date: d1 }),
-            generateHourlyForecastData({ date: d1 }),
-            generateHourlyForecastData({ date: d2 })
+            generateHourlyForecastData({ date: new Date("2020-01-01") }),
+            generateHourlyForecastData({ date: new Date("2020-01-01") })
         ];
 
-        const [entry1, entry2] = builder.build(fakeForecasts, {
+        const [d1] = builder.build(fakeForecasts, {
             unit: TemperatureUnit.CELSIUS
         });
 
-        expect(entry1.forecast.length).toBe(2);
-        expect(entry2.forecast.length).toBe(1);
+        expect(d1.forecast.length).toBe(0);
     });
 });
