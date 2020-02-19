@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 "use strict";
 
 import { DevToolsLogger } from "@/business/easter-eggs/DevToolsLogger";

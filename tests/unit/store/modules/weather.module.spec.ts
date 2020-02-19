@@ -6,7 +6,7 @@ import Vuex, { Store } from "vuex";
 import { weatherModule, WeatherModuleAction, WeatherModuleRequest } from "@/store/module/weather.module";
 import { CurrentWeatherOverview, TemperatureUnit } from "@/business/weather/WeatherService";
 import { generateCurrentWeatherOverview, generateDailyForecasts } from "../../_mocks/generators/WeatherGenerator";
-import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
+import { generateCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 import { AppState } from "@/store/store";
 
 Vue.use(Vuex);
@@ -36,7 +36,7 @@ describe("Weather module : current weather", () => {
 
     it("should call for weatherService with coordinates", () => {
         const request: WeatherModuleRequest = {
-            coordinates: generateUserCoordinates(),
+            coordinates: generateCoordinates(),
             unit: TemperatureUnit.CELSIUS
         };
 
@@ -50,7 +50,7 @@ describe("Weather module : current weather", () => {
         fakeWeatherService.currentOverviewValue = weatherOverview;
 
         const request: WeatherModuleRequest = {
-            coordinates: generateUserCoordinates(),
+            coordinates: generateCoordinates(),
             unit: TemperatureUnit.CELSIUS
         };
 
@@ -92,7 +92,7 @@ describe("Weather module : daily forecasts", () => {
 
     it("should call for weatherService with coordinates", () => {
         const request: WeatherModuleRequest = {
-            coordinates: generateUserCoordinates(),
+            coordinates: generateCoordinates(),
             unit: TemperatureUnit.CELSIUS
         };
 
@@ -106,7 +106,7 @@ describe("Weather module : daily forecasts", () => {
         fakeWeatherService.dailyForecastsValue = forecast;
 
         const request: WeatherModuleRequest = {
-            coordinates: generateUserCoordinates(),
+            coordinates: generateCoordinates(),
             unit: TemperatureUnit.CELSIUS
         };
 

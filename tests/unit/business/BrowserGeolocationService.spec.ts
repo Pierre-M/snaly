@@ -1,7 +1,7 @@
 "use strict";
 
 import { BrowserGeolocationService } from "@/business/geolocation/BrowserGeolocationService";
-import { generateUserCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
+import { generateCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
 import { Nullable } from "@/types/app";
 import { LocationCoordinates } from "@/business/geolocation/GeolocationService";
 
@@ -19,7 +19,7 @@ describe("BrowserGeolocationService", () => {
     });
 
     it("should return coordinates when user accept geolocation", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         mockGeolocationApi(coordinates);
 
         const received = await service.getCoordinates();

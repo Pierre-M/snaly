@@ -2,11 +2,12 @@
 
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
-import { uiModule, UIModuleActions, UIModuleGetter } from "@/store/module/ui.module";
+import { uiModule, UIModuleActions, UIModuleGetter, UIModuleState } from "@/store/module/ui.module";
 import { WeatherDailyForecast } from "@/business/weather/WeatherService";
-import { fakeSharingService, fakeShortcutService } from "../../_mocks";
+import { fakeShortcutService } from "../../_mocks";
 import { Shortcut, ShortcutResume } from "@/core/browser/ShorcutService";
 import { AppState } from "@/store/store";
+import { initStoreWithModule } from "../../_utils";
 
 Vue.use(Vuex);
 
@@ -14,11 +15,7 @@ let store: Store<any>;
 
 describe("Vuex Store : UI Module", () => {
     beforeEach(() => {
-        store = new Store({
-            modules: {
-                uiModule
-            }
-        });
+        store = initStoreWithModule<UIModuleState, {}>("uiModule", uiModule);
     });
 
     it("should update opened forecast with given one upon ToggleForecastAction", async () => {
@@ -40,11 +37,6 @@ describe("Vuex Store : UI Module", () => {
         await store.dispatch(UIModuleActions.TOGGLE_DAILY_FORECAST, forecast);
 
         expect(store.getters[UIModuleGetter.OPENED_FORECAST]).toEqual(forecast);
-    });
-
-    it("should call for sharing service upon share action", async () => {
-        await store.dispatch(UIModuleActions.SHARE);
-        expect(fakeSharingService.share).toHaveBeenCalled();
     });
 
     it("should be able register shortcuts", () => {

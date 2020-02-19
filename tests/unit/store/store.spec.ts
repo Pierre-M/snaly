@@ -1,7 +1,7 @@
 "use strict";
 
 import { AppState, store } from "@/store/store";
-import { generateUserCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
+import { generateCoordinates } from "../_mocks/generators/UserCoordinatesGenerator";
 import { WeatherModuleAction, WeatherModuleMutation } from "@/store/module/weather.module";
 import { LocalizationModuleAction, LocalizationModuleMutation } from "@/store/module/localization.module";
 import { generateCurrentWeatherOverview } from "../_mocks/generators/WeatherGenerator";
@@ -17,7 +17,7 @@ describe("store", () => {
     });
 
     it("should call for weather forecast upon coordinates state change", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         const unit = (store.state as AppState).userPreferencesModule.temperatureUnit;
 
         await store.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
@@ -25,7 +25,7 @@ describe("store", () => {
     });
 
     it("should call for weather overview upon coordinates state change", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         const unit = (store.state as AppState).userPreferencesModule.temperatureUnit;
 
         await store.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
@@ -36,7 +36,7 @@ describe("store", () => {
     });
 
     it("should call for user location upon coordinates state change", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         const language = (store.state as AppState).userPreferencesModule.local;
 
         await store.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);

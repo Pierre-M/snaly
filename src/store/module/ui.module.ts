@@ -4,7 +4,7 @@ import { RootState } from "@/store/state";
 import { ActionContext, Module } from "vuex";
 import { WeatherDailyForecast } from "@/business/weather/WeatherService";
 import { Nullable } from "@/types/app";
-import { ShareRequest, SharingService } from "@/core/browser/SharingService";
+import { SharingService } from "@/core/browser/SharingService";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { Shortcut, ShortcutResume, ShortcutService } from "@/core/browser/ShorcutService";
@@ -35,7 +35,6 @@ export enum UIModuleMutations {
 
 export enum UIModuleActions {
     TOGGLE_DAILY_FORECAST = "toggleDailyForecast",
-    SHARE = "shareSnaly",
     REGISTER_SHORTCUT = "RegisterShortcut",
     OPEN_PANEL = "OpenPanel",
     CLOSE_PANEL = "ClosePanel"
@@ -73,15 +72,6 @@ export const uiModule: Module<UIModuleState, RootState> = {
             forecast?: Nullable<WeatherDailyForecast>
         ) => {
             commit(UIModuleMutations.UPDATE_OPENED_DAILY_FORECAST, forecast || null);
-        },
-        [UIModuleActions.SHARE]: () => {
-            const shareRequest: ShareRequest = {
-                url: window.location.origin,
-                title: i18nService.t("share.title"),
-                text: i18nService.t("share.description")
-            };
-
-            sharingService.share(shareRequest);
         },
         [UIModuleActions.REGISTER_SHORTCUT]: (
             { commit, state }: ActionContext<UIModuleState, RootState>,

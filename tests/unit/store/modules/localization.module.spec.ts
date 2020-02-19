@@ -2,7 +2,7 @@
 
 import Vue from "vue";
 import Vuex, { Store } from "vuex";
-import { fakeCitySearchService, fakeGeolocationService } from "../../_mocks";
+import { fakeCitySearchService, fakeGeolocationService, fakeRoutingService } from "../../_mocks";
 import {
     DEFAULT_COORDINATES,
     localizationModule,
@@ -11,9 +11,10 @@ import {
     LocalizationModuleMutation,
     LocalizationModuleState
 } from "@/store/module/localization.module";
-import { generateUserCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
+import { generateCoordinates } from "../../_mocks/generators/UserCoordinatesGenerator";
 import { generateCity } from "../../_mocks/generators/CityGenerator";
 import { Location } from "@/business/location-search/LocationSearchService";
+import { AppState } from "@/store/store";
 
 Vue.use(Vuex);
 
@@ -31,10 +32,31 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
                 }
             }
         });
+        fakeRoutingService.returnedValue = null;
     });
 
     afterEach(() => {
         jest.clearAllMocks();
+    });
+
+    it("should base coordinates on url if right parameters exist", async () => {
+        const coordinates = generateCoordinates();
+        fakeRoutingService.returnedValue = { lat: coordinates.latitude, lon: coordinates.longitude };
+
+        await store.dispatch(LocalizationModuleAction.GET_COORDINATES);
+
+        expect(fakeRoutingService.getUrlParams).toHaveBeenCalled();
+        expect((store.state as AppState).localizationModule.coordinates).toEqual(coordinates);
+    });
+
+    it("should call for routing service setUrlParams method with right payload upon coordinates mutation", async () => {
+        const coordinates = generateCoordinates();
+        await store.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
+
+        expect(fakeRoutingService.setUrlParams).toHaveBeenCalledWith({
+            lat: coordinates.latitude,
+            lon: coordinates.longitude
+        });
     });
 
     it("should not call for geoLocationService upon getCoordinates action if user has not allowed geolocation", () => {
@@ -59,7 +81,7 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
     });
 
     it("should update coordinates state only when received coordinates are not null", async () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         fakeGeolocationService.setReturnedValue(coordinates);
         await store.commit(LocalizationModuleMutation.UPDATE_GEOLOCATION_AUTH, true);
 
@@ -82,7 +104,7 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
     });
 
     it("should call for geocodingService with right coordinates and language upon getLocation action", () => {
-        const coordinates = generateUserCoordinates();
+        const coordinates = generateCoordinates();
         const language = "fr";
 
         store.dispatch(LocalizationModuleAction.GET_LOCATION, { coordinates, language });
@@ -101,7 +123,7 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
         fakeCitySearchService.city = city;
 
         const locationRequest: LocalizationModuleAddressRequest = {
-            coordinates: generateUserCoordinates(),
+            coordinates: generateCoordinates(),
             language: "fr"
         };
 

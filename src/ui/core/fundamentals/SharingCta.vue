@@ -7,7 +7,7 @@ import { Component, Vue } from "vue-property-decorator";
 import IconBtn from "./IconBtn.vue";
 import { AppState } from "@/store/store";
 import { Action, State } from "vuex-class";
-import { UIModuleActions } from "@/store/module/ui.module";
+import { StoreAction } from "@/store/actions";
 
 @Component({
     components: { IconBtn }
@@ -16,7 +16,7 @@ export default class SharingCta extends Vue {
     @State((state: AppState) => state.uiModule.canShare)
     canShare!: boolean;
 
-    @Action(UIModuleActions.SHARE)
+    @Action(StoreAction.SHARE)
     share!: () => Promise<void>;
 }
 </script>
