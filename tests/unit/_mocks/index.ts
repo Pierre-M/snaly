@@ -41,6 +41,8 @@ import { FakeFavoriteLocationsService } from "./FakeFavoriteLocationsService";
 import { FavoriteLocationsService } from "@/business/favorite-locations/FavoriteLocationsService";
 import { FakeWeatherOverviewBuilder } from "./FakeWeatherOverviewBuilder";
 import { FakeWeatherForecastsBuilder } from "./FakeWeatherForecastsBuilder";
+import { FakeRoutingService } from "./FakeRoutingService";
+import { RoutingService } from "@/core/routing/RoutingService";
 
 export const fakeHttpClient = new FakeHttpClient();
 export const fakeWallpaperService = new FakeWallpaperService();
@@ -60,6 +62,7 @@ export const fakeStorageService = new FakeStorageService();
 export const fakeFavoriteLocationsService = new FakeFavoriteLocationsService();
 export const fakeWeatherOverviewBuilder = new FakeWeatherOverviewBuilder();
 export const fakeWeatherForecastsBuilder = new FakeWeatherForecastsBuilder();
+export const fakeRoutingService = new FakeRoutingService();
 
 container.register<HttpClient>(DIToken.HTTP_CLIENT, {
     useValue: fakeHttpClient
@@ -131,4 +134,8 @@ container.register<StorageService>(DIToken.STORAGE_SERVICE, {
 
 container.register<FavoriteLocationsService>(DIToken.FAVORITE_LOCATIONS_SERVICE, {
     useValue: fakeFavoriteLocationsService
+});
+
+container.register<RoutingService>(DIToken.ROUTING_SERVICE, {
+    useValue: fakeRoutingService
 });

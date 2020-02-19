@@ -7,9 +7,11 @@ import { RootState } from "@/store/state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { Location, LocationSearchService } from "@/business/location-search/LocationSearchService";
+import { RoutingService } from "@/core/routing/RoutingService";
 
 const geolocationService = container.resolve<GeolocationService>(DIToken.GEOLOCATION_SERVICE);
 const citySearchService = container.resolve<LocationSearchService>(DIToken.CITY_SEARCH_SERVICE);
+const routingService = container.resolve<RoutingService>(DIToken.ROUTING_SERVICE);
 
 export interface LocalizationModuleState {
     geolocationHasBeenRequested: boolean;
@@ -58,6 +60,7 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
             coordinates: Nullable<LocationCoordinates>
         ) => {
             state.coordinates = coordinates;
+            routingService.setUrlParams({ lat: coordinates?.latitude, lon: coordinates?.longitude });
         },
         [LocalizationModuleMutation.UPDATE_LOCATION]: (
             state: LocalizationModuleState,
@@ -67,6 +70,9 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
         }
     },
     actions: {
+        async init({ dispatch }: ActionContext<LocalizationModuleState, RootState>) {
+            await dispatch(LocalizationModuleAction.GET_COORDINATES);
+        },
         [LocalizationModuleAction.REQUEST_GEOLOCATION]: async (
             context: ActionContext<LocalizationModuleState, RootState>
         ) => {
@@ -76,6 +82,13 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
         [LocalizationModuleAction.GET_COORDINATES]: async (
             context: ActionContext<LocalizationModuleState, RootState>
         ) => {
+            const urlParameters = routingService.getUrlParams();
+
+            if (urlParameters && urlParameters.lat && urlParameters.lon) {
+                const coordinates: LocationCoordinates = { latitude: urlParameters.lat, longitude: urlParameters.lon };
+                await context.commit(LocalizationModuleMutation.UPDATE_COORDINATES, coordinates);
+                return;
+            }
             if (!context.state.geolocationHasBeenRequested) {
                 await context.commit(LocalizationModuleMutation.UPDATE_COORDINATES, DEFAULT_COORDINATES);
                 return;

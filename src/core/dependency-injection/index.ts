@@ -27,6 +27,8 @@ import { StorageService } from "@/core/storage/StorageService";
 import { LocalStorageService } from "@/core/storage/LocalStorageService";
 import { OWAWeatherOverviewBuilder } from "@/business/weather/OWAWeatherOverviewBuilder";
 import { OWADailyForecastsBuilder } from "@/business/weather/OWADailyForecastsBuilder";
+import { RoutingService } from "@/core/routing/RoutingService";
+import { BrowserRoutingService } from "@/core/routing/BrowserRoutingService";
 
 container.register(DIToken.ENVIRONMENT_SERVICE, {
     useClass: WebpackEnvironmentService
@@ -106,4 +108,8 @@ container.register<StorageService>(DIToken.STORAGE_SERVICE, {
 
 container.register<FavoriteLocationsService>(DIToken.FAVORITE_LOCATIONS_SERVICE, {
     useClass: StoredFavoriteLocationService
+});
+
+container.register<RoutingService>(DIToken.ROUTING_SERVICE, {
+    useClass: BrowserRoutingService
 });

@@ -20,5 +20,6 @@ export enum DIToken {
     STORAGE_SERVICE = "StorageService",
     FAVORITE_LOCATIONS_SERVICE = "FavoriteLocationsService",
     WEATHER_OVERVIEW_BUILDER = "WeatherOverviewBuilder",
-    WEATHER_FORECASTS_BUILDER = "WeatherForecastsBuilder"
+    WEATHER_FORECASTS_BUILDER = "WeatherForecastsBuilder",
+    ROUTING_SERVICE = "RoutingService"
 }

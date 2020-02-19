@@ -5,7 +5,7 @@ import { RootState } from "./state";
 import { container } from "tsyringe";
 import { DIToken } from "@/core/dependency-injection/DIToken";
 import { GestureService } from "@/core/hardware/GestureService";
-import { LocalizationModuleAction, LocalizationModuleMutation } from "@/store/module/localization.module";
+import { LocalizationModuleMutation } from "@/store/module/localization.module";
 import { WallpaperModuleAction } from "@/store/module/wallpaper.module";
 import { AppState } from "@/store/store";
 import { DevToolsLogger } from "@/business/easter-eggs/DevToolsLogger";
@@ -21,8 +21,6 @@ export enum StoreAction {
 
 export const actions: ActionTree<RootState, RootState> = {
     [StoreAction.INIT]: async (context: ActionContext<RootState, RootState>) => {
-        await context.dispatch(LocalizationModuleAction.GET_COORDINATES);
-
         devToolsLogger.displayWelcomeMessage();
 
         if (gestureService.canHandleShake) {
