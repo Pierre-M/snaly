@@ -23,6 +23,7 @@ export interface HourlyForecastGeneratorParams {
     minTemp?: number;
     maxTemp?: number;
     description?: string;
+    incomplete?: boolean;
 }
 
 export function generateHourlyForecastData(params: HourlyForecastGeneratorParams = {}) {
@@ -30,6 +31,8 @@ export function generateHourlyForecastData(params: HourlyForecastGeneratorParams
     const temp = typeof params.temp === "number" ? params.temp : 30;
     const temp_min = typeof params.minTemp === "number" ? params.minTemp : 30;
     const temp_max = typeof params.maxTemp === "number" ? params.maxTemp : 30;
+
+    if (params.incomplete) return { dt };
 
     return {
         dt,

@@ -3,13 +3,18 @@
 import { generateHourlyForecastData } from "../../_mocks/generators/WeatherGenerator";
 import { OWADailyForecastsBuilder } from "@/business/weather/OWADailyForecastsBuilder";
 import { TemperatureUnit, WeatherOverview } from "@/business/weather/WeatherService";
-import { fakeWeatherOverviewBuilder } from "../../_mocks";
+import { fakeAlertingService, fakeWeatherOverviewBuilder } from "../../_mocks";
 
 let builder: OWADailyForecastsBuilder;
 
 describe("OWADailyForecastsBuilder", () => {
     beforeEach(() => {
-        builder = new OWADailyForecastsBuilder(fakeWeatherOverviewBuilder);
+        fakeWeatherOverviewBuilder.returnedValue = {} as WeatherOverview;
+        builder = new OWADailyForecastsBuilder(fakeWeatherOverviewBuilder, fakeAlertingService);
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
     it("should return on entry per day", () => {
@@ -139,5 +144,16 @@ describe("OWADailyForecastsBuilder", () => {
         });
 
         expect(d1.forecast.length).toBe(0);
+    });
+
+    it("should log error if anything goes wrong with a forecast entry data", () => {
+        const fakeForecasts = [generateHourlyForecastData({ incomplete: true })];
+
+        const res = builder.build(fakeForecasts, {
+            unit: TemperatureUnit.CELSIUS
+        });
+
+        expect(fakeAlertingService.logError).toHaveBeenCalledWith(expect.any(Error));
+        expect(res).toEqual([]);
     });
 });
