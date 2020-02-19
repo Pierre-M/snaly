@@ -21,7 +21,7 @@ export const en = {
     share: {
         ctaLabel: "Share Snaly",
         title: "Snaly",
-        description: "A tiny weather app made with ❤️"
+        description: "Check {0}'s weather with Snaly, a tiny weather app made with ❤️"
     },
     weather: {
         sunriseLabel: "Sunrise time",
