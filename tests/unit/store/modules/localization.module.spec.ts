@@ -80,6 +80,11 @@ describe("Vuex store: LocalizationModule - actions & mutations", () => {
         expect(fakeGeolocationService.getCoordinates).toHaveBeenCalled();
     });
 
+    it("should reset url parameters upon requestGeolocation call", async () => {
+        await store.dispatch(LocalizationModuleAction.REQUEST_GEOLOCATION);
+        expect(fakeRoutingService.setUrlParams).toHaveBeenCalledWith({ lat: null, lon: null });
+    });
+
     it("should update coordinates state only when received coordinates are not null", async () => {
         const coordinates = generateCoordinates();
         fakeGeolocationService.setReturnedValue(coordinates);
