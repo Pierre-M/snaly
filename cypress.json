@@ -1,5 +1,4 @@
 {
   "pluginsFile": "tests/e2e/plugins/index.js",
-  "chromeWebSecurity": false,
-  "blacklistHosts": ["www.googletagmanager.com"]
+  "chromeWebSecurity": false
 }
