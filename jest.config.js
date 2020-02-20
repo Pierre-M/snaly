@@ -3,7 +3,7 @@ module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
         // `<rootDir>/src/App.vue`,
-        // `<rootDir>/src/core/**/*.ts`,
+        `<rootDir>/src/core/**/*.ts`,
         // `<rootDir>/src/store/**/*.ts`,
         `<rootDir>/src/business/**/*.ts`,
         `<!--<rootDir>/src/ui/**/*.vue-->`

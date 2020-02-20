@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "yarn test:unit && gulp build-icon-font && vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
+    "test:coverage":  "yarn test:unit && firefox $INIT_CWD/coverage/lcov-report/index.html",
     "test:e2e": "vue-cli-service test:e2e",
     "test": "yarn test:unit & yarn test:e2e --headless",
     "lint": "vue-cli-service lint",

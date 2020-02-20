@@ -76,6 +76,7 @@ export const localizationModule: Module<LocalizationModuleState, RootState> = {
         [LocalizationModuleAction.REQUEST_GEOLOCATION]: async (
             context: ActionContext<LocalizationModuleState, RootState>
         ) => {
+            routingService.setUrlParams({ lat: null, lon: null });
             await context.commit(LocalizationModuleMutation.UPDATE_GEOLOCATION_AUTH, true);
             await context.dispatch(LocalizationModuleAction.GET_COORDINATES);
         },
