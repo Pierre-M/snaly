@@ -10,6 +10,10 @@ export const VIBRATE_FEEDBACK_DURATION_IN_MS = 20;
 @singleton()
 export class MobileHapticFeedBackService implements HapticFeedbackService {
     vibrate() {
-        window.navigator.vibrate(VIBRATE_FEEDBACK_DURATION_IN_MS);
+        try {
+            window.navigator.vibrate(VIBRATE_FEEDBACK_DURATION_IN_MS);
+        } catch (err) {
+            //
+        }
     }
 }
