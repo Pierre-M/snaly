@@ -2,8 +2,8 @@
     <div class="w-full h-full select-none">
         <Layout>
             <wallpaper-component slot="bg" />
-            <sharing-cta slot="header-l-actions" />
-            <nav-widget v-if="displayNavWidget" slot="header-l-actions" />
+            <sharing-cta v-if="displaySharingCta" slot="header-l-actions" />
+            <nav-widget v-if="displayShortcuts" slot="header-l-actions" />
             <slide-y-up-transition slot="title">
                 <p v-if="currentLocation" class="flex items-center text-2xl font-semibold" id="appTitle">
                     {{ currentLocation | location }}
@@ -36,6 +36,7 @@ import FavoriteLocationToggle from "@/ui/favorite-locations/FavoriteLocationTogg
 import { Nullable } from "@/types/app";
 import { Location } from "@/business/location-search/LocationSearchService";
 import { StoreAction } from "@/store/actions";
+import { UIModuleGetter } from "@/store/module/ui.module";
 
 @Component({
     components: {
@@ -61,9 +62,11 @@ export default class App extends Vue {
     @State((state: AppState) => state.uiModule.screen.hasTouchSupport)
     hasTouchSupport!: boolean;
 
-    get displayNavWidget(): boolean {
-        return !this.hasTouchSupport;
-    }
+    @Getter(UIModuleGetter.DISPLAY_SHORTCUTS)
+    displayShortcuts!: boolean;
+
+    @Getter(UIModuleGetter.DISPLAY_SHARING_CTA)
+    displaySharingCta!: boolean;
 
     created() {
         this.$store.dispatch(StoreAction.INIT);

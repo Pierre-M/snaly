@@ -21,7 +21,6 @@ export const NAV_WIDGET_ID = "navWidget";
 
 export interface UIModuleState {
     openedForecast: Nullable<WeatherDailyForecast>;
-    canShare: boolean;
     openedPanel: Nullable<string>;
     shortcuts: ShortcutResume[];
     screen: ScreenInspector;
@@ -41,13 +40,14 @@ export enum UIModuleActions {
 }
 
 export enum UIModuleGetter {
-    OPENED_FORECAST = "openedForecast"
+    OPENED_FORECAST = "openedForecast",
+    DISPLAY_SHORTCUTS = "displayShortcuts",
+    DISPLAY_SHARING_CTA = "displaySharingCta"
 }
 
 export const uiModule: Module<UIModuleState, RootState> = {
     state: {
         openedForecast: null,
-        canShare: sharingService.canShare,
         openedPanel: null,
         shortcuts: [],
         screen: screenInspectorService
@@ -117,6 +117,12 @@ export const uiModule: Module<UIModuleState, RootState> = {
     getters: {
         [UIModuleGetter.OPENED_FORECAST]: (state: UIModuleState): Nullable<WeatherDailyForecast> => {
             return state.openedForecast;
+        },
+        [UIModuleGetter.DISPLAY_SHARING_CTA]: (): boolean => {
+            return screenInspectorService.hasTouchSupport && sharingService.canShare;
+        },
+        [UIModuleGetter.DISPLAY_SHORTCUTS]: (): boolean => {
+            return !screenInspectorService.hasTouchSupport;
         }
     }
 };

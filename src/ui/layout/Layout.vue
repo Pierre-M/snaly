@@ -6,7 +6,7 @@
 
         <main class="relative flex flex-col w-full h-full">
             <header class="px-6 py-4 backdrop-blur flex justify-between items-center text-white">
-                <div class="w-20">
+                <div class="w-20 flex items-center">
                     <slot name="header-l-actions" />
                 </div>
                 <slot name="title" />
