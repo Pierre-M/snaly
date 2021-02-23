@@ -1,11 +1,7 @@
 declare module "*.vue" {
-    import Vue from "vue";
-    export default Vue;
+  import { DefineComponent } from "vue";
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
 }
 
 declare module "vue2-transitions";
-declare module "querystring";
-declare module "shake.js";
-declare module "v-scroll-lock";
-declare module "v-click-outside";
-declare module "v-hotkey";
