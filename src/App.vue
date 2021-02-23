@@ -1,80 +1,79 @@
 <template>
-    <div class="w-full h-full select-none">
-        <Layout>
-            <wallpaper-component slot="bg" />
-            <sharing-cta v-if="displaySharingCta" slot="header-l-actions" />
-            <nav-widget v-if="displayShortcuts" slot="header-l-actions" />
-            <slide-y-up-transition slot="title">
-                <p v-if="currentLocation" class="flex items-center text-2xl font-semibold" id="appTitle">
-                    {{ currentLocation | location }}
-                    <favorite-location-toggle :location="currentLocation" class="ml-2" />
-                </p>
-            </slide-y-up-transition>
-            <city-search-widget slot="header-r-actions" />
-            <current-weather-widget />
-            <suncycle-widget slot="footer" />
-            <daily-forecasts-widget slot="footer" />
-        </Layout>
+  <AppLayout>
+    <template #bg>
+      <Wallpaper />
+    </template>
+    <template #title>
+      <div class="flex items-center">
+        <p class="text-lg font-medium mr-1">{{ formattedLocation }}</p>
+        <LocationBookmarkToggle :location="location" />
+      </div>
+    </template>
+    <template #header-l-actions>
+      <WallpaperRefreshCta />
+    </template>
+    <template #header-r-actions>
+      <LocationSearchToggle />
+    </template>
+
+    <div class="flex justify-between items-center w-full">
+      <div>
+        <LocationBookmarkNavigator :dir="NavigationDirection.PREV" />
+      </div>
+      <CurrentWeatherWidget />
+      <div>
+        <LocationBookmarkNavigator :dir="NavigationDirection.NEXT" />
+      </div>
     </div>
+
+    <template #footer>
+      <DailyForecastsWidget />
+    </template>
+  </AppLayout>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import WallpaperComponent from "@/ui/wallpaper/Wallpaper.vue";
-import CurrentWeatherWidget from "@/ui/weather/CurrentWeatherWidget.vue";
-import { Getter, State } from "vuex-class";
-import Modal from "@/ui/core/components/Modal.vue";
-import DailyForecastsWidget from "@/ui/weather/DailyForecastsWidget.vue";
-import SuncycleWidget from "@/ui/weather/SuncycleWidget.vue";
-import Layout from "@/ui/layout/Layout.vue";
-import { GlobalGetter } from "@/store/getters";
-import CitySearchWidget from "@/ui/city-search/CitySearchWidget.vue";
-import NavWidget from "@/ui/layout/NavWidget.vue";
-import { AppState } from "@/store/store";
-import SharingCta from "@/ui/core/fundamentals/SharingCta.vue";
-import FavoriteLocationToggle from "@/ui/favorite-locations/FavoriteLocationToggle.vue";
-import { Nullable } from "@/types/app";
-import { Location } from "@/business/location-search/LocationSearchService";
-import { StoreAction } from "@/store/actions";
-import { UIModuleGetter } from "@/store/module/ui.module";
+import { defineComponent } from "vue";
+import AppLayout from "./core/ui/layout/AppLayout.vue";
+import Wallpaper from "@/wallpaper/ui/Wallpaper.vue";
+import useLocation from "@/location/hooks/useLocation";
+import CurrentWeatherWidget from "@/weather/ui/CurrentWeatherWidget.vue";
+import LocationSearchToggle from "@/location-search/ui/LocationSearchToggle.vue";
+import LocationBookmarkToggle from "@/location-bookmark/ui/LocationBookmarkToggle.vue";
+import LocationBookmarkNavigator from "@/location-bookmark/ui/LocationBookmarkNavigator.vue";
+import { NavigationDirection } from "@/location-bookmark/hooks/useLocationBookmarkNavigation";
+import useWallpaperRefresh from "@/cross-domain/hooks/useWallpaperRefresh";
+import useCurrentWeatherRefresh from "@/cross-domain/hooks/useWeatherRefresh";
+import useDocumentTitleRefresh from "@/cross-domain/hooks/useDocumentTitleRefresh";
+import DailyForecastsWidget from "@/weather/ui/DailyForecastsWidget.vue";
+import useShortcuts from "@/cross-domain/hooks/useShortcuts";
+import WallpaperRefreshCta from "@/wallpaper/ui/WallpaperRefreshCta.vue";
 
-@Component({
-    components: {
-        FavoriteLocationToggle,
-        SharingCta,
-        NavWidget,
-        CitySearchWidget,
-        Layout,
-        SuncycleWidget,
-        DailyForecastsWidget,
-        Modal,
-        CurrentWeatherWidget,
-        WallpaperComponent
-    }
-})
-export default class App extends Vue {
-    @Getter(GlobalGetter.APP_TITLE)
-    appTitle!: string;
+export default defineComponent({
+  name: "App",
+  components: {
+    WallpaperRefreshCta,
+    DailyForecastsWidget,
+    LocationBookmarkNavigator,
+    LocationBookmarkToggle,
+    LocationSearchToggle,
+    CurrentWeatherWidget,
+    Wallpaper,
+    AppLayout,
+  },
+  setup() {
+    const { location, formattedLocation } = useLocation();
 
-    @State((state: AppState) => state.localizationModule.location)
-    currentLocation!: Nullable<Location>;
+    useWallpaperRefresh();
+    useCurrentWeatherRefresh();
+    useDocumentTitleRefresh();
+    useShortcuts();
 
-    @State((state: AppState) => state.uiModule.screen.hasTouchSupport)
-    hasTouchSupport!: boolean;
-
-    @Getter(UIModuleGetter.DISPLAY_SHORTCUTS)
-    displayShortcuts!: boolean;
-
-    @Getter(UIModuleGetter.DISPLAY_SHARING_CTA)
-    displaySharingCta!: boolean;
-
-    created() {
-        this.$store.dispatch(StoreAction.INIT);
-    }
-
-    @Watch(GlobalGetter.APP_TITLE, { immediate: true })
-    updateAppTitle() {
-        document.title = this.appTitle;
-    }
-}
+    return {
+      formattedLocation,
+      location,
+      NavigationDirection,
+    };
+  },
+});
 </script>

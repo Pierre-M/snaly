@@ -1,75 +1,26 @@
-# snaly 🌡️
+# Vue 3 + Typescript + Vite
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/40cdaa8b-fc18-4963-9e8a-1deb56c390f2/deploy-status)](https://app.netlify.com/sites/snaly/deploys)
+This template should help get you started developing with Vue 3 and Typescript in Vite.
 
-Welcome to [snaly.io](https://snaly.netlify.com/) codebase !
-Before going any further, I would like to thank :
+## Recommended IDE Setup
 
--   [Open Weather Map](https://openweathermap.org/) for their great weather API
--   [Algolia Places](https://community.algolia.com/places/) for their geolocation/geocoding API
--   [Unsplash](https://unsplash.com) for their searchable photo database
--   [Eric Flowers](https://twitter.com/erik_flowers) for his beautiful [weather icons](https://erikflowers.github.io/weather-icons/)
+[VSCode](https://code.visualstudio.com/) + [Vetur](https://marketplace.visualstudio.com/items?itemName=octref.vetur). Make sure to enable `vetur.experimental.templateInterpolationService` in settings!
 
-## Technical stack
+### If Using `<script setup>`
 
-### Snaly is built with :
+[`<script setup>`](https://github.com/vuejs/rfcs/pull/227) is a feature that is currently in RFC stage. To get proper IDE support for the syntax, use [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) instead of Vetur (and disable Vetur).
 
--   [Typescript](https://www.typescriptlang.org/)
--   [Tsyringe](https://github.com/microsoft/tsyringe): dependency injection in Typescript applications
--   [Vuex](https://vuex.vuejs.org/): State managment solution in Vue.js application
--   [Vue.js](https://vuejs.org/): Well... I know you know it 😄
--   [TailwindCss](https://tailwindcss.com/): CSS utility framework
+## Type Support For `.vue` Imports in TS
 
-More precisely, I used :
-- [Axios](https://github.com/axios/axios) to handle fetch requests
-- [date-fns](https://date-fns.org/) for the few date/time formatting I had to handle
+Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can use the following:
 
-### Snaly is tested with :
+### If Using Volar
 
--   [Jest](https://jestjs.io/) for unit testing
--   [Vue test utils](https://vue-test-utils.vuejs.org/) for UI unit testing
--   [Cypress](https://www.cypress.io/) for end-to-end testing
+Run `Volar: Switch TS Plugin on/off` from VSCode command palette.
 
-### Snaly is deployed with :
+### If Using Vetur
 
--   [Netlify](https://www.netlify.com/)
-
-### Snaly is watched by :
-
--   [Sentry](https://sentry.io/) for error alerting and reporting
-
-## Project setup
-
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-
-```
-yarn build
-```
-
-### Run your unit tests
-
-```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-
-```
-yarn test:e2e
-```
-
-### Lints and fixes files
-
-```
-yarn lint
-```
+1. Install and add `@vuedx/typescript-plugin-vue` to the [plugins section](https://www.typescriptlang.org/tsconfig#plugins) in `tsconfig.json`
+2. Delete `src/shims-vue.d.ts` as it is no longer needed to provide module info to Typescript
+3. Open `src/main.ts` in VSCode
+4. Open the VSCode command palette 5. Search and run "Select TypeScript version" -> "Use workspace version"

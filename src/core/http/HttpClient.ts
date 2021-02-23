@@ -1,18 +1,24 @@
-"use strict";
+import axios, { AxiosResponse } from "axios";
 
-import { Nullable } from "@/types/app";
+type HttpResponse = AxiosResponse;
 
-export interface HttpError {
-    message: string;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ApiResponse = any;
 
-export type HttpResponse<R> = [Nullable<R>, Nullable<HttpError>];
+export default class HttpClient {
+  async get(
+    url: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    params?: Record<string, any>
+  ): Promise<HttpResponse> {
+    return axios.get(url, { params });
+  }
 
-export type HttpGetParams = Record<string, any>;
-
-export type HttpPostBody = Record<string, any>;
-
-export interface HttpClient {
-    get<R>(url: string, params?: HttpGetParams): Promise<HttpResponse<R>>;
-    post<R>(url: string, body?: HttpPostBody): Promise<HttpResponse<R>>;
+  async post(
+    url: string,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body: Record<string, any>
+  ): Promise<HttpResponse> {
+    return axios.post(url, body);
+  }
 }

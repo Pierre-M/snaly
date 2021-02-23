@@ -1,26 +1,25 @@
-import "reflect-metadata";
-import "@/core/dependency-injection";
-
-import Vue from "vue";
+import { createApp } from "vue";
 import App from "./App.vue";
-import "./registerServiceWorker";
-import { store } from "./store/store";
+import "./core/styles/index.css";
+import "@purge-icons/generated";
+import providers from "@/config/providers";
 
-import "@/assets/styles/index.css";
+const app = createApp(App);
 
-import "@/ui/core/vue-filters";
-import "@/ui/core/vue-plugins";
-import "@/ui/core/vue-directives";
-import { container } from "tsyringe";
-import { VueI18nService } from "@/ui/core/vue-plugins/I18nPlugin";
-import { DIToken } from "@/core/dependency-injection/DIToken";
+app.directive("click-outside", {
+  beforeMount(el, binding) {
+    el.clickOutsideEvent = function (event: any) {
+      if (!(el === event.target || el.contains(event.target))) {
+        binding.value(event, el);
+      }
+    };
+    document.body.addEventListener("click", el.clickOutsideEvent);
+  },
+  unmounted(el) {
+    document.body.removeEventListener("click", el.clickOutsideEvent);
+  },
+});
 
-const i18nService = container.resolve<VueI18nService>(DIToken.I18N_SERVICE);
+providers(app);
 
-Vue.config.productionTip = false;
-
-new Vue({
-    store,
-    i18n: i18nService.i18nPlugin,
-    render: h => h(App)
-}).$mount("#app");
+app.mount("#app");
