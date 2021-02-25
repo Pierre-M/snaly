@@ -1,10 +1,10 @@
 export interface LocationCoordinates {
-  lat: number;
-  lng: number;
+    lat: number;
+    lng: number;
 }
 
 export interface Location extends LocationCoordinates {
-  formatted: string;
-  zipCode: string;
-  countryCode: string;
+    formatted: string;
+    zipCode: string;
+    countryCode: string;
 }
