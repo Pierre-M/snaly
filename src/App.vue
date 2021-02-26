@@ -16,12 +16,14 @@
       <LocationSearchToggle />
     </template>
 
-    <div class="flex justify-between items-center w-full">
-      <div>
+    <div class="flex justify-center sm:justify-between items-center w-full">
+      <div class="hidden sm:block">
         <LocationBookmarkNavigator :dir="NavigationDirection.PREV" />
       </div>
-      <CurrentWeatherWidget />
       <div>
+        <CurrentWeatherWidget />
+      </div>
+      <div class="hidden sm:block">
         <LocationBookmarkNavigator :dir="NavigationDirection.NEXT" />
       </div>
     </div>
@@ -48,10 +50,12 @@ import useDocumentTitleRefresh from "@/cross-domain/hooks/useDocumentTitleRefres
 import DailyForecastsWidget from "@/weather/ui/DailyForecastsWidget.vue";
 import useShortcuts from "@/cross-domain/hooks/useShortcuts";
 import WallpaperRefreshCta from "@/wallpaper/ui/WallpaperRefreshCta.vue";
+import PrecipitationsWidget from "@/weather/ui/PrecipitationsWidget.vue";
 
 export default defineComponent({
   name: "App",
   components: {
+    PrecipitationsWidget,
     WallpaperRefreshCta,
     DailyForecastsWidget,
     LocationBookmarkNavigator,

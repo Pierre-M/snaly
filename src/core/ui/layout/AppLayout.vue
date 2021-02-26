@@ -2,7 +2,11 @@
   <div class="fixed inset-0">
     <slot name="bg" />
   </div>
-  <main class="relative flex flex-col w-full h-full overflow-hidden">
+  <main
+    v-swipe:left="goNext"
+    v-swipe:right="goPrevious"
+    class="relative flex flex-col w-full h-full overflow-hidden"
+  >
     <header
       class="px-6 py-4 backdrop-blur flex justify-between items-center text-white"
     >
@@ -27,8 +31,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import useLocationBookmarkNavigation from "@/location-bookmark/hooks/useLocationBookmarkNavigation";
 
 export default defineComponent({
   name: "AppLayout",
+
+  setup() {
+    const { goNext, goPrevious } = useLocationBookmarkNavigation();
+
+    return { goNext, goPrevious };
+  },
 });
 </script>

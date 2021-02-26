@@ -1,14 +1,16 @@
 import { computed, Ref } from "vue";
 import { Location } from "@/location/models/location.model";
 import useLocationBookmark from "@/location-bookmark/hooks/useLocationBookmark";
+import useLocation from "@/location/hooks/useLocation";
 
 export enum NavigationDirection {
   PREV = "prev",
   NEXT = "next",
 }
 
-export default (location: Ref<Location>) => {
-  const { bookmarks } = useLocationBookmark(location);
+export default () => {
+  const { update, location } = useLocation();
+  const { bookmarks } = useLocationBookmark();
 
   const nextBookmark = computed<Location | null>(() => {
     const currentLocationIdx = bookmarks.value.findIndex(
@@ -37,9 +39,23 @@ export default (location: Ref<Location>) => {
 
   const displayNavigation = computed<boolean>(() => !!bookmarks.value.length);
 
+  const goNext = () => {
+    if (!nextBookmark.value) return;
+
+    update(nextBookmark.value);
+  };
+
+  const goPrevious = () => {
+    if (!previousBookmark.value) return;
+
+    update(previousBookmark.value);
+  };
+
   return {
     displayNavigation,
     nextBookmark,
     previousBookmark,
+    goNext,
+    goPrevious,
   };
 };

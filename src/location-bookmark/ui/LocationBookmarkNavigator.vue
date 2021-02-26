@@ -15,7 +15,6 @@ import { computed, defineComponent } from "vue";
 import useLocationBookmarkNavigation, {
   NavigationDirection,
 } from "@/location-bookmark/hooks/useLocationBookmarkNavigation";
-import useLocation from "@/location/hooks/useLocation";
 import IconButton from "@/core/ui/icon-button/IconButton.vue";
 import TransitionWrapper from "@/core/ui/transitions/TransitionWrapper.vue";
 
@@ -27,21 +26,14 @@ export default defineComponent({
   },
 
   setup(props: { dir: NavigationDirection }) {
-    const { location, update } = useLocation();
     const {
-      nextBookmark,
-      previousBookmark,
+      goNext,
+      goPrevious,
       displayNavigation,
-    } = useLocationBookmarkNavigation(location);
+    } = useLocationBookmarkNavigation();
 
     const handleNavigation = () => {
-      if (props.dir === NavigationDirection.NEXT && !!nextBookmark.value) {
-        update(nextBookmark.value);
-      }
-
-      if (props.dir === NavigationDirection.PREV && !!previousBookmark.value) {
-        update(previousBookmark.value);
-      }
+      props.dir === NavigationDirection.PREV ? goNext() : goPrevious();
     };
 
     const icon = computed<string>(() =>

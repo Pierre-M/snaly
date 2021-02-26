@@ -1,4 +1,5 @@
 import {
+  PrecipitationEntry,
   TemperatureUnit,
   WeatherDailyForecast,
   WeatherDescription,
@@ -11,6 +12,7 @@ import {
 import HttpClient, { ApiResponse } from "@/core/http/HttpClient";
 import { groupBy, chain, last } from "lodash";
 import { iconNameMap } from "@/weather/services/OWAIconNameMap";
+import * as faker from "faker";
 
 export class OWAWeatherService implements WeatherService {
   constructor(private apiKey: string, private httpClient: HttpClient) {}
@@ -18,8 +20,9 @@ export class OWAWeatherService implements WeatherService {
   private static OWBaseApi = "https://api.openweathermap.org/data/2.5";
   private static OWCurrentApi = `${OWAWeatherService.OWBaseApi}/weather`;
   private static OWAForecastsApi = `${OWAWeatherService.OWBaseApi}/forecast`;
+  private static OWAPrecipitationApi = `${OWAWeatherService.OWBaseApi}/onecall`;
   private baseApiParams = {
-    APPID: this.apiKey,
+    appid: this.apiKey,
   };
 
   async getDailyForecasts({
@@ -62,6 +65,39 @@ export class OWAWeatherService implements WeatherService {
     } catch {
       return null;
     }
+  }
+
+  async getPrecipitationInNextHour({
+    coordinates,
+    unit,
+  }: WeatherServiceRequest): Promise<PrecipitationEntry[]> {
+    try {
+      const { data } = await this.httpClient.get(
+        OWAWeatherService.OWAPrecipitationApi,
+        {
+          ...this.baseApiParams,
+          lat: coordinates.lat,
+          lon: coordinates.lng,
+          units: unit,
+          exclude: "hourly,daily,current",
+        }
+      );
+
+      return OWAWeatherService.toPrecipitationEntries(data);
+    } catch {
+      return [];
+    }
+  }
+
+  private static toPrecipitationEntries(
+    response: ApiResponse
+  ): PrecipitationEntry[] {
+    return response.minutely.map((entry: ApiResponse) => {
+      return {
+        date: new Date(entry.dt * 1000),
+        volume: faker.random.number(100),
+      };
+    });
   }
 
   private static toWeatherOverview(

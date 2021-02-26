@@ -57,6 +57,11 @@ export interface WeatherForecastEntry {
   date: Date;
 }
 
+export interface PrecipitationEntry {
+  date: Date;
+  volume: number;
+}
+
 export interface WeatherDailyForecast {
   date: Date;
   temperatureRange: TemperatureRange;
@@ -74,6 +79,9 @@ export interface WeatherService {
   getDailyForecasts(
     request: WeatherServiceRequest
   ): Promise<WeatherDailyForecast[]>;
+  getPrecipitationInNextHour(
+    request: WeatherServiceRequest
+  ): Promise<PrecipitationEntry[]>;
 }
 
 export const WeatherServiceToken = Symbol();

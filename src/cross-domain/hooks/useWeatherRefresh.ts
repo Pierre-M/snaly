@@ -6,10 +6,12 @@ import {
   WeatherServiceRequest,
 } from "@/weather/models/weather.model";
 import useDailyForecasts from "@/weather/hooks/useDailyForecasts";
+import usePrecipitations from "@/weather/hooks/usePrecipitations";
 
 export default () => {
   const { getCurrent } = useCurrentWeather();
   const { getForecasts } = useDailyForecasts();
+  const { refreshPrecipitations } = usePrecipitations();
   const { location } = useLocation();
 
   watch(
@@ -20,7 +22,11 @@ export default () => {
         unit: TemperatureUnit.CELSIUS,
       };
 
-      await Promise.all([getCurrent(req), getForecasts(req)]);
+      await Promise.all([
+        getCurrent(req),
+        getForecasts(req),
+        refreshPrecipitations(req),
+      ]);
     },
     { deep: true, immediate: true }
   );
