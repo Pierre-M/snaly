@@ -12,7 +12,6 @@ import {
 import HttpClient, { ApiResponse } from "@/core/http/HttpClient";
 import { groupBy, chain, last } from "lodash";
 import { iconNameMap } from "@/weather/services/OWAIconNameMap";
-import * as faker from "faker";
 
 export class OWAWeatherService implements WeatherService {
   constructor(private apiKey: string, private httpClient: HttpClient) {}
@@ -95,7 +94,7 @@ export class OWAWeatherService implements WeatherService {
     return response.minutely.map((entry: ApiResponse) => {
       return {
         date: new Date(entry.dt * 1000),
-        volume: faker.random.number(100),
+        volume: entry.volume,
       };
     });
   }
